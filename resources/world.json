@@ -1,0 +1,26 @@
+
+{
+    "id": "test",
+    "name": "Test World",
+    "inputScript": "resources/input.js",
+    "maps": [
+        "resources/maps/test.json"
+    ],
+    "spritesets": [
+        "resources/spritesets/characters-spriteset.json"
+    ],
+    "start":{
+        "map":"test",
+        "location": {
+            "x":400,
+            "y":300
+        }
+    },
+    "character":{
+        "sprite":{
+            "set": "characters",
+            "id": "ness"
+        }
+    }
+
+}

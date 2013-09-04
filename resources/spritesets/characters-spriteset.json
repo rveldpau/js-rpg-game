@@ -1,0 +1,14 @@
+
+{
+    "id": "characters",
+    "src": "resources/spritesets/characters.png",
+    "configuration": {
+        "offsetX":0,
+        "offsetY":0,
+        "unit":1,
+        "margin":0
+    },
+    "sprites": [
+        { "id":"ness", "name": "ness", "x":0, "y":24, "width":18, "height":24, "offsetX":-9, "offsetY":-22 }
+    ]
+}

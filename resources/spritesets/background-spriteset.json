@@ -1,0 +1,25 @@
+
+{
+    "id": "background",
+    "src": "resources/spritesets/background.png",
+    "configuration": {
+        "offsetX":6,
+        "offsetY":6,
+        "unit":32,
+        "margin":1
+    },
+    "sprites": [
+        { "id":"tree-trunk-l", "name": "tree-trunk-l", "x":0, "y":0 },
+        { "id":"path-n-2-1-l", "name": "path-n-2-1-l", "x":1, "y":0 },
+        { "id":"path-n-1-2-r", "name": "path-n-1-2-r", "x":2, "y":0 },
+        { "id":"grass-empty", "name": "grass-empty", "x":3, "y":0 },
+        { "id":"grass-sparse", "name": "grass-sparse", "x":4, "y":0 },
+        { "id":"grass-dense", "name": "grass-dense", "x":5, "y":0 },
+        { "id":"path-n-2-2-l", "name": "path-n-2-2-l", "x":10, "y":10, "flip":"x" },
+        { "id":"path-n-2-2-r", "name": "path-n-2-2-r", "x":10, "y":10 },
+        { "id":"path-ne-2-2", "name": "path-ne-2-2", "x":4, "y":48 },
+        { "id":"path-nw-2-2", "name": "path-nw-2-2", "x":4, "y":48, "flip":"x"},
+        { "id":"path-e-a", "name": "path-e-a", "x":6, "y":9},
+        { "id":"path-e-b", "name": "path-e-b", "x":7, "y":9}
+    ]
+}
