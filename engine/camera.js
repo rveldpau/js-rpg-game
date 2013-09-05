@@ -65,11 +65,6 @@ function Camera() {
 
         var objects = map.objectsIn(cameraBoundary);
         
-        var curObj = null;
-        for(var index=0;index<objects.length;index++){
-            curObj = objects[index];
-        }
-        
         objects.push(this.world.character);
         
         return objects;

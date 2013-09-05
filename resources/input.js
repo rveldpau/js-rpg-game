@@ -4,19 +4,25 @@ if(input.isKeyPressed(16)){
     baseTravelMovement *= 2;
 }
 
+var moveIntent = new Intent();
+moveIntent.intentId = "move";
+moveIntent.x = 0;
+moveIntent.y = 0;
+
 if(input.isKeyPressed(39)){
-    world.character.location.x += baseTravelMovement;
+    moveIntent.x += baseTravelMovement;
 }
 
 if(input.isKeyPressed(37)){
-    world.character.location.x -= baseTravelMovement;
+    moveIntent.x -= baseTravelMovement;
 }
 
 if(input.isKeyPressed(40)){
-    world.character.location.y += baseTravelMovement;
+    moveIntent.y += baseTravelMovement;
 }
 
 if(input.isKeyPressed(38)){
-    world.character.location.y -= baseTravelMovement;
+    moveIntent.y -= baseTravelMovement;
 }
 
+world.character.addIntent(moveIntent);

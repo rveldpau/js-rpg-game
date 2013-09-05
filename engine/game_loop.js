@@ -1,4 +1,4 @@
-importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","input.js","camera.js")
+importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","camera.js")
 
 console = {
     log: function(msg){
@@ -20,7 +20,10 @@ if(typeof(com.manatee.game) == "undefined"){
 
 if(typeof(com.manatee.game.loop) == "undefined"){
     com.manatee.game.loop = {
+        firstRunTime: new Date(),
         lastRunTime: new Date(),
+        totalFrames: -1,
+        
         world: null,
         camera: null,
         initialize: function(baseUrl, worldLocation, screenWidth, screenHeight){
@@ -30,6 +33,9 @@ if(typeof(com.manatee.game.loop) == "undefined"){
             };
             com.manatee.config.setProperty(com.manatee.config.BASEURL, baseUrl);
             com.manatee.config.setProperty(com.manatee.config.SCREEN_DIMENSIONS, {width:screenWidth,height:screenHeight});
+            
+            com.manatee.intents.initialize();
+            
             var world = com.manatee.world.load(worldLocation);
             com.manatee.game.loop.world = world;
 
@@ -44,22 +50,29 @@ if(typeof(com.manatee.game.loop) == "undefined"){
         processInput: function(){
             
         },
-        mainLoop: function(lastAction){
+        mainLoop: function(){
             var loopStartTime = new Date();;
 
             var timeElapsed = loopStartTime - com.manatee.game.loop.lastRunTime;
             //console.log("Time elapsed: " + timeElapsed);
 
             var objectsInView = com.manatee.game.loop.camera.inView();
+            
+            com.manatee.intents.processAllIntents(objectsInView);
+            
             var cameraView = com.manatee.game.loop.camera.viewPort();
             com.manatee.input.processInputs(timeElapsed);
             postMessage({"action":"draw", "objects":JSON.stringify(objectsInView),
                 "screenLeft":cameraView.left, "screenTop": cameraView.top, 
-                "debugText":"FPS: " + (1000/timeElapsed)});
-
-            //console.log("Loop took: " + (new Date() - loopStartTime));
+                "debugText":"FPS: " + 
+                    Math.round(
+                        com.manatee.game.loop.totalFrames /
+                            ((com.manatee.game.loop.lastRunTime - com.manatee.game.loop.firstRunTime)/1000)
+                    )
+            });
 
             com.manatee.game.loop.lastRunTime = loopStartTime;
+            com.manatee.game.loop.totalFrames++;
         }
     };
 }
@@ -72,7 +85,7 @@ onmessage = function(event){
             break;
         case "complete":
             if(event.data.completed=="draw"){
-                com.manatee.game.loop.mainLoop(event.data.completed);
+                com.manatee.game.loop.mainLoop();
             }
             break;
         case "config-change":

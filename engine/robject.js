@@ -21,4 +21,11 @@ function Robject() {
     }
     this.location=new Point();
     this.spriteOffset=new Point();
+    this.intents=[];
+    this.clearIntents = function(){
+        this.intents.length = 0;
+    };
+    this.addIntent = function(intent){
+        this.intents.push(intent);
+    }
 }
