@@ -21,6 +21,10 @@ if(typeof(com.manatee.maps) == "undefined"){
             map.id = data.id;
             map.name = data.name;
             
+            if(data.tileSize != undefined){
+                map.tileSize = data.tileSize;
+            }
+            
             data.spritesets.forEach(function(spritesetLocation){
                 //var spriteset = com.manatee.spritesets.load(spritesetLocation);
                 //map.spritesets[spriteset.id] = spriteset;
@@ -71,6 +75,13 @@ if(typeof(com.manatee.maps) == "undefined"){
                         object.location.x = x * map.tileSize;
                         object.location.y = y * map.tileSize;
                         object.location.layer = layer;
+                        
+                        object.boundingBox.top = valueMapping.boundingBox.top;
+                        object.boundingBox.left = valueMapping.boundingBox.left;
+                        object.boundingBox.bottom = valueMapping.boundingBox.bottom;
+                        object.boundingBox.right = valueMapping.boundingBox.right;
+                        
+                        object.collisionDetection = eval(valueMapping["collision-detection"]);
                         
                         map.data[layer][x][y] = object;
                     }

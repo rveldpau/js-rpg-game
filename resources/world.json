@@ -13,14 +13,21 @@
         "map":"test",
         "location": {
             "x":400,
-            "y":300
+            "y":300,
+            "layer":1
         }
     },
     "character":{
         "sprite":{
             "set": "characters",
             "id": "ness"
-        }
+        },
+            "boundingBox":{
+                "top":-4,
+                "left":-8,
+                "bottom":0,
+                "right":8
+            }
     }
 
 }

@@ -78,11 +78,15 @@ if(typeof(com.manatee.graphics) == "undefined"){
             var left = Math.floor(screenLeft);
             var top = Math.floor(screenTop);
             objects.forEach(function(obj){
-                var x = Math.floor((obj.location.x - left) - obj.spriteOffset.x);
-                var y = Math.floor((obj.location.y - top) - obj.spriteOffset.y);
+                var sprite = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id];
+                if(sprite==undefined){
+                    return;
+                }
+                var x = Math.floor((obj.location.x - left) + sprite.offsetX);
+                var y = Math.floor((obj.location.y - top) + sprite.offsetY);
                 
-                var img = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id].img;
-                com.manatee.graphics._buffer.drawImage(img,x,y);
+//                var img = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id].img;
+                com.manatee.graphics._buffer.drawImage(sprite.img,x,y);
                 
             });
             com.manatee.graphics._buffer.fillText(debugText,5,20);

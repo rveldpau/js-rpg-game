@@ -32,15 +32,17 @@ function Boundary(){
     }
     
     this._containsBoundary = function(boundary){
-        
-        var xOverlap = this._valueInRange(boundary.left, this.left, this.right) ||
+        return this.xOverlap(boundary) && this.yOverlap(boundary);
+    }
+    
+    this.xOverlap = function(boundary){
+        return this._valueInRange(boundary.left, this.left, this.right) ||
                     this._valueInRange(this.left, boundary.left, boundary.right);
-
-        var yOverlap = this._valueInRange(boundary.top, this.top, this.bottom) ||
+    }
+    
+    this.yOverlap = function(boundary){
+        return this._valueInRange(boundary.top, this.top, this.bottom) ||
                     this._valueInRange(this.top, boundary.top, boundary.bottom);
-        
-        
-        return xOverlap && yOverlap;
     }
     
     this._containsPoint = function(point){

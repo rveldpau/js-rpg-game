@@ -12,7 +12,7 @@ if(typeof(com.manatee.collision) == "undefined"){
             return false;
         },
         always: function(object1, object2){
-            return true;
+            return object1.getCurrentBounds().contains(object2.getCurrentBounds());
         }
     }
 }

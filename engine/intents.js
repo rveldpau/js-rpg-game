@@ -25,8 +25,9 @@ if(typeof(com.manatee.intents) == "undefined"){
             return com.manatee.intents._intentProcessors[id];
         },
         processIntent: function(object, intent){
+            //console.log("Processing Intent: " + JSON.stringify(intent) + " for " + JSON.stringify(object))
             var intentProcessor = com.manatee.intents._intentProcessors[intent.intentId];
-            intentProcessor(object, intent);
+            intentProcessor(object, intent,com.manatee.game.loop.world);
         },
         processAllIntents: function(objects){
             objects.forEach(function(object){

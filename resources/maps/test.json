@@ -12,28 +12,76 @@
     "mapping": {
         "|":{"set":"background",
             "sprite":"path-n-2-2-l",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.always",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "l":{"set":"background",
             "sprite":"path-n-2-2-r",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.always",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "/":{"set":"background",
             "sprite":"path-ne-2-2",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.always",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "-":{"set":"background",
             "sprite":"path-e-a",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.always",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "\\":{"set":"background",
             "sprite":"path-nw-2-2",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.always",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "c":{"set":"background",
             "sprite":"grass-empty",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.never",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "d":{"set":"background",
             "sprite":"grass-sparse",
-            "collision-detection":"com.manatee.collision.none"},
+            "collision-detection":"com.manatee.collision.never",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }},
         "e":{"set":"background",
             "sprite":"grass-dense",
-            "collision-detection":"com.manatee.collision.none"}
+            "collision-detection":"com.manatee.collision.never",
+            "boundingBox":{
+                "top":0,
+                "left":0,
+                "bottom":32,
+                "right":32
+            }}
     },
     "map": [[
         "cedcdcedcdcedcdcedcdcddcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
