@@ -29,6 +29,7 @@ function Robject() {
         currentBounds.left = this.location.x + this.boundingBox.left;
         currentBounds.bottom = this.location.y + this.boundingBox.bottom;
         currentBounds.right = this.location.x + this.boundingBox.right;
+        currentBounds.layer = this.location.layer;
         return currentBounds;
     }
     
