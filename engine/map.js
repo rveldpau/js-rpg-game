@@ -82,6 +82,9 @@ if(typeof(com.manatee.maps) == "undefined"){
                         object.boundingBox.right = valueMapping.boundingBox.right;
                         
                         object.collisionDetection = eval(valueMapping["collision-detection"]);
+                        if(valueMapping.onCollision !=undefined){
+                            eval("object.onCollision = function(impacted){" + valueMapping.onCollision + "}");
+                        }
                         
                         map.data[layer][x][y] = object;
                     }

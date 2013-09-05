@@ -19,6 +19,10 @@ function Robject() {
         var collidesWithThis = this.collisionDetection(this,otherObject);
         return collidesWithThis?true:otherObject.collisionDetection(otherObject, this);
     }
+    //onCollision should be defined as a function that takes in
+    //the object the collision occured with. It should match the definition
+    //    function(impacted){...}
+    this.onCollision = undefined;
     this.location=new Point();
     this.spriteOffset=new Point();
     
@@ -31,13 +35,5 @@ function Robject() {
         currentBounds.right = this.location.x + this.boundingBox.right;
         currentBounds.layer = this.location.layer;
         return currentBounds;
-    }
-    
-    this.intents=[];
-    this.clearIntents = function(){
-        this.intents.length = 0;
-    };
-    this.addIntent = function(intent){
-        this.intents.push(intent);
     }
 }

@@ -6,7 +6,9 @@ if(input.isKeyPressed(16)){
 
 var moveRequired = false;
 var moveIntent = new Intent();
+
 moveIntent.intentId = "move";
+moveIntent.object = world.character;
 moveIntent.x = 0;
 moveIntent.y = 0;
 
@@ -32,5 +34,5 @@ if(input.isKeyPressed(38)){
 }
 
 if(moveRequired){
-    world.character.addIntent(moveIntent);
+    com.manatee.intents.addIntent(moveIntent);
 }

@@ -1,3 +1,5 @@
+var object = intent.object;
+
 var startingLocation = new Point();
 startingLocation.x = object.location.x;
 startingLocation.y = object.location.y;
@@ -24,11 +26,11 @@ axis.forEach(function(axis){
         if(object.collidesWith(potentialObject)){
             canMove = false;
             
-            if(object.onCollide!=undefined){
-                object.onCollide(object);
+            if(object.onCollision!=undefined){
+                object.onCollision(potentialObject);
             }
-            if(potentialObject.onCollide!=undefined){
-                potentialObject.onCollide(object);
+            if(potentialObject.onCollision!=undefined){
+                potentialObject.onCollision(object);
             }
         }
     })
