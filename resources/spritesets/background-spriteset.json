@@ -8,7 +8,7 @@
         "unit":32,
         "margin":1
     },
-    "sprites": [
+    "frames": [
         { "id":"tree-trunk-l", "name": "tree-trunk-l", "x":0, "y":0 },
         { "id":"path-n-2-1-l", "name": "path-n-2-1-l", "x":1, "y":0 },
         { "id":"path-n-1-2-r", "name": "path-n-1-2-r", "x":2, "y":0 },
@@ -21,5 +21,19 @@
         { "id":"path-nw-2-2", "name": "path-nw-2-2", "x":4, "y":48, "flip":"x"},
         { "id":"path-e-a", "name": "path-e-a", "x":6, "y":9},
         { "id":"path-e-b", "name": "path-e-b", "x":7, "y":9}
+    ],
+    "sprites": [
+        { "id":"tree-trunk-l", "frames": ["tree-trunk-l"]},
+        { "id":"path-n-2-1-l", "frames": ["path-n-2-1-l"]},
+        { "id":"path-n-1-2-r", "frames": ["path-n-1-2-r"]},
+        { "id":"grass-empty", "frames": ["grass-empty"]},
+        { "id":"grass-sparse", "frames": ["grass-sparse"]},
+        { "id":"grass-dense", "frames": ["grass-dense"]},
+        { "id":"path-n-2-2-l", "frames": ["path-n-2-2-l"]},
+        { "id":"path-n-2-2-r", "frames": ["path-n-2-2-r"]},
+        { "id":"path-ne-2-2", "frames": ["path-ne-2-2"]},
+        { "id":"path-nw-2-2", "frames": ["path-nw-2-2"]},
+        { "id":"path-e-a", "frames": ["path-e-a"]},
+        { "id":"path-e-b", "frames": ["path-e-b"]}
     ]
 }

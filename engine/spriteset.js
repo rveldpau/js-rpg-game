@@ -42,49 +42,65 @@ if(typeof(com.manatee.spritesets) == "undefined"){
                     var preloader = com.manatee.graphics.getPreloadBufferContext();
                     preloader.drawImage(newSpriteset.img[0],0,0);
                     var imgData = null;
-                    $.each(newSpriteset.sprites, function(index,sprite){
-                        sprite.img = $("<canvas>")
+                    var frame = null;
+                    Object.keys(newSpriteset.frames).forEach(function(frameId){
+                        frame = newSpriteset.frames[frameId];
+                        frame.img = $("<canvas>")
                             .attr({
-                                "id":newSpriteset.id + "-" + index,
-                                "width":sprite.width,
-                                "height":sprite.height
+                                "id":newSpriteset.id + "-" + frame.id,
+                                "width":frame.width,
+                                "height":frame.height
                             }).appendTo("body")[0];
-                            spriteContext = sprite.img.getContext('2d')
+                            frameContext = frame.img.getContext('2d')
                         
-                        imgData = preloader.getImageData(sprite.x,sprite.y,sprite.width,sprite.height);
-                        
-                        if(sprite.flip=="x"){
+                        imgData = preloader.getImageData(frame.x,frame.y,frame.width,frame.height);
+                        frameContext.putImageData(imgData,0,0);
+                        if(frame.flip=="x"){
                             flipCanvas.attr({
-                                width:sprite.width,
-                                height:sprite.height
+                                width:frame.width,
+                                height:frame.height
                             });
                             flipContext = flipCanvas[0].getContext('2d');
-                            flipContext.putImageData(imgData,0,0);
-                            flipContext.translate(sprite.width, 0);
+                            flipContext.clearRect(0,0,frame.width,frame.height);
+                            flipContext.translate(frame.width, 0);
                             flipContext.scale(-1, 1);
-                            flipContext.drawImage(flipCanvas[0],0,0);
-                            imgData = flipContext.getImageData(0,0,sprite.width,sprite.height);
+                            flipContext.drawImage(frame.img,0,0);
+                            imgData = flipContext.getImageData(0,0,frame.width,frame.height);
+                            frameContext.putImageData(imgData,0,0);
+                            
                         }
-                        spriteContext.putImageData(imgData,0,0);
                     })
                     flipCanvas.remove();
                 }).appendTo("body");
                 
-            $.each(data.sprites, function(index,value){
+            data.frames.forEach(function(value){
+                var newFrame = new SpriteFrame();
+                newFrame.id = value.id;
+                newFrame.name = value.name;
+                newFrame.x = (value.x * data.configuration.unit)
+                + (value.x * data.configuration.margin) + data.configuration.offsetX;
+                newFrame.y = (value.y * data.configuration.unit) 
+                + (value.y * data.configuration.margin) + data.configuration.offsetY;
+                newFrame.width = (value.width == undefined)?data.configuration.unit:value.width;
+                newFrame.height = (value.height == undefined)?data.configuration.unit:value.height;
+                newFrame.flip = value.flip;
+                newSpriteset.addFrame(newFrame);
+            })
+            
+            data.sprites.forEach(function(value){
                 var newSprite = new Sprite();
                 newSprite.id = value.id;
                 newSprite.name = value.name;
-                newSprite.x = (value.x * data.configuration.unit)
-                + (value.x * data.configuration.margin) + data.configuration.offsetX;
-                newSprite.y = (value.y * data.configuration.unit) 
-                + (value.y * data.configuration.margin) + data.configuration.offsetY;
-                newSprite.width = (value.width == undefined)?data.configuration.unit:value.width;
-                newSprite.height = (value.height == undefined)?data.configuration.unit:value.height;
                 newSprite.offsetX = (value.offsetX == undefined)?0:value.offsetX;
                 newSprite.offsetY = (value.offsetY == undefined)?0:value.offsetY;
-                newSprite.flip = value.flip;
+                newSprite.frameDisplayTime = (value.frameDisplayTime == undefined)?0:value.frameDisplayTime
+                value.frames.forEach(function(frameId){
+                    newSprite.frames.push(newSpriteset.frames[frameId]);
+                })
+                
                 newSpriteset.addSprite(newSprite);
             })
+            
             return newSpriteset;
         },
         get: function(id){
@@ -97,8 +113,13 @@ function Spriteset() {
     this.id = null;
     this.srcLocation = null;
     this.sprites = {};
+    this.frames = {};
     this._spriteNames = {};
     this.image = null;
+    this.addFrame = function(frame){
+        this.frames[frame.id] = frame;
+        frame.spriteset = this;
+    }
     this.addSprite = function(sprite){
         this.sprites[sprite.id] = sprite;
         this._spriteNames[sprite.name] = sprite.id;

@@ -15,14 +15,16 @@
             "x":400,
             "y":300,
             "layer":1
-        }
+        },
+        "direction":"s"
     },
     "character":{
         "sprite":{
             "set": "characters",
-            "id": "ness"
+            "id": "ness-stand-s"
         },
-            "boundingBox":{
+        
+        "boundingBox":{
                 "top":-4,
                 "left":-8,
                 "bottom":0,

@@ -8,7 +8,49 @@
         "unit":1,
         "margin":0
     },
+    "frames": [
+        { "id":"ness-move-s1", "name": "ness", "x":0, "y":24, "width":18, "height":24},
+        { "id":"ness-move-s2", "name": "ness", "x":18, "y":24, "width":18, "height":24},
+        { "id":"ness-move-n1", "name": "ness", "x":35, "y":24, "width":18, "height":24},
+        { "id":"ness-move-n2", "name": "ness", "x":35, "y":24, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-w1", "name": "ness", "x":52, "y":24, "width":18, "height":24},
+        { "id":"ness-move-w2", "name": "ness", "x":68, "y":24, "width":18, "height":24},
+        { "id":"ness-move-e1", "name": "ness", "x":52, "y":24, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-e2", "name": "ness", "x":68, "y":24, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-sw1", "name": "ness", "x":0, "y":48, "width":18, "height":24},
+        { "id":"ness-move-sw2", "name": "ness", "x":18, "y":48, "width":18, "height":24},
+        { "id":"ness-move-se1", "name": "ness", "x":0, "y":48, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-se2", "name": "ness", "x":18, "y":48, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-nw1", "name": "ness", "x":35, "y":48, "width":18, "height":24},
+        { "id":"ness-move-nw2", "name": "ness", "x":52, "y":48, "width":18, "height":24},
+        { "id":"ness-move-ne1", "name": "ness", "x":35, "y":48, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-move-ne2", "name": "ness", "x":52, "y":48, "width":18, "height":24, "flip":"x"}
+        
+    ],
     "sprites": [
-        { "id":"ness", "name": "ness", "x":0, "y":24, "width":18, "height":24, "offsetX":-9, "offsetY":-22 }
+        { "id":"ness-stand-s", "name": "ness-stand-s", "frames":["ness-move-s1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-s", "name": "ness-walk-s", "frames":["ness-move-s1","ness-move-s2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-s", "name": "ness-run-s", "frames":["ness-move-s1","ness-move-s2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-n", "name": "ness-stand-n", "frames":["ness-move-n1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-n", "name": "ness-walk-n", "frames":["ness-move-n1","ness-move-n2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-n", "name": "ness-run-n", "frames":["ness-move-n1","ness-move-n2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-w", "name": "ness-stand-w", "frames":["ness-move-w1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-w", "name": "ness-walk-w", "frames":["ness-move-w1","ness-move-w2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-w", "name": "ness-run-w", "frames":["ness-move-w1","ness-move-w2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-e", "name": "ness-stand-w", "frames":["ness-move-e1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-e", "name": "ness-walk-w", "frames":["ness-move-e1","ness-move-e2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-e", "name": "ness-run-w", "frames":["ness-move-e1","ness-move-e2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-sw", "name": "ness-stand-sw", "frames":["ness-move-sw1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-sw", "name": "ness-walk-sw", "frames":["ness-move-sw1","ness-move-sw2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-sw", "name": "ness-run-sw", "frames":["ness-move-sw1","ness-move-sw2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-se", "name": "ness-stand-se", "frames":["ness-move-se1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-se", "name": "ness-walk-se", "frames":["ness-move-se1","ness-move-se2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-se", "name": "ness-run-se", "frames":["ness-move-se1","ness-move-se2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-nw", "name": "ness-stand-nw", "frames":["ness-move-nw1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-nw", "name": "ness-walk-nw", "frames":["ness-move-nw1","ness-move-nw2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-nw", "name": "ness-run-nw", "frames":["ness-move-nw1","ness-move-nw2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-stand-ne", "name": "ness-stand-ne", "frames":["ness-move-ne1"], "offsetX":-9, "offsetY":-22 },
+        { "id":"ness-walk-ne", "name": "ness-walk-ne", "frames":["ness-move-ne1","ness-move-ne2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
+        { "id":"ness-run-ne", "name": "ness-run-ne", "frames":["ness-move-ne1","ness-move-ne2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 }
     ]
 }

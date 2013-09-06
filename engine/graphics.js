@@ -12,6 +12,7 @@ if(typeof(com.manatee.graphics) == "undefined"){
         _buffer: null,
         _preloadBuffer: null,
         _gameScreen: null,
+        _lastDrawTime: new Date(),
         screen:{
             width:0,
             height:0
@@ -75,6 +76,8 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 canvas.width,canvas.height)
         },
         drawAll: function(screenTop, screenLeft, objects, debugText){
+            var drawStartTime = new Date();
+            var timeElapsed = drawStartTime - com.manatee.graphics._lastDrawTime;
             var left = Math.floor(screenLeft);
             var top = Math.floor(screenTop);
             objects.forEach(function(obj){
@@ -85,12 +88,11 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 var x = Math.floor((obj.location.x - left) + sprite.offsetX);
                 var y = Math.floor((obj.location.y - top) + sprite.offsetY);
                 
-//                var img = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id].img;
-                com.manatee.graphics._buffer.drawImage(sprite.img,x,y);
-                
+                com.manatee.graphics._buffer.drawImage(sprite.getCurrentFrame(timeElapsed).img,x,y);
             });
             com.manatee.graphics._buffer.fillText(debugText,5,20);
             com.manatee.graphics.flushBuffer(true);
+            com.manatee.graphics._lastDrawTime = drawStartTime;
         }
     }
 }

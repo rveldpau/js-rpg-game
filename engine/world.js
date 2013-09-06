@@ -21,7 +21,7 @@ if(typeof(com.manatee.world) == "undefined"){
             world.id = data.id;
             world.name = data.name;
             
-            console.log("Loading spritesets,,,")
+            console.log("Loading spritesets...")
             data.spritesets.forEach(function(spritesetLocation){
                 postMessage({
                     "action":"load",
@@ -32,7 +32,7 @@ if(typeof(com.manatee.world) == "undefined"){
             
             com.manatee.input.load(data.inputScript);
             
-            console.log("Loading maps,,,")
+            console.log("Loading maps...")
             data.maps.forEach(function(mapLocation){
                 var map = com.manatee.maps.load(mapLocation);
                 world.maps[map.id] = map;
@@ -47,6 +47,7 @@ if(typeof(com.manatee.world) == "undefined"){
             world.character.location.x = world.start.location.x;
             world.character.location.y = world.start.location.y;
             world.character.location.layer = world.start.location.layer;
+            world.character.lastDirection = world.start.direction;
             world.character.sprite = {
                 set:data.character.sprite.set,
                 id:data.character.sprite.id
