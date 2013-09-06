@@ -23,6 +23,8 @@ function Robject() {
     //the object the collision occured with. It should match the definition
     //    function(impacted){...}
     this.onCollision = undefined;
+    this.onInteract = undefined;
+    
     this.location=new Point();
     this.spriteOffset=new Point();
     

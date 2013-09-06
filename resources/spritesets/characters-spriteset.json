@@ -24,7 +24,8 @@
         { "id":"ness-move-nw1", "name": "ness", "x":35, "y":48, "width":18, "height":24},
         { "id":"ness-move-nw2", "name": "ness", "x":52, "y":48, "width":18, "height":24},
         { "id":"ness-move-ne1", "name": "ness", "x":35, "y":48, "width":18, "height":24, "flip":"x"},
-        { "id":"ness-move-ne2", "name": "ness", "x":52, "y":48, "width":18, "height":24, "flip":"x"}
+        { "id":"ness-move-ne2", "name": "ness", "x":52, "y":48, "width":18, "height":24, "flip":"x"},
+        { "id":"ness-dead-s", "name": "ness", "x":174, "y":24, "width":18, "height":24}
         
     ],
     "sprites": [
@@ -51,6 +52,7 @@
         { "id":"ness-run-nw", "name": "ness-run-nw", "frames":["ness-move-nw1","ness-move-nw2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
         { "id":"ness-stand-ne", "name": "ness-stand-ne", "frames":["ness-move-ne1"], "offsetX":-9, "offsetY":-22 },
         { "id":"ness-walk-ne", "name": "ness-walk-ne", "frames":["ness-move-ne1","ness-move-ne2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 400 },
-        { "id":"ness-run-ne", "name": "ness-run-ne", "frames":["ness-move-ne1","ness-move-ne2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 }
+        { "id":"ness-run-ne", "name": "ness-run-ne", "frames":["ness-move-ne1","ness-move-ne2"], "offsetX":-9, "offsetY":-22, "frameDisplayTime": 300 },
+        { "id":"ness-dead", "name": "ness-dead", "frames":["ness-dead-s"], "offsetX":-9, "offsetY":-22 }
     ]
 }

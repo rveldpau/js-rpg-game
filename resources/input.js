@@ -49,3 +49,10 @@ if(moveRequired){
 
 world.character.sprite.id = "ness-" + motion + "-" + moveIntent.direction;
 world.character.lastDirection = moveIntent.direction;
+
+if(input.wasKeyJustPressed(32)){
+    var interactIntent = new Intent();
+    interactIntent.intentId = "interact";
+    interactIntent.object = world.character;
+    com.manatee.intents.addIntent(interactIntent);
+}  

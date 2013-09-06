@@ -19,6 +19,7 @@ if(typeof(com.manatee.intents) == "undefined"){
         },
         initialize: function(){
             com.manatee.intents.load("move", "engine/intents/move.js");
+            com.manatee.intents.load("interact", "engine/intents/interact.js");
         },
         registerIntentProcessor: function(id, processorFunction){
             com.manatee.intents._intentProcessors[id] = processorFunction;

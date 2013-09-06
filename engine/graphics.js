@@ -87,8 +87,12 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 }
                 var x = Math.floor((obj.location.x - left) + sprite.offsetX);
                 var y = Math.floor((obj.location.y - top) + sprite.offsetY);
-                
-                com.manatee.graphics._buffer.drawImage(sprite.getCurrentFrame(timeElapsed).img,x,y);
+                var currentFrame = sprite.getCurrentFrame(timeElapsed);
+                if(currentFrame == undefined){
+                    console.log(sprite.id + " is not loaded...");
+                }else{
+                    com.manatee.graphics._buffer.drawImage(currentFrame.img,x,y);
+                }
             });
             com.manatee.graphics._buffer.fillText(debugText,5,20);
             com.manatee.graphics.flushBuffer(true);

@@ -86,6 +86,10 @@ if(typeof(com.manatee.maps) == "undefined"){
                             eval("object.onCollision = function(impacted){" + valueMapping.onCollision + "}");
                         }
                         
+                        if(valueMapping.onInteract !=undefined){
+                            eval("object.onInteract = function(interactor){" + valueMapping.onInteract + "}");
+                        }
+                        
                         map.data[layer][x][y] = object;
                     }
                     y++;
@@ -121,7 +125,7 @@ function Map() {
             }
         }
         for(var objectIndex=objects.length-1;objectIndex>=0;objectIndex--){
-            if(!boundary.contains(objects[objectIndex].location)){
+            if(!boundary.contains(objects[objectIndex].getCurrentBounds())){
                 objects.splice(objectIndex,1);
             }
         }

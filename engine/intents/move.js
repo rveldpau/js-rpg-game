@@ -12,8 +12,6 @@ potentialCollisionBoundaries.bottom = object.location.y+100;
 
 var potentialCollisionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
 
-var collidedObjects = [];
-
 var axis = ["x","y"];
 
 axis.forEach(function(axis){

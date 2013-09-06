@@ -1,39 +1,28 @@
 var object = intent.object;
 
-
 var potentialCollisionBoundaries = new Boundary();
-potentialCollisionBoundaries.left = object.location.x+-100;
-potentialCollisionBoundaries.top = object.location.y-100;
-potentialCollisionBoundaries.right = object.location.x+100;
-potentialCollisionBoundaries.bottom = object.location.y+100;
+potentialCollisionBoundaries.left = object.location.x + object.boundingBox.left;
+potentialCollisionBoundaries.top = object.location.y + object.boundingBox.top;
+potentialCollisionBoundaries.right = object.location.x + object.boundingBox.right;
+potentialCollisionBoundaries.bottom = object.location.y + object.boundingBox.bottom;
 
-var potentialCollisionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
+var tolerance = world.currentMap.tileSize;
 
-var collidedObjects = [];
+if(object.lastDirection.indexOf("s") != -1){
+    potentialCollisionBoundaries.bottom += tolerance; 
+}else if(object.lastDirection.indexOf("n") != -1){
+    potentialCollisionBoundaries.top -= tolerance; 
+}
+if(object.lastDirection.indexOf("e") != -1){
+    potentialCollisionBoundaries.right += tolerance; 
+}else if(object.lastDirection.indexOf("w") != -1){
+    potentialCollisionBoundaries.left -= tolerance; 
+}
 
-var axis = ["x","y"];
-
-axis.forEach(function(axis){
-    //Must set location axis rather than replace the location object, this ensures that 
-    //the camera continues to follow (camera shares the same location object)
-    object.location[axis] += intent[axis];
-    var canMove = true;
-    
-    potentialCollisionObjects.forEach(function(potentialObject){
-        if(object.collidesWith(potentialObject)){
-            canMove = false;
-            
-            if(object.onCollision!=undefined){
-                object.onCollision(potentialObject);
-            }
-            if(potentialObject.onCollision!=undefined){
-                potentialObject.onCollision(object);
-            }
-        }
-    })
-    
-    if(!canMove){
-        object.location[axis] = startingLocation[axis];
+var potentialInteractionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
+potentialInteractionObjects.some(function(potentialObject){
+    if(potentialObject.onInteract!=undefined){
+        potentialObject.onInteract(object);
     }
 })
 
