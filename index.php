@@ -17,6 +17,9 @@
         <script src="engine/camera.js" ></script>
         <script src="engine/game.js" ></script>
         <style>
+            body {
+                overflow:hidden;
+            }
             canvas {
                 border: 1px solid black;
                 image-rendering: optimizeSpeed;

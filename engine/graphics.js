@@ -80,6 +80,17 @@ if(typeof(com.manatee.graphics) == "undefined"){
             var timeElapsed = drawStartTime - com.manatee.graphics._lastDrawTime;
             var left = Math.floor(screenLeft);
             var top = Math.floor(screenTop);
+            objects.sort(function(obj1,obj2){
+                var zDiff = obj1.location.layer - obj2.location.layer;
+                if(zDiff != 0){
+                    return zDiff;
+                }
+                var yDiff = obj1.location.y - obj2.location.y;
+                if(yDiff != 0){
+                    return yDiff;
+                }
+            })
+            
             objects.forEach(function(obj){
                 var sprite = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id];
                 if(sprite==undefined){
@@ -88,7 +99,7 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 var x = Math.floor((obj.location.x - left) + sprite.offsetX);
                 var y = Math.floor((obj.location.y - top) + sprite.offsetY);
                 var currentFrame = sprite.getCurrentFrame(timeElapsed);
-                if(currentFrame == undefined){
+                if(currentFrame.img == undefined){
                     console.log(sprite.id + " is not loaded...");
                 }else{
                     com.manatee.graphics._buffer.drawImage(currentFrame.img,x,y);
