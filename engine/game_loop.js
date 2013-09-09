@@ -1,4 +1,4 @@
-importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","camera.js")
+importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","dialog.js","camera.js")
 
 console = {
     log: function(msg){
@@ -58,21 +58,25 @@ if(typeof(com.manatee.game.loop) == "undefined"){
             var timeElapsed = loopStartTime - com.manatee.game.loop.lastRunTime;
             //console.log("Time elapsed: " + timeElapsed);
 
-            var objectsInView = com.manatee.game.loop.camera.inView();
-            
-            com.manatee.intents.processAllIntents(objectsInView);
-            
-            var cameraView = com.manatee.game.loop.camera.viewPort();
-            com.manatee.input.processInputs(timeElapsed);
-            postMessage({"action":"draw", "objects":JSON.stringify(objectsInView),
-                "screenLeft":cameraView.left, "screenTop": cameraView.top, 
-                "debugText":"FPS: " + 
-                    Math.round(
-                        com.manatee.game.loop.totalFrames /
-                            ((com.manatee.game.loop.lastRunTime - com.manatee.game.loop.firstRunTime)/1000)
-                    )
-            });
+            if(com.manatee.dialog.isInDialog()){
+                com.manatee.input.processInputs(timeElapsed);
+                postMessage({"action":"dialog","dialog":com.manatee.dialog.getCurrentDialogDisplay()});
+            }else{
+                var objectsInView = com.manatee.game.loop.camera.inView();
 
+                com.manatee.intents.processAllIntents(objectsInView);
+
+                var cameraView = com.manatee.game.loop.camera.viewPort();
+                com.manatee.input.processInputs(timeElapsed);
+                postMessage({"action":"draw", "objects":JSON.stringify(objectsInView),
+                    "screenLeft":cameraView.left, "screenTop": cameraView.top, 
+                    "debugText":"Dialog?: " + com.manatee.dialog.isInDialog() + " FPS: " + 
+                        Math.round(
+                            com.manatee.game.loop.totalFrames /
+                                ((com.manatee.game.loop.lastRunTime - com.manatee.game.loop.firstRunTime)/1000)
+                        )
+                });
+            }
             com.manatee.game.loop.lastRunTime = loopStartTime;
             com.manatee.game.loop.totalFrames++;
         }
@@ -86,7 +90,7 @@ onmessage = function(event){
             setTimeout(com.manatee.game.loop.mainLoop,100);
             break;
         case "complete":
-            if(event.data.completed=="draw"){
+            if(event.data.completed=="draw"||event.data.completed=="dialog"){
                 com.manatee.game.loop.mainLoop();
             }
             break;

@@ -47,6 +47,9 @@ if(typeof(com.manatee.game) == "undefined"){
                 case "draw":
                     com.manatee.graphics.drawAll(data.screenTop,data.screenLeft,JSON.parse(data.objects),data.debugText);
                     break;
+                case "dialog":
+                    com.manatee.graphics.showDialog(data.dialog);
+                    break;
                 case "config-change":
                     console.log("Config updated from loop");
                     com.manatee.config.setProperty(data.property, data.value);

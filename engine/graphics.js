@@ -10,6 +10,7 @@ if(typeof(com.manatee) == "undefined"){
 if(typeof(com.manatee.graphics) == "undefined"){
     com.manatee.graphics = {
         _buffer: null,
+        _dialogBuffer: null,
         _preloadBuffer: null,
         _gameScreen: null,
         _lastDrawTime: new Date(),
@@ -23,13 +24,14 @@ if(typeof(com.manatee.graphics) == "undefined"){
             
             com.manatee.graphics._preloadBufferCanvas = com.manatee.graphics._createCanvas("game-preload",null,null,false);
             com.manatee.graphics._preloadBuffer = com.manatee.graphics._preloadBufferCanvas.getContext("2d")
-            com.manatee.graphics._bufferCanvas = com.manatee.graphics._createCanvas("game-buffer",width*2,height*2,false);
+            com.manatee.graphics._bufferCanvas = com.manatee.graphics._createCanvas("game-buffer",width,height,false);
             com.manatee.graphics._buffer = com.manatee.graphics._bufferCanvas.getContext("2d")
-            //com.manatee.graphics._buffer.scale(2,2);
+            
+            com.manatee.graphics._dialogCanvas = com.manatee.graphics._createCanvas("dialog-buffer",width,height,false);
+            com.manatee.graphics._dialogBuffer = com.manatee.graphics._dialogCanvas.getContext("2d");
             
             com.manatee.graphics._gameScreenCanvas = com.manatee.graphics._createCanvas("game-screen",width,height,true);
             com.manatee.graphics._gameScreen = com.manatee.graphics._gameScreenCanvas.getContext("2d")
-            //com.manatee.graphics._gameScreen.scale(0.5,0.5);
             
         },
         _createCanvas: function(id,width,height,display){
@@ -67,8 +69,9 @@ if(typeof(com.manatee.graphics) == "undefined"){
         flushBuffer: function(clear){
             com.manatee.graphics.clearCanvas(com.manatee.graphics._gameScreenCanvas);
             com.manatee.graphics._gameScreen.drawImage(com.manatee.graphics._bufferCanvas,0,0);
+            com.manatee.graphics._gameScreen.drawImage(com.manatee.graphics._dialogCanvas,0,0);
             if(clear){
-                com.manatee.graphics.clearCanvas(com.manatee.graphics._bufferCanvas);
+                com.manatee.graphics._clearBeforeDraw = true;
             }
         },
         clearCanvas: function(canvas){
@@ -76,6 +79,10 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 canvas.width,canvas.height)
         },
         drawAll: function(screenTop, screenLeft, objects, debugText){
+            if(com.manatee.graphics._clearBeforeDraw){
+                com.manatee.graphics.clearCanvas(com.manatee.graphics._bufferCanvas);
+                com.manatee.graphics._clearBeforeDraw = false;
+            }
             var drawStartTime = new Date();
             var timeElapsed = drawStartTime - com.manatee.graphics._lastDrawTime;
             var left = Math.floor(screenLeft);
@@ -89,6 +96,8 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 if(yDiff != 0){
                     return yDiff;
                 }
+                
+                return 0;
             })
             
             objects.forEach(function(obj){
@@ -108,6 +117,30 @@ if(typeof(com.manatee.graphics) == "undefined"){
             com.manatee.graphics._buffer.fillText(debugText,5,20);
             com.manatee.graphics.flushBuffer(true);
             com.manatee.graphics._lastDrawTime = drawStartTime;
+        },
+        showDialog: function (dialog){
+            
+            com.manatee.graphics.clearCanvas(com.manatee.graphics._dialogCanvas);
+            if(dialog==null){
+                return;
+            }
+            var section = null;
+            Object.keys(dialog.sections).forEach(function(sectionId){
+                section = dialog.sections[sectionId];
+                com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(0,0,0,0.2)';
+                com.manatee.graphics._dialogBuffer.fillRect(0,0,800,600);
+                
+                com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(0,0,0,0.6)';
+                com.manatee.graphics._dialogBuffer.fillRect(section.x,section.y,section.width,section.height);
+                
+                com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(255,255,255,1)';
+                var textHeight = com.manatee.graphics._dialogBuffer.measureText(section.text).height;
+                com.manatee.graphics._dialogBuffer.font = "20px 'courier new'";
+                com.manatee.graphics._dialogBuffer.fillText(section.text,section.x+5,section.y+25);
+            })
+            
+            
+            com.manatee.graphics.flushBuffer(false);
         }
     }
 }

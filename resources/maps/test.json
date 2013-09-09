@@ -87,7 +87,7 @@
         "u":{"set":"characters",
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
-            "onInteract":"console.log(\"He's dead Jim\")",
+            "onInteract":"com.manatee.dialog.show(\"test\")",
             "boundingBox":{
                 "top":-8,
                 "left":-8,

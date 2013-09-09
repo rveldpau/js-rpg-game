@@ -35,7 +35,13 @@ if(typeof(com.manatee.input) == "undefined"){
             return com.manatee.input._freshKeys[keycode] == true;
         },
         processInputs: function(timeElapsed){
-            com.manatee.input._processFunction(com.manatee.input,com.manatee.game.loop.world,timeElapsed);
+            
+            if(com.manatee.dialog.isInDialog()){
+                com.manatee.dialog.processInputs();
+            }else{
+                //console.log("Processing inputs: " + timeElapsed)
+                com.manatee.input._processFunction(com.manatee.input,com.manatee.game.loop.world,timeElapsed);
+            }
             com.manatee.input._freshKeys = {};
         }
     }
