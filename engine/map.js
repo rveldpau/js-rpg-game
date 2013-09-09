@@ -147,8 +147,8 @@ function Map() {
     this.zones = [];
     this.zonificate = function(screenWidth, screenHeight){
         this.zones = [];
-        var zoneWidth = Math.ceil(screenWidth / 2);
-        var zoneHeight = Math.ceil(screenHeight / 2);
+        var zoneWidth = Math.ceil(screenWidth / 1.5);
+        var zoneHeight = Math.ceil(screenHeight / 1.5);
         var xIndex = 0;
         var yIndex = 0;
         for(var zoneX=0;zoneX<this.boundaries.right;){
