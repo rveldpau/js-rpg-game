@@ -88,6 +88,7 @@
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
             "onTalk":"com.manatee.dialog.show(\"test\")",
+            "ai":"var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 2;\n runIntent.stopTolerance = 50;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
             "boundingBox":{
                 "top":-8,
                 "left":-8,
@@ -97,7 +98,7 @@
         "p":{"set":"characters",
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
-            "ai":"var moveIntent=new Intent(\"move\");\n moveIntent.object = object;\n moveIntent.x = 1;\n com.manatee.intents.addIntent(moveIntent)",
+            "ai":"var runIntent=new Intent(\"runaway\");\n runIntent.object = object;\n runIntent.speed = 2;\n com.manatee.intents.addIntent(runIntent)",
             "onTalk":"com.manatee.dialog.show(\"test\")",
             "boundingBox":{
                 "top":-8,
@@ -138,10 +139,10 @@
         "--------------------\\/------------------------------------------------",
         "                    |l                                                ",
         "                    |l                                                ",
+        "            p       |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",
-        "        p           |l                                                ",
         "      u             |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",

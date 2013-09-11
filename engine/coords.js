@@ -6,6 +6,12 @@ function Point(){
     this.isIn = function(boundary){
         return boundary.contains(this);
     }
+    
+    this.distanceFrom = function(otherPoint){
+        var xDiff = this.x - otherPoint.x;
+        var yDiff = this.y - otherPoint.y;
+        return Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
+    }
 }
 
 function Boundary(){
