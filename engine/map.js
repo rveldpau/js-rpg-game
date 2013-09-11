@@ -45,6 +45,7 @@ if(typeof(com.manatee.maps) == "undefined"){
                 map.boundaries.bottom = parseInt(data.boundaries.startY);
             }
             var layer = 0;
+            var nextId = 0;
             data.map.forEach(function(layerData){
                 if(map.data[layer]==undefined){
                     map.data[layer] = [];
@@ -68,6 +69,7 @@ if(typeof(com.manatee.maps) == "undefined"){
                         }
                         
                         var object = new Robject();
+                        object.id = map.id + "-" + nextId++;
                         object.sprite = {
                             set: valueMapping.set,
                             id: valueMapping.sprite
@@ -88,6 +90,14 @@ if(typeof(com.manatee.maps) == "undefined"){
                         
                         if(valueMapping.onInteract !=undefined){
                             eval("object.onInteract = function(interactor){" + valueMapping.onInteract + "}");
+                        }
+                        
+                        if(valueMapping.onTalk !=undefined){
+                            eval("object.onTalk = function(interactor){" + valueMapping.onTalk + "}");
+                        }
+                        
+                        if(valueMapping.ai !=undefined){
+                            eval("object.ai = function(object,timeElapsed){" + valueMapping.ai + "}");
                         }
                         
                         map.data[layer][x][y] = object;
@@ -120,7 +130,10 @@ function Map() {
             for(var zoneRow=0;zoneRow<currentZoneCol.length;zoneRow++){
                 var currentZone = currentZoneCol[zoneRow];
                 if(boundary.contains(currentZone.boundaries)){
-                    objects.push.apply(objects,currentZone.objects);
+                    Object.keys(currentZone.objects).forEach(function(objectId){
+                        objects.push(currentZone.objects[objectId]);
+                    })
+                    
                 }
             }
         }
@@ -219,11 +232,23 @@ function Map() {
                 for(var y=mapStart.y;y<mapEnd.y+1;y++){
                     var object = col[y];
                     if(object!=undefined){
-                        zone.objects.push(object);
+                        zone.objects[object.id] = object;
                     }
                 }
             }
         }
+    }
+    
+    this.rezone = function(object){
+        this.zones.forEach(function(zoneColumn){
+            zoneColumn.forEach(function(zone){
+                if(zone.boundaries.contains(object.location)){
+                    zone.objects[object.id] = object;
+                }else{
+                    delete zone.objects[object.id];
+                }
+            })
+        })
     }
 }
 
@@ -235,5 +260,5 @@ function MapZone(){
         [undefined,null,undefined],
         [undefined,undefined,undefined]];
     this.boundaries = new Boundary();
-    this.objects = [];
+    this.objects = {};
 }

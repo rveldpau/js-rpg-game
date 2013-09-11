@@ -125,22 +125,88 @@ if(typeof(com.manatee.graphics) == "undefined"){
                 return;
             }
             var section = null;
+            
+            com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(0,0,0,0.2)';
+            com.manatee.graphics._dialogBuffer.fillRect(0,0,800,600);
+
             Object.keys(dialog.sections).forEach(function(sectionId){
                 section = dialog.sections[sectionId];
-                com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(0,0,0,0.2)';
-                com.manatee.graphics._dialogBuffer.fillRect(0,0,800,600);
                 
                 com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(0,0,0,0.6)';
                 com.manatee.graphics._dialogBuffer.fillRect(section.x,section.y,section.width,section.height);
                 
                 com.manatee.graphics._dialogBuffer.fillStyle = 'rgba(255,255,255,1)';
-                var textHeight = com.manatee.graphics._dialogBuffer.measureText(section.text).height;
+                
                 com.manatee.graphics._dialogBuffer.font = "20px 'courier new'";
-                com.manatee.graphics._dialogBuffer.fillText(section.text,section.x+5,section.y+25);
+                com.manatee.graphics._drawDialogSectionText(section);
+                
             })
             
             
             com.manatee.graphics.flushBuffer(false);
+        },
+        _drawDialogSectionText:function(section){
+                
+                var line = '';
+                var x = section.x + 5;
+                var y = section.y + 25;
+                var lineHeight = 20;
+                
+                if(section.text!=null){
+                    if(section.preformatted){
+                        var lines = section.text.split('\n');
+                        lines.forEach(function(line){
+                            com.manatee.graphics._dialogBuffer.fillText(line, x, y);
+                            y += lineHeight;
+                        })
+                        
+                    }else{
+                        var words = section.text.split(' ');
+                        
+                        for(var n = 0; n < words.length; n++) {
+                            var testLine = line + words[n] + ' ';
+                            var metrics = com.manatee.graphics._dialogBuffer.measureText(testLine);
+                            var testWidth = metrics.width;
+                            if (testWidth > section.width && n > 0) {
+                                com.manatee.graphics._dialogBuffer.fillText(line, x, y);
+                                line = words[n] + ' ';
+                                y += lineHeight;
+                            }
+                            else {
+                                line = testLine;
+                            }
+                        }
+                    }
+                    com.manatee.graphics._dialogBuffer.fillText(line,x,y);
+                    y+=lineHeight;
+                }
+                
+                var optionPad = 20;
+                var optionX = x + optionPad;
+                if(section.options!=undefined){
+                    section.options.forEach(function(option){
+                        
+                        if(option.selected){
+                            option.text = ">" + option.text
+                            com.manatee.graphics._dialogBuffer.fillStyle = 'rgb(255,255,255)';
+                        }else{
+                            com.manatee.graphics._dialogBuffer.fillStyle = 'rgb(200,200,200)';
+                        }
+                        var optionWidth = com.manatee.graphics._dialogBuffer.measureText(option.text).width;
+                        if(optionWidth + optionX > section.x + section.width){
+                            optionX = x + optionPad;
+                            y+= lineHeight;
+                        }
+                        com.manatee.graphics._dialogBuffer.fillText(option.text,optionX,y);
+                        if(section.oneOptionPerLine){
+                            optionX = x + optionPad;
+                            y+= lineHeight;
+                        }else{
+                            optionX+= optionWidth + optionPad;
+                        }
+                        
+                    })
+                }
         }
     }
 }

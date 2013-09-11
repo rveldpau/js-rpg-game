@@ -13,7 +13,7 @@
         "|":{"set":"background",
             "sprite":"path-n-2-2-l",
             "collision-detection":"com.manatee.collision.always",
-            "onCollision":"console.log(\"I'm hurt, you bastard\")",
+            "onInteract":"com.manatee.dialog.prompt(\"I'm a wall that looks like a path!\")",
             "boundingBox":{
                 "top":0,
                 "left":10,
@@ -23,7 +23,7 @@
         "l":{"set":"background",
             "sprite":"path-n-2-2-r",
             "collision-detection":"com.manatee.collision.always",
-            "onCollision":"console.log(\"I'm hurt!\")",
+            "onCollision":"",
             "boundingBox":{
                 "top":0,
                 "left":0,
@@ -87,7 +87,18 @@
         "u":{"set":"characters",
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
-            "onInteract":"com.manatee.dialog.show(\"test\")",
+            "onTalk":"com.manatee.dialog.show(\"test\")",
+            "boundingBox":{
+                "top":-8,
+                "left":-8,
+                "bottom":0,
+                "right":8
+            }},
+        "p":{"set":"characters",
+            "sprite":"ness-dead",
+            "collision-detection":"com.manatee.collision.always",
+            "ai":"var moveIntent=new Intent(\"move\");\n moveIntent.object = object;\n moveIntent.x = 1;\n com.manatee.intents.addIntent(moveIntent)",
+            "onTalk":"com.manatee.dialog.show(\"test\")",
             "boundingBox":{
                 "top":-8,
                 "left":-8,
@@ -130,7 +141,7 @@
         "                    |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",
-        "                    |l                                                ",
+        "        p           |l                                                ",
         "      u             |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",

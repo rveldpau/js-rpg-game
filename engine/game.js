@@ -20,10 +20,24 @@ if(typeof(com.manatee.game) == "undefined"){
             
             $('body').keydown(function(ev){
                 com.manatee.game.loop.postMessage({"action":"keydown","keycode":ev.keyCode})
+                return false;
             });
             $('body').keyup(function(ev){
                 com.manatee.game.loop.postMessage({"action":"keyup","keycode":ev.keyCode})
+                return false;
             });
+            
+            $(window).focus(function(){
+                com.manatee.game.loop.postMessage({"action":"resume"})
+                document.title = document.title.replace( " - Paused","")
+            })
+            
+            $(window).blur(function(){
+                com.manatee.game.loop.postMessage({"action":"pause"})
+                if(document.title.indexOf("Paused")==-1){
+                    document.title = document.title + " - Paused"
+                }
+            })
             
             com.manatee.game.loop.postMessage({"action":"start",
                 "baseUrl":document.location.href,

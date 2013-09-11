@@ -1,4 +1,4 @@
-var baseTravelMovement = 75 * (timeElapsed/1000);
+var baseTravelMovement = 1;//75 * (timeElapsed/1000);
 
 var moveRequired = false;
 var moveIntent = new Intent();
@@ -55,4 +55,8 @@ if(input.wasKeyJustPressed(32)){
     interactIntent.intentId = "interact";
     interactIntent.object = world.character;
     com.manatee.intents.addIntent(interactIntent);
+}  
+
+if(input.wasKeyJustPressed(9)){
+    com.manatee.dialog.show("menu");
 }  

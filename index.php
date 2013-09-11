@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Test Game</title>
         <script src="third-party/jquery.js" ></script>
         <script src="engine/configuration.js" ></script>
         <script src="engine/data.js" ></script>
@@ -19,6 +19,7 @@
         <style>
             body {
                 overflow:hidden;
+                text-align: center;
             }
             canvas {
                 border: 1px solid black;

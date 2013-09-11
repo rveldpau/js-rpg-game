@@ -1,4 +1,4 @@
-importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","dialog.js","camera.js")
+importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","dialog.js","ai.js","camera.js")
 
 console = {
     log: function(msg){
@@ -22,9 +22,10 @@ if(typeof(com.manatee.game) == "undefined"){
 
 if(typeof(com.manatee.game.loop) == "undefined"){
     com.manatee.game.loop = {
-        firstRunTime: new Date(),
+        totalTimeElapsed: 0,
         lastRunTime: new Date(),
         totalFrames: -1,
+        _pause:false,
         
         world: null,
         camera: null,
@@ -55,6 +56,10 @@ if(typeof(com.manatee.game.loop) == "undefined"){
         mainLoop: function(){
             var loopStartTime = new Date();;
 
+            if(com.manatee.game.loop._pause){
+                return;
+            }
+
             var timeElapsed = loopStartTime - com.manatee.game.loop.lastRunTime;
             //console.log("Time elapsed: " + timeElapsed);
 
@@ -63,22 +68,28 @@ if(typeof(com.manatee.game.loop) == "undefined"){
                 postMessage({"action":"dialog","dialog":com.manatee.dialog.getCurrentDialogDisplay()});
             }else{
                 var objectsInView = com.manatee.game.loop.camera.inView();
-
-                com.manatee.intents.processAllIntents(objectsInView);
+                
+                com.manatee.ai.processIntelligence(objectsInView, timeElapsed);
+                
+                com.manatee.input.processInputs(timeElapsed);
+                
+                com.manatee.intents.processAllIntents(timeElapsed);
 
                 var cameraView = com.manatee.game.loop.camera.viewPort();
-                com.manatee.input.processInputs(timeElapsed);
                 postMessage({"action":"draw", "objects":JSON.stringify(objectsInView),
                     "screenLeft":cameraView.left, "screenTop": cameraView.top, 
                     "debugText":"Dialog?: " + com.manatee.dialog.isInDialog() + " FPS: " + 
                         Math.round(
                             com.manatee.game.loop.totalFrames /
-                                ((com.manatee.game.loop.lastRunTime - com.manatee.game.loop.firstRunTime)/1000)
+                                (com.manatee.game.loop.totalTimeElapsed/1000)
                         )
                 });
+                
+                com.manatee.game.loop.totalTimeElapsed += timeElapsed;
+                com.manatee.game.loop.totalFrames++;
             }
             com.manatee.game.loop.lastRunTime = loopStartTime;
-            com.manatee.game.loop.totalFrames++;
+            
         }
     };
 }
@@ -103,6 +114,14 @@ onmessage = function(event){
             break;
         case "keyup":
             com.manatee.input.keyup(event.data.keycode);
+            break;
+        case "pause":
+            com.manatee.game.loop._pause = true;
+            break;
+        case "resume":
+            com.manatee.game.loop._pause = false;
+            com.manatee.game.loop.lastRunTime = new Date();
+            com.manatee.game.loop.mainLoop();
             break;
     }
 }

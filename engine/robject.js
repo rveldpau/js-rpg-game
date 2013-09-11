@@ -8,6 +8,14 @@ if(typeof(com.manatee) == "undefined"){
 
 if(typeof(com.manatee.robject) == "undefined"){
     com.manatee.robject = {
+        defaultTalkAction: function(){
+            com.manatee.dialog.prompt("You can't talk to me!");
+        },
+        defaultInteractAction: function(){
+            if(this.onTalk!=undefined){
+                this.onTalk();
+            }
+        }
     }
 }
 
@@ -23,7 +31,8 @@ function Robject() {
     //the object the collision occured with. It should match the definition
     //    function(impacted){...}
     this.onCollision = undefined;
-    this.onInteract = undefined;
+    this.onInteract = com.manatee.robject.defaultInteractAction;
+    this.onTalk = undefined; //com.manatee.robject.defaultTalkAction;
     
     this.location=new Point();
     this.spriteOffset=new Point();

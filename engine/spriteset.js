@@ -46,6 +46,7 @@ if(typeof(com.manatee.spritesets) == "undefined"){
                     Object.keys(newSpriteset.frames).forEach(function(frameId){
                         frame = newSpriteset.frames[frameId];
                         frame.img = $("<canvas>")
+                            .css({"display":"none"})
                             .attr({
                                 "id":newSpriteset.id + "-" + frame.id,
                                 "width":frame.width,

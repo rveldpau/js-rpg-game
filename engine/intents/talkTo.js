@@ -20,10 +20,15 @@ if(object.lastDirection.indexOf("e") != -1){
     potentialCollisionBoundaries.left -= tolerance; 
 }
 
+var talked = false;
 var potentialInteractionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
 potentialInteractionObjects.some(function(potentialObject){
-    if(potentialObject.onInteract!=undefined){
-        potentialObject.onInteract(object);
+    if(potentialObject.onTalk!=undefined){
+        potentialObject.onTalk(object);
+        talked = true;
     }
 })
 
+if(!talked){
+    com.manatee.dialog.prompt("There's nothing to talk to...");
+}
