@@ -4,18 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Test Game</title>
         <script src="third-party/jquery.js" ></script>
-        <script src="engine/configuration.js" ></script>
-        <script src="engine/data.js" ></script>
-        <script src="engine/coords.js" ></script>
-        <script src="engine/sprite.js" ></script>
-        <script src="engine/collision.js" ></script>
-        <script src="engine/robject.js" ></script>
-        <script src="engine/graphics.js" ></script>
-        <script src="engine/spriteset.js" ></script>
-        <script src="engine/map.js" ></script>
-        <script src="engine/world.js" ></script>
-        <script src="engine/camera.js" ></script>
-        <script src="engine/game.js" ></script>
+        <script src="engine/engine.js" ></script>
         <style>
             body {
                 overflow:hidden;

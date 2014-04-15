@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts('configuration.js','coords.js')
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.camera) == "undefined"){
+if(typeof(com.manatee.camera) === "undefined"){
     com.manatee.camera = {
     }
 }

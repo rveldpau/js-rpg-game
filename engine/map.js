@@ -1,12 +1,12 @@
-
-if(typeof(com)=="undefined"){
+importScripts('configuration.js','coords.js','spriteset.js')
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
-if(typeof(com.manatee.maps) == "undefined"){
+if(typeof(com.manatee.maps) === "undefined"){
     com.manatee.maps = {
         load: function(mapLocation){
             var map = null;

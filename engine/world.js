@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts('data.js', 'input.js', 'map.js', 'robject.js')
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.world) == "undefined"){
+if(typeof(com.manatee.world) === "undefined"){
     com.manatee.world = {
         load: function(worldLocation){
             var world = null;

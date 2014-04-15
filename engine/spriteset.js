@@ -1,12 +1,12 @@
-
-if(typeof(com)=="undefined"){
+importScripts('sprite.js')
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
-if(typeof(com.manatee.spritesets) == "undefined"){
+if(typeof(com.manatee.spritesets) === "undefined"){
     com.manatee.spritesets = {
         _loadedSpritesets: {},
         _loadedSpritesetsById: {},

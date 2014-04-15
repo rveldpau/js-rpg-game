@@ -1,13 +1,14 @@
+importScripts('data.js')
 
-if(typeof(com)=="undefined"){
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.input) == "undefined"){
+if(typeof(com.manatee.input) === "undefined"){
     com.manatee.input = {
         _pressedKeys: {},
         _freshKeys: {},

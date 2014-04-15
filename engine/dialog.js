@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts('input.js')
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.dialog) == "undefined"){
+if(typeof(com.manatee.dialog) === "undefined"){
     com.manatee.dialog = {
         currentDialog:null,
         _promptMessage:null,

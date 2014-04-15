@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts("configuration.js","world.js","graphics.js","spriteset.js")
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.game) == "undefined"){
+if(typeof(com.manatee.game) === "undefined"){
     com.manatee.game = {
         loop:null,
         world:null,
@@ -15,7 +17,7 @@ if(typeof(com.manatee.game) == "undefined"){
             var screenHeight = 600;
             com.manatee.graphics._createScreen(screenWidth,screenHeight);
             
-            com.manatee.game.loop = new Worker("engine/game_loop.js");
+            com.manatee.game.loop = new Worker(com.manatee._engineBase + "game_loop.js");
             com.manatee.game.loop.onmessage = com.manatee.game._handleLoopMessage;
             
             $('body').keydown(function(ev){

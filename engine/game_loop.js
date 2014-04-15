@@ -6,21 +6,21 @@ console = {
     }
 }
 
-if(typeof(com)=="undefined"){
+if(typeof(com)==="undefined"){
     com = {};
 }
 
 
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.game) == "undefined"){
+if(typeof(com.manatee.game) === "undefined"){
     com.manatee.game = {};
 }
 
-if(typeof(com.manatee.game.loop) == "undefined"){
+if(typeof(com.manatee.game.loop) === "undefined"){
     com.manatee.game.loop = {
         totalTimeElapsed: 0,
         lastRunTime: new Date(),

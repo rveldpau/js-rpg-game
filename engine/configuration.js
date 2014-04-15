@@ -1,12 +1,12 @@
-if(typeof(com)=="undefined"){
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.config) == "undefined"){
+if(typeof(com.manatee.config) === "undefined"){
     com.manatee.config = {
         _props: {},
         BASEURL: "baseUrl",

@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts('data.js')
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.intents) == "undefined"){
+if(typeof(com.manatee.intents) === "undefined"){
     com.manatee.intents = {
         _intentProcessors: {},
         _currentIntents:[],

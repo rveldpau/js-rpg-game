@@ -1,18 +1,20 @@
-if(typeof(com)=="undefined"){
+importScripts('coords.js', 'dialog.js', 'collision.js')
+
+if (typeof (com) === "undefined") {
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if (typeof (com.manatee) === "undefined") {
     com.manatee = {};
 }
 
-if(typeof(com.manatee.robject) == "undefined"){
+if (typeof (com.manatee.robject) === "undefined") {
     com.manatee.robject = {
-        defaultTalkAction: function(){
+        defaultTalkAction: function() {
             com.manatee.dialog.prompt("You can't talk to me!");
         },
-        defaultInteractAction: function(){
-            if(this.onTalk!=undefined){
+        defaultInteractAction: function() {
+            if (this.onTalk != undefined) {
                 this.onTalk();
             }
         }
@@ -20,12 +22,12 @@ if(typeof(com.manatee.robject) == "undefined"){
 }
 
 function Robject() {
-    this.id=null;
-    this.sprite=null;
-    this.collisionDetection=com.manatee.collision.never;
-    this.collidesWith=function(otherObject){
-        var collidesWithThis = this.collisionDetection(this,otherObject);
-        return collidesWithThis?true:otherObject.collisionDetection(otherObject, this);
+    this.id = null;
+    this.sprite = null;
+    this.collisionDetection = com.manatee.collision.never;
+    this.collidesWith = function(otherObject) {
+        var collidesWithThis = this.collisionDetection(this, otherObject);
+        return collidesWithThis ? true : otherObject.collisionDetection(otherObject, this);
     }
     //onCollision should be defined as a function that takes in
     //the object the collision occured with. It should match the definition
@@ -33,12 +35,12 @@ function Robject() {
     this.onCollision = undefined;
     this.onInteract = com.manatee.robject.defaultInteractAction;
     this.onTalk = undefined; //com.manatee.robject.defaultTalkAction;
-    
-    this.location=new Point();
-    this.spriteOffset=new Point();
-    
-    this.boundingBox=new Boundary();
-    this.getCurrentBounds = function(){
+
+    this.location = new Point();
+    this.spriteOffset = new Point();
+
+    this.boundingBox = new Boundary();
+    this.getCurrentBounds = function() {
         var currentBounds = new Boundary();
         currentBounds.top = this.location.y + this.boundingBox.top;
         currentBounds.left = this.location.x + this.boundingBox.left;

@@ -1,13 +1,14 @@
+importScripts('spriteset.js','camera.js')
 
-if(typeof(com)=="undefined"){
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.graphics) == "undefined"){
+if(typeof(com.manatee.graphics) === "undefined"){
     com.manatee.graphics = {
         _buffer: null,
         _dialogBuffer: null,

@@ -1,12 +1,14 @@
-if(typeof(com)=="undefined"){
+importScripts('configuration.js')
+
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.data) == "undefined"){
+if(typeof(com.manatee.data) === "undefined"){
     com.manatee.data = {
         _xmlhttp: new XMLHttpRequest(),
         load: function(dataLocation){

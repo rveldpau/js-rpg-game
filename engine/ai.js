@@ -1,12 +1,12 @@
-if(typeof(com)=="undefined"){
+if(typeof(com)==="undefined"){
     com = {};
 }
 
-if(typeof(com.manatee) == "undefined"){
+if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 
-if(typeof(com.manatee.ai) == "undefined"){
+if(typeof(com.manatee.ai) === "undefined"){
     com.manatee.ai = {
         processIntelligence: function(objects, timeElapsed){
             objects.forEach(function(object){
