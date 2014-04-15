@@ -1,4 +1,4 @@
-importScripts('input.js')
+importScripts('input.js','data.js')
 
 if(typeof(com)==="undefined"){
     com = {};
@@ -25,178 +25,27 @@ if(typeof(com.manatee.dialog) === "undefined"){
         _defaultGetText: function(){
             return this.text;
         },
-        _dialogs:{
-            prompt:{
-                passages:{
-                    promptText:{
-                        section:{
-                            "default":{
-                                getText: function(){
-                                    return com.manatee.dialog._promptMessage;
-                                }
-                            }
-                        },
-                        onSelect: function(selectedOption){
-                            com.manatee.dialog.close();
-                        }
-                    }
-                }
-            },
-            menu:{
-                escapable:true,
-                sections:{
-                    "menu":{
-                        x:5,
-                        y:5,
-                        width:150,
-                        height:150
-                    },
-                    "status":{
-                        x:165,
-                        y:5,
-                        width:620,
-                        height:500
-                    }
-                },
-                passages:{
-                    mainMenu:{
-                        section:{
-                            "menu":{
-                                oneOptionPerLine: true,
-                                text:null,
-                                options:[{
-                                    "id":"talk",
-                                    "text":"Talk to",
-                                    "selected":true
-                                },{
-                                    "id":"check",
-                                    "text":"Check"
-                                },{
-                                    "id":"goods",
-                                    "text":"Goods"
-                                },{
-                                    "id":"equip",
-                                    "text":"Equip"
-                                },{
-                                    "id":"status",
-                                    "text":"Status"
-                                }]
-                            }
-                        },
-                        
-                        onSelect: function(selectedOption){
-                            if(selectedOption=="status"){
-                                com.manatee.dialog.passageId = 'status';
-                            }
-                            else if(selectedOption=="talk"){
-                                var talkIntent = new Intent();
-                                talkIntent.intentId = "talk";
-                                talkIntent.object = com.manatee.game.loop.world.character;
-                                com.manatee.intents.addIntent(talkIntent);
-                                com.manatee.dialog.close();
-                            }else if(selectedOption=="check"){
-                                var interactIntent = new Intent();
-                                interactIntent.intentId = "interact";
-                                interactIntent.object = com.manatee.game.loop.world.character;
-                                com.manatee.intents.addIntent(interactIntent);
-                                com.manatee.dialog.close();
-                            }else{
-                                com.manatee.dialog.close();
-                            }
-                        }
-                    },
-                    status:{
-                        section:{
-                            "menu":{
-                                oneOptionPerLine: true,
-                                text:null,
-                                options:[{
-                                    "id":"talk",
-                                    "text":"Talk to"
-                                },{
-                                    "id":"check",
-                                    "text":"Check"
-                                },{
-                                    "id":"goods",
-                                    "text":"Goods"
-                                },{
-                                    "id":"equip",
-                                    "text":"Equip"
-                                },{
-                                    "id":"status",
-                                    "text":"Status",
-                                    "selected":true
-                                }]
-                            },
-                            "status":{
-                                getText: function(){
-                                    return "This is a test!\nBlah\n\nBlah\n    Test";
-                                },
-                                preformatted:true,
-                                options:[]
-                            }
-                        },
-                        
-                        onSelect: function(selectedOption){
-                            com.manatee.dialog.passageId = 'menu';
-                        }
-                    }
-                }
-            },
-            test:{
-                passages:{
-                    firstPassage:{
-                        section:{
-                            "default":{
-                                oneOptionPerLine: true,
-                                text:"Do you want to hear more?",
-                                options:[{
-                                    "id":"yes",
-                                    "text":"Yes",
-                                    "selected":true
-                                },{
-                                    "id":"no",
-                                    "text":"No way!"
-                                },{
-                                    "id":"maybe",
-                                    "text":"Maybe..."
-                                }]
-                            }
-                        },
-                        
-                        onSelect: function(selectedOption){
-                            if(selectedOption=="no"){
-                                com.manatee.dialog.close();
-                            }else{
-                                com.manatee.dialog.passageId = 'secondPassage';
-                            }
-                        }
-                    },
-                    secondPassage:{
-                        section:{
-                            "default":{
-                                text:"To be or not to be, that is the question, whether tis nobler in heart",
-                                options:[]
-                            }
-                        },
-                        onSelect: function(selectedOption){
-                            com.manatee.dialog.close();
-                        }
-                    }
-                },
-                onEnd: function(){
-                    console.log("Conversation Done")
-                }
-            }
-        },
+        _dialogs:{},
         passageId:null,
         sectionId:"default",
+        registerDialog: function(name,dialogLocation){
+            console.log("Registering dialog '" + name + "': " + dialogLocation)
+            com.manatee.dialog._dialogs[name] = dialogLocation;
+        },
         isInDialog: function(){
             return com.manatee.dialog.currentDialog!=null;
         },
+        _loadDialog: function(dialogName){
+            console.log("Locating dialog " + dialogName)
+            var dialogLocation = com.manatee.dialog._dialogs[dialogName];
+            console.log("Dialog is located at " + dialogLocation)
+            var dialogScript = com.manatee.data.loadText(dialogLocation);
+            console.log("Executing script: " + dialogScript)
+            return eval(dialogScript)[0];
+        },
         show: function(dialogName){
-            var dialog = com.manatee.dialog._dialogs[dialogName];
             
+            var dialog = com.manatee.dialog._loadDialog(dialogName);
             if(dialog==undefined){
                 console.log("No dialog named " + dialogName);
             }else{

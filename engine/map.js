@@ -21,7 +21,7 @@ if(typeof(com.manatee.maps) === "undefined"){
             map.id = data.id;
             map.name = data.name;
             
-            if(data.tileSize != undefined){
+            if(data.tileSize !== undefined){
                 map.tileSize = data.tileSize;
             }
             
@@ -35,35 +35,40 @@ if(typeof(com.manatee.maps) === "undefined"){
                 })
             })
             
-            if(data.boundaries.startX!=undefined){
+            console.log("Registering dialogs for map '" + map.name + "'...")
+            for(var dialogName in data.dialogs){
+                com.manatee.dialog.registerDialog(dialogName, data.dialogs[dialogName])    
+            }
+            
+            if(data.boundaries.startX!==undefined){
                 map.boundaries.left = parseInt(data.boundaries.startX);
                 map.boundaries.right = parseInt(data.boundaries.startX);
             }
             
-            if(data.boundaries.startY!=undefined){
+            if(data.boundaries.startY!==undefined){
                 map.boundaries.top = parseInt(data.boundaries.startY);
                 map.boundaries.bottom = parseInt(data.boundaries.startY);
             }
             var layer = 0;
             var nextId = 0;
             data.map.forEach(function(layerData){
-                if(map.data[layer]==undefined){
+                if(map.data[layer]===undefined){
                     map.data[layer] = [];
                 }
                 var y=0;
                 layerData.forEach(function(rowData){
-                    if(layer==0){
+                    if(layer===0){
                         map.boundaries.bottom += map.tileSize;
                     }
                     for(var x=0;x<rowData.length;x++){
                         var mapValue = rowData.charAt(x);
                         var valueMapping = data.mapping[mapValue];
-                        if(valueMapping==undefined){
+                        if(valueMapping===undefined){
                             continue;
                         }
-                        if(map.data[layer][x]==undefined){
+                        if(map.data[layer][x]===undefined){
                             map.data[layer][x] = [];
-                            if(layer==0){
+                            if(layer===0){
                                 map.boundaries.right += map.tileSize;
                             }
                         }
@@ -84,19 +89,19 @@ if(typeof(com.manatee.maps) === "undefined"){
                         object.boundingBox.right = valueMapping.boundingBox.right;
                         
                         object.collisionDetection = eval(valueMapping["collision-detection"]);
-                        if(valueMapping.onCollision !=undefined){
+                        if(valueMapping.onCollision !==undefined){
                             eval("object.onCollision = function(impacted){" + valueMapping.onCollision + "}");
                         }
                         
-                        if(valueMapping.onInteract !=undefined){
+                        if(valueMapping.onInteract !==undefined){
                             eval("object.onInteract = function(interactor){" + valueMapping.onInteract + "}");
                         }
                         
-                        if(valueMapping.onTalk !=undefined){
+                        if(valueMapping.onTalk !==undefined){
                             eval("object.onTalk = function(interactor){" + valueMapping.onTalk + "}");
                         }
                         
-                        if(valueMapping.ai !=undefined){
+                        if(valueMapping.ai !==undefined){
                             eval("object.ai = function(object,timeElapsed){" + valueMapping.ai + "}");
                         }
                         
@@ -146,7 +151,7 @@ function Map() {
     }
     this.spriteAt = function(x,y){
         var col = this.data[0][x];
-        if(col==undefined){
+        if(col===undefined){
             return undefined;
         }
         return col[y].sprite;
@@ -204,10 +209,10 @@ function Map() {
                             continue;
                         }
                         var borderZoneRows = currentMap.zones[borderZoneX];
-                        if(borderZoneRows==undefined){
+                        if(borderZoneRows===undefined){
                             continue;
                         }
-                        if(borderZoneRows[borderZoneY]!=undefined){
+                        if(borderZoneRows[borderZoneY]!==undefined){
                             zone.borderZones[x][y] = borderZoneRows[borderZoneY];
                         }
                     }
@@ -231,7 +236,7 @@ function Map() {
                 }
                 for(var y=mapStart.y;y<mapEnd.y+1;y++){
                     var object = col[y];
-                    if(object!=undefined){
+                    if(object!==undefined){
                         zone.objects[object.id] = object;
                     }
                 }

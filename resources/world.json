@@ -4,11 +4,14 @@
     "name": "Test World",
     "inputScript": "resources/input.js",
     "maps": [
-        "resources/maps/test.json"
+        "resources/maps/onett/test.json"
     ],
     "spritesets": [
         "resources/spritesets/characters-spriteset.json"
     ],
+    "dialogs": {
+        "menu":"resources/dialogs/menu.js"
+    },
     "start":{
         "map":"test",
         "location": {

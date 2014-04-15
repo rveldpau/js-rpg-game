@@ -36,8 +36,6 @@ if(input.isKeyPressed(39)){
     moveIntent.direction += "w"
 }
 
-
-
 var motion = "stand";
 
 if(moveRequired){

@@ -5,6 +5,10 @@
         "resources/spritesets/background-spriteset.json",
         "resources/spritesets/characters-spriteset.json"
     ],
+    "dialogs": {
+        "prompt":"resources/maps/onett/dialogs/prompt.js",
+        "test":"resources/maps/onett/dialogs/test.js"
+    },
     "boundaries":{
         "startX":"0",
         "startY":"0"
