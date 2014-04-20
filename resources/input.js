@@ -45,7 +45,7 @@ if(moveRequired){
     moveIntent.direction = world.character.lastDirection;
 }
 
-world.character.sprite.id = "ness-" + motion + "-" + moveIntent.direction;
+//world.character.sprite.id = "ness-" + motion + "-" + moveIntent.direction;
 world.character.lastDirection = moveIntent.direction;
 
 if(input.wasKeyJustPressed(32)){

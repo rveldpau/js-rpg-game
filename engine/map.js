@@ -77,7 +77,10 @@ if(typeof(com.manatee.maps) === "undefined"){
                         object.id = map.id + "-" + nextId++;
                         object.sprite = {
                             set: valueMapping.set,
-                            id: valueMapping.sprite
+                            id: valueMapping.sprite,
+                            base: valueMapping.spriteBase,
+                            directionSupport: valueMapping.spriteDirections,
+                            motionSupport: valueMapping.spriteMotions
                         };
                         object.location.x = x * map.tileSize;
                         object.location.y = y * map.tileSize;

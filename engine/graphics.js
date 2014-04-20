@@ -100,13 +100,13 @@ if (typeof (com.manatee.graphics) === "undefined") {
         },
         drawBattle: function(battle, debugText) {
             com.manatee.graphics.drawBattleBackground();
-            
+
             battle.enemies.forEach(function(enemy) {
                 var sprite = com.manatee.spritesets.get(enemy.sprite.set).sprites[enemy.sprite.id];
                 var currentFrame = sprite.getCurrentFrame(0);
                 com.manatee.graphics._buffer.drawImage(currentFrame.img, 50, 50);
             });
-            
+
             com.manatee.graphics._buffer.fillText(debugText, 5, 20);
 
         },
@@ -138,8 +138,8 @@ if (typeof (com.manatee.graphics) === "undefined") {
             var canvas = com.manatee.graphics._buffer;
             canvas.putImageData(com.manatee.graphics._battleBackground, 0, 0);
             com.manatee.graphics.effects.applyEffect("wave", canvas);
-            
-            
+
+
         }
         ,
         drawWorld: function(screenTop, screenLeft, objects, debugText) {
@@ -149,11 +149,11 @@ if (typeof (com.manatee.graphics) === "undefined") {
             var top = Math.floor(screenTop);
             objects.sort(function(obj1, obj2) {
                 var zDiff = obj1.location.layer - obj2.location.layer;
-                if (zDiff != 0) {
+                if (zDiff !== 0) {
                     return zDiff;
                 }
                 var yDiff = obj1.location.y - obj2.location.y;
-                if (yDiff != 0) {
+                if (yDiff !== 0) {
                     return yDiff;
                 }
 
@@ -168,7 +168,7 @@ if (typeof (com.manatee.graphics) === "undefined") {
                 var x = Math.floor((obj.location.x - left) + sprite.offsetX);
                 var y = Math.floor((obj.location.y - top) + sprite.offsetY);
                 var currentFrame = sprite.getCurrentFrame(timeElapsed);
-                if (currentFrame.img === undefined) {
+                if (currentFrame === undefined || currentFrame.img === undefined) {
                     console.log(sprite.id + " is not loaded...");
                 } else {
                     com.manatee.graphics._buffer.drawImage(currentFrame.img, x, y);

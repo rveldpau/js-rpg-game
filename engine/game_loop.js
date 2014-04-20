@@ -89,7 +89,13 @@ if (typeof (com.manatee.game.loop) === "undefined") {
                     com.manatee.game.loop.totalFrames++;
                 } else {
                     var objectsInView = com.manatee.game.loop.camera.inView();
-
+                    //Reset all dynamic images
+                    objectsInView.forEach(function(obj) {
+                        if (obj.sprite.base !== undefined) {
+                            obj.sprite.id = obj.sprite.id.replace("walk", "stand");
+                            obj.sprite.id = obj.sprite.id.replace("run", "stand");
+                        }
+                    });
                     com.manatee.ai.processIntelligence(objectsInView, timeElapsed);
 
                     com.manatee.input.processInputs(timeElapsed);

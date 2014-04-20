@@ -112,6 +112,21 @@
                 "left":-8,
                 "bottom":0,
                 "right":8
+            }},
+        "o":{"set":"characters",
+            "sprite":"fobby-stand-s",
+            "spriteBase":"fobby",
+            "spriteDirections":4,
+            "spriteMotions":1,
+            "collision-detection":"com.manatee.collision.always",
+            "ai":"var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 0.8;\n runIntent.stopTolerance = 0;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
+            "onTalk":"com.manatee.dialog.show(\"test\", this)",
+            "onCollision":"com.manatee.battle.start([this])",
+            "boundingBox":{
+                "top":-4,
+                "left":-8,
+                "bottom":0,
+                "right":8
             }}
     },
     "map": [[
@@ -146,7 +161,7 @@
         "--------------------\\/------------------------------------------------",
         "                    |l                                                ",
         "                    |l                                                ",
-        "            p       |l                                                ",
+        "        o   p       |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",
         "                    |l                                                ",

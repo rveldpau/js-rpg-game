@@ -25,7 +25,10 @@
     "character":{
         "sprite":{
             "set": "characters",
-            "id": "ness-stand-s"
+            "id": "ness-stand-s",
+            "base": "ness",
+            "directionSupport": 8,
+            "motionSupport":2
         },
         
         "boundingBox":{
