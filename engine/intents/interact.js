@@ -9,21 +9,21 @@ potentialCollisionBoundaries.layer = object.location.layer;
 
 var tolerance = world.currentMap.tileSize;
 
-if(object.lastDirection.indexOf("s") != -1){
+if(object.lastDirection.indexOf("s") !== -1){
     potentialCollisionBoundaries.bottom += tolerance; 
-}else if(object.lastDirection.indexOf("n") != -1){
+}else if(object.lastDirection.indexOf("n") !== -1){
     potentialCollisionBoundaries.top -= tolerance; 
 }
-if(object.lastDirection.indexOf("e") != -1){
+if(object.lastDirection.indexOf("e") !== -1){
     potentialCollisionBoundaries.right += tolerance; 
-}else if(object.lastDirection.indexOf("w") != -1){
+}else if(object.lastDirection.indexOf("w") !== -1){
     potentialCollisionBoundaries.left -= tolerance; 
 }
 
 var potentialInteractionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
 potentialInteractionObjects.some(function(potentialObject){
-    if(potentialObject.onInteract!=undefined){
-        potentialObject.onInteract(object);
+    if(potentialObject.onInteract!==undefined){
+        potentialObject.onInteract(object, potentialObject);
     }
 })
 

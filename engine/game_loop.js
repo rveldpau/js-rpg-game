@@ -1,44 +1,48 @@
-importScripts("configuration.js","data.js","coords.js","collision.js","robject.js","map.js","world.js","intents.js","input.js","dialog.js","ai.js","camera.js")
+importScripts("configuration.js", "data.js", "coords.js", "collision.js", "battle.js", "robject.js", "map.js", "world.js", "intents.js", "input.js", "dialog.js", "ai.js", "camera.js")
 
 console = {
-    log: function(msg){
-        postMessage({"action":"log","message":msg});
+    log: function(msg) {
+        postMessage({"action": "log", "message": msg});
     }
 }
 
-if(typeof(com)==="undefined"){
+if (typeof (com) === "undefined") {
     com = {};
 }
 
 
 
-if(typeof(com.manatee) === "undefined"){
+if (typeof (com.manatee) === "undefined") {
     com.manatee = {};
 }
 
-if(typeof(com.manatee.game) === "undefined"){
+if (typeof (com.manatee.game) === "undefined") {
     com.manatee.game = {};
 }
 
-if(typeof(com.manatee.game.loop) === "undefined"){
+if (typeof (com.manatee.game.loop) === "undefined") {
     com.manatee.game.loop = {
         totalTimeElapsed: 0,
         lastRunTime: new Date(),
         totalFrames: -1,
-        _pause:false,
-        
+        _pause: false,
         world: null,
         camera: null,
-        initialize: function(baseUrl, worldLocation, screenWidth, screenHeight){
+        initialize: function(baseUrl, worldLocation, screenWidth, screenHeight) {
+            console.realLog = console.log;
+            console.log = function(msg) {
+                //console.realLog(msg);
+                postMessage({"action": "log", "message": "backend:" + msg});
+            }
             console.log("Initialization started");
-            com.manatee.config.onConfigChange = function(property,value){
-                postMessage({"action":"config-change", "property":property, "value":value});
+            com.manatee.config.onConfigChange = function(property, value) {
+                postMessage({"action": "config-change", "property": property, "value": value});
             };
             com.manatee.config.setProperty(com.manatee.config.BASEURL, baseUrl);
-            com.manatee.config.setProperty(com.manatee.config.SCREEN_DIMENSIONS, {width:screenWidth,height:screenHeight});
-            
+            com.manatee.config.setProperty(com.manatee.config.SCREEN_DIMENSIONS, {width: screenWidth, height: screenHeight});
+
             com.manatee.intents.initialize();
-            
+
             var world = com.manatee.world.load(worldLocation);
             com.manatee.game.loop.world = world;
 
@@ -50,58 +54,80 @@ if(typeof(com.manatee.game.loop) === "undefined"){
             camera.location = world.character.location;
             console.log("Locations set")
         },
-        processInput: function(){
-            
+        processInput: function() {
+
         },
-        mainLoop: function(){
-            var loopStartTime = new Date();;
+        mainLoop: function() {
+            try {
+                var loopStartTime = new Date();
+                ;
 
-            if(com.manatee.game.loop._pause){
-                return;
+                if (com.manatee.game.loop._pause) {
+                    return;
+                }
+
+                var timeElapsed = loopStartTime - com.manatee.game.loop.lastRunTime;
+                //console.log("Time elapsed: " + timeElapsed);
+
+                if (com.manatee.battle.isInBattle()) {
+                    com.manatee.input.processInputs(timeElapsed);
+                    com.manatee.battle.process();
+                    if (!com.manatee.battle.isInBattle()) {
+                        return com.manatee.game.loop.mainLoop();
+                    }
+                    //console.log("Getting battle display" + com.manatee.battle.getCurrentBattleDisplay);
+                    postMessage({"action": "draw", "mode": "battle",
+                        "dialog": com.manatee.dialog.getCurrentDialogDisplay(),
+                        "objects": JSON.stringify(com.manatee.battle.getCurrentBattleDisplay()),
+                        "debugText": "Dialog?: " + com.manatee.dialog.isInDialog() + " FPS: " +
+                                Math.round(
+                                        com.manatee.game.loop.totalFrames /
+                                        (com.manatee.game.loop.totalTimeElapsed / 1000)
+                                        )
+                    });
+                    com.manatee.game.loop.totalTimeElapsed += timeElapsed;
+                    com.manatee.game.loop.totalFrames++;
+                } else {
+                    var objectsInView = com.manatee.game.loop.camera.inView();
+
+                    com.manatee.ai.processIntelligence(objectsInView, timeElapsed);
+
+                    com.manatee.input.processInputs(timeElapsed);
+
+                    com.manatee.intents.processAllIntents(timeElapsed);
+
+                    var cameraView = com.manatee.game.loop.camera.viewPort();
+                    postMessage({"action": "draw", "mode": "world",
+                        "dialog": com.manatee.dialog.getCurrentDialogDisplay(),
+                        "objects": JSON.stringify(objectsInView),
+                        "screenLeft": cameraView.left, "screenTop": cameraView.top,
+                        "debugText": "Dialog?: " + com.manatee.dialog.isInDialog() + " FPS: " +
+                                Math.round(
+                                        com.manatee.game.loop.totalFrames /
+                                        (com.manatee.game.loop.totalTimeElapsed / 1000)
+                                        )
+                    });
+
+                    com.manatee.game.loop.totalTimeElapsed += timeElapsed;
+                    com.manatee.game.loop.totalFrames++;
+                }
+                com.manatee.game.loop.lastRunTime = loopStartTime;
+            } catch (ex) {
+                console.log(ex.message);
+                throw ex;
             }
-
-            var timeElapsed = loopStartTime - com.manatee.game.loop.lastRunTime;
-            //console.log("Time elapsed: " + timeElapsed);
-
-            if(com.manatee.dialog.isInDialog()){
-                com.manatee.input.processInputs(timeElapsed);
-                postMessage({"action":"dialog","dialog":com.manatee.dialog.getCurrentDialogDisplay()});
-            }else{
-                var objectsInView = com.manatee.game.loop.camera.inView();
-                
-                com.manatee.ai.processIntelligence(objectsInView, timeElapsed);
-                
-                com.manatee.input.processInputs(timeElapsed);
-                
-                com.manatee.intents.processAllIntents(timeElapsed);
-
-                var cameraView = com.manatee.game.loop.camera.viewPort();
-                postMessage({"action":"draw", "objects":JSON.stringify(objectsInView),
-                    "screenLeft":cameraView.left, "screenTop": cameraView.top, 
-                    "debugText":"Dialog?: " + com.manatee.dialog.isInDialog() + " FPS: " + 
-                        Math.round(
-                            com.manatee.game.loop.totalFrames /
-                                (com.manatee.game.loop.totalTimeElapsed/1000)
-                        )
-                });
-                
-                com.manatee.game.loop.totalTimeElapsed += timeElapsed;
-                com.manatee.game.loop.totalFrames++;
-            }
-            com.manatee.game.loop.lastRunTime = loopStartTime;
-            
         }
     };
 }
 
-onmessage = function(event){
-    switch(event.data.action){
+onmessage = function(event) {
+    switch (event.data.action) {
         case "start":
             com.manatee.game.loop.initialize(event.data.baseUrl, event.data.worldLocation, event.data.screenWidth, event.data.screenHeight);
-            setTimeout(com.manatee.game.loop.mainLoop,100);
+            setTimeout(com.manatee.game.loop.mainLoop, 100);
             break;
         case "complete":
-            if(event.data.completed=="draw"||event.data.completed=="dialog"){
+            if (event.data.completed === "draw" || event.data.completed === "dialog" || event.data.completed === "battle") {
                 com.manatee.game.loop.mainLoop();
             }
             break;

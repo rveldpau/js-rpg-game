@@ -1,5 +1,5 @@
 {
-    "id": "test",
+    "id": "onett",
     "name": "Test Map",
     "spritesets": [
         "resources/spritesets/background-spriteset.json",
@@ -91,19 +91,22 @@
         "u":{"set":"characters",
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
-            "onTalk":"com.manatee.dialog.show(\"test\")",
+            "onTalk":"com.manatee.dialog.show(\"test\", this)",
             "ai":"var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 2;\n runIntent.stopTolerance = 50;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
             "boundingBox":{
                 "top":-8,
                 "left":-8,
                 "bottom":0,
                 "right":8
+            },
+            "properties":{
+                "life":"100"
             }},
         "p":{"set":"characters",
             "sprite":"ness-dead",
             "collision-detection":"com.manatee.collision.always",
             "ai":"var runIntent=new Intent(\"runaway\");\n runIntent.object = object;\n runIntent.speed = 2;\n com.manatee.intents.addIntent(runIntent)",
-            "onTalk":"com.manatee.dialog.show(\"test\")",
+            "onTalk":"com.manatee.dialog.show(\"test\", this)",
             "boundingBox":{
                 "top":-8,
                 "left":-8,

@@ -39,7 +39,7 @@
                         }]
                 }
             },
-            onSelect: function(selectedOption) {
+            onSelect: function(dialog, selectedOption) {
                 if (selectedOption == "status") {
                     com.manatee.dialog.passageId = 'status';
                 }

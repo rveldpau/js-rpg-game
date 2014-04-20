@@ -39,6 +39,8 @@ if(typeof(com.manatee.input) === "undefined"){
             
             if(com.manatee.dialog.isInDialog()){
                 com.manatee.dialog.processInputs();
+            }else if(com.manatee.battle.isInBattle()){
+                com.manatee.battle.processInputs();
             }else{
                 //console.log("Processing inputs: " + timeElapsed)
                 com.manatee.input._processFunction(com.manatee.input,com.manatee.game.loop.world,timeElapsed);

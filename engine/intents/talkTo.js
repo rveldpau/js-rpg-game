@@ -23,8 +23,8 @@ if(object.lastDirection.indexOf("e") != -1){
 var talked = false;
 var potentialInteractionObjects = world.currentMap.objectsIn(potentialCollisionBoundaries);
 potentialInteractionObjects.some(function(potentialObject){
-    if(potentialObject.onTalk!=undefined){
-        potentialObject.onTalk(object);
+    if(potentialObject.onTalk!==undefined){
+        potentialObject.onTalk(object, potentialObject);
         talked = true;
     }
 })

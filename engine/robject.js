@@ -14,8 +14,8 @@ if (typeof (com.manatee.robject) === "undefined") {
             com.manatee.dialog.prompt("You can't talk to me!");
         },
         defaultInteractAction: function() {
-            if (this.onTalk != undefined) {
-                this.onTalk();
+            if (this.onTalk !== undefined) {
+                this.onTalk(this);
             }
         }
     }

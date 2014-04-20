@@ -8,7 +8,7 @@
                     }
                 }
             },
-            onSelect: function(selectedOption) {
+            onSelect: function() {
                 com.manatee.dialog.close();
             }
         }

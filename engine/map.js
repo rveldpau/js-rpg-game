@@ -94,15 +94,21 @@ if(typeof(com.manatee.maps) === "undefined"){
                         }
                         
                         if(valueMapping.onInteract !==undefined){
-                            eval("object.onInteract = function(interactor){" + valueMapping.onInteract + "}");
+                            eval("object.onInteract = function(interactor, me){" + valueMapping.onInteract + "}");
                         }
                         
                         if(valueMapping.onTalk !==undefined){
-                            eval("object.onTalk = function(interactor){" + valueMapping.onTalk + "}");
+                            eval("object.onTalk = function(interactor, me){" + valueMapping.onTalk + "}");
                         }
                         
                         if(valueMapping.ai !==undefined){
                             eval("object.ai = function(object,timeElapsed){" + valueMapping.ai + "}");
+                        }
+                        
+                        if(valueMapping.properties !== undefined){
+                            Object.keys(valueMapping.properties).forEach(function(key){
+                                object[key] = eval(valueMapping.properties[key]);
+                            });
                         }
                         
                         map.data[layer][x][y] = object;

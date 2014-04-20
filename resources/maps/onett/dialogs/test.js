@@ -13,13 +13,17 @@
                             "id": "no",
                             "text": "No way!"
                         }, {
-                            "id": "maybe",
-                            "text": "Maybe..."
+                            "id": "fight",
+                            "text": "Sally forth!"
                         }]
                 }
             },
-            onSelect: function(selectedOption) {
-                if (selectedOption == "no") {
+            onSelect: function(dialog, selectedOption) {
+                if (selectedOption === "fight") {
+                    console.log("About to start battle...");
+                    com.manatee.battle.start([dialog.target]);
+                    com.manatee.dialog.close();
+                }else if (selectedOption === "no") {
                     com.manatee.dialog.close();
                 } else {
                     com.manatee.dialog.passageId = 'secondPassage';
@@ -33,7 +37,7 @@
                     options: []
                 }
             },
-            onSelect: function(selectedOption) {
+            onSelect: function() {
                 com.manatee.dialog.close();
             }
         }

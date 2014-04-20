@@ -41,28 +41,30 @@ if(typeof(com.manatee.dialog) === "undefined"){
             console.log("Dialog is located at " + dialogLocation)
             var dialogScript = com.manatee.data.loadText(dialogLocation);
             console.log("Executing script: " + dialogScript)
-            return eval(dialogScript)[0];
+            var dialog = eval(dialogScript)[0];
+            dialog.id = dialogName;
+            return dialog;
         },
-        show: function(dialogName){
-            
+        show: function(dialogName, target){
             var dialog = com.manatee.dialog._loadDialog(dialogName);
-            if(dialog==undefined){
+            if(dialog===undefined){
                 console.log("No dialog named " + dialogName);
             }else{
-                if(dialog.sections==undefined) {
+                if(dialog.sections===undefined) {
                     dialog.sections = {
                         "default":com.manatee.dialog._defaultSection
                     };
                 }
 
-                if(dialog.startPassage==undefined){
+                if(dialog.startPassage===undefined){
                     dialog.startPassage = Object.keys(dialog.passages)[0];
                 }
-                if(dialog.startSection==undefined){
+                if(dialog.startSection===undefined){
                     dialog.startSection = Object.keys(dialog.sections)[0];
                 }
                 com.manatee.dialog.passageId = dialog.startPassage;
                 com.manatee.dialog.sectionId = dialog.startSection;
+                dialog.target = target;
                 com.manatee.dialog.currentDialog = dialog;
             }
         },
@@ -71,7 +73,7 @@ if(typeof(com.manatee.dialog) === "undefined"){
             com.manatee.dialog.show("prompt");
         },
         close: function(){
-            if(com.manatee.dialog.currentDialog.onEnd != undefined){
+            if(com.manatee.dialog.currentDialog.onEnd !== undefined){
                 com.manatee.dialog.currentDialog.onEnd()
             }
             com.manatee.dialog.passageId = null;
@@ -83,7 +85,7 @@ if(typeof(com.manatee.dialog) === "undefined"){
             var section = com.manatee.dialog.getCurrentSection();
             var selectedOptionIndex = com.manatee.dialog.getSelectedOptionId();
             var selectedOption = undefined;
-            if(selectedOptionIndex!=null){
+            if(selectedOptionIndex!==null){
                 selectedOption = section.options[selectedOptionIndex];
             }
 
@@ -92,7 +94,9 @@ if(typeof(com.manatee.dialog) === "undefined"){
             }
             
             if(com.manatee.input.wasKeyJustPressed(13) || com.manatee.input.wasKeyJustPressed(32)){
-                com.manatee.dialog.getCurrentPassage().onSelect(selectedOption==undefined?null:selectedOption.id);
+                var optionId = selectedOption===undefined?null:selectedOption.id
+                console.log("Selected option " + optionId + " for " + dialog.id)
+                com.manatee.dialog.getCurrentPassage().onSelect(dialog, optionId);
             }
             
             if(com.manatee.input.wasKeyJustPressed(39) || com.manatee.input.wasKeyJustPressed(40)){
