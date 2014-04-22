@@ -69,7 +69,10 @@ if (typeof (com.manatee.graphics) === "undefined") {
             return com.manatee.graphics._gameScreen;
         },
         draw: function(sprite, x, y) {
-            com.manatee.graphics._buffer.drawImage(sprite.img, x + sprite.offsetX, y + sprite.offsetX);
+            if(sprite.img!==undefined&&sprite.img!==null){
+                console.log("Drawing " + sprite.id + " - img is " + sprite.img);
+                com.manatee.graphics._buffer.drawImage(sprite.img, x + sprite.offsetX, y + sprite.offsetX);
+            }
         },
         flushBuffer: function(clear) {
             com.manatee.graphics.clearCanvas(com.manatee.graphics._gameScreenCanvas);
@@ -171,7 +174,9 @@ if (typeof (com.manatee.graphics) === "undefined") {
                 if (currentFrame.img === undefined) {
                     console.log(sprite.id + " is not loaded...");
                 } else {
-                    com.manatee.graphics._buffer.drawImage(currentFrame.img, x, y);
+                    if(currentFrame.img!==undefined && currentFrame.img!==null){
+                        com.manatee.graphics._buffer.drawImage(currentFrame.img, x, y);
+                    }
                 }
             });
 

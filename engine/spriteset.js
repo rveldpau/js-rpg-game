@@ -40,6 +40,7 @@ if(typeof(com.manatee.spritesets) === "undefined"){
                     
                     com.manatee.graphics.resizePreloadBuffer(newSpriteset.img.width(),newSpriteset.img.height());
                     var preloader = com.manatee.graphics.getPreloadBufferContext();
+                    console.log("Pre-loading spriteset image");
                     preloader.drawImage(newSpriteset.img[0],0,0);
                     var imgData = null;
                     var frame = null;
