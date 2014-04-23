@@ -104,7 +104,7 @@ if (typeof (com.manatee.graphics) === "undefined") {
             battle.enemies.forEach(function(enemy) {
                 var sprite = com.manatee.spritesets.get(enemy.sprite.set).sprites[enemy.sprite.id];
                 var currentFrame = sprite.getCurrentFrame(0);
-                com.manatee.graphics._buffer.drawImage(currentFrame.img, 50, 50);
+                com.manatee.graphics._buffer.drawImage(currentFrame.img, 300, 300);
             });
 
             com.manatee.graphics._buffer.fillText(debugText, 5, 20);

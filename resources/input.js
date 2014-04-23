@@ -1,4 +1,4 @@
-var baseTravelMovement = 1;//75 * (timeElapsed/1000);
+var baseTravelMovement = 1;
 
 var moveRequired = false;
 var moveIntent = new Intent();
@@ -45,7 +45,6 @@ if(moveRequired){
     moveIntent.direction = world.character.lastDirection;
 }
 
-//world.character.sprite.id = "ness-" + motion + "-" + moveIntent.direction;
 world.character.lastDirection = moveIntent.direction;
 
 if(input.wasKeyJustPressed(32)){
