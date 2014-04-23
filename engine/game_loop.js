@@ -1,10 +1,10 @@
-importScripts("configuration.js", "data.js", "coords.js", "collision.js", "battle.js", "robject.js", "map.js", "world.js", "intents.js", "input.js", "dialog.js", "ai.js", "camera.js")
-
 console = {
     log: function(msg) {
         postMessage({"action": "log", "message": msg});
     }
 }
+
+importScripts("configuration.js", "data.js", "coords.js", "collision.js", "battle.js", "robject.js", "map.js", "world.js", "intents.js", "input.js", "dialog.js", "ai.js", "camera.js")
 
 if (typeof (com) === "undefined") {
     com = {};
