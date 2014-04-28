@@ -13,6 +13,7 @@ if (typeof (com.manatee.game) === "undefined") {
         loop: null,
         world: null,
         initialize: function(worldLocation) {
+            
             var screenWidth = 800;
             var screenHeight = 600;
             com.manatee.graphics._createScreen(screenWidth, screenHeight);
@@ -78,6 +79,9 @@ if (typeof (com.manatee.game) === "undefined") {
                 case "config-change":
                     console.log("Config updated from loop");
                     com.manatee.config.setProperty(data.property, data.value);
+                    break;
+                case "ready":
+                    $("#loading").css({'display':'none'});
                     break;
             }
             com.manatee.game.loop.postMessage({"action": "complete", "completed": data.action})

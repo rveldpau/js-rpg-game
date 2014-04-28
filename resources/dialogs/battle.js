@@ -12,6 +12,12 @@
             y: 5,
             width: 635,
             height: 150
+        },
+        "message": {
+            x: 5,
+            y: 5,
+            width: 790,
+            height: 150
         }
     },
     passages: {
@@ -40,13 +46,19 @@
                 }
             },
             onSelect: function(dialog, selectedOption) {
-                console.log("Selected " + selectedOption);
+                console.log("Selected ... " + selectedOption);
                 if(selectedOption==="run"){
                     com.manatee.battle.end();
                     com.manatee.dialog.close();
                 }else if(selectedOption==="magic"){
                     com.manatee.dialog.passageId="psiSelect";
                     com.manatee.dialog.sectionId="detail";
+                }else if(selectedOption==="attack"){
+                    console.log("Attack!!!");
+                    var damage = Math.floor(Math.random() * 11);
+                    dialog.target.life -= damage;
+                    com.manatee.battle.message = "Hit for " + damage + " points!";
+                    com.manatee.dialog.passageId="message";
                 }
             }
         },
@@ -93,33 +105,20 @@
                 com.manatee.dialog.close();
             }
         },
+        message: {
+            section: {
+                "message": {
+                    getText: function() { return "" + com.manatee.battle.message; }
+                }
+            },
+            onSelect: function(dialog, selectedOption) {
+                com.manatee.dialog.close();
+            }
+        },
         status: {
             section: {
-                "menu": {
-                    oneOptionPerLine: true,
-                    text: null,
-                    options: [{
-                            "id": "talk",
-                            "text": "Talk to"
-                        }, {
-                            "id": "check",
-                            "text": "Check"
-                        }, {
-                            "id": "goods",
-                            "text": "Goods"
-                        }, {
-                            "id": "equip",
-                            "text": "Equip"
-                        }, {
-                            "id": "status",
-                            "text": "Status",
-                            "selected": true
-                        }]
-                },
                 "status": {
-                    getText: function() {
-                        return "This is a test!\nBlah\n\nBlah\n    Test";
-                    },
+                    getText: function() { return "" + com.manatee.battle.message; },
                     preformatted: true,
                     options: []
                 }

@@ -58,6 +58,10 @@ if (typeof (com.manatee.game.loop) === "undefined") {
 
         },
         mainLoop: function() {
+            if(!com.manatee.game.ready){
+                console.log("Waiting til ready...");
+                return;
+            }
             try {
                 var loopStartTime = new Date();
                 ;
@@ -133,8 +137,18 @@ onmessage = function(event) {
             setTimeout(com.manatee.game.loop.mainLoop, 100);
             break;
         case "complete":
-            if (event.data.completed === "draw" || event.data.completed === "dialog" || event.data.completed === "battle") {
-                com.manatee.game.loop.mainLoop();
+            switch(event.data.completed){
+                case "draw":
+                case "dialog":
+                case "battle":
+                    com.manatee.game.loop.mainLoop();
+                    break;
+                case "spritesets-load":
+                    console.log("Sprite set is loaded!!!");
+                    com.manatee.game.ready = true;
+                    postMessage({"action": "ready"});
+                    com.manatee.game.loop.mainLoop();
+                    break;
             }
             break;
         case "config-change":

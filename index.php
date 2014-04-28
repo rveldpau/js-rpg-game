@@ -9,6 +9,7 @@
             body {
                 overflow:hidden;
                 text-align: center;
+                background:#000;
             }
             canvas {
                 border: 1px solid black;
@@ -19,11 +20,29 @@
                 image-rendering: optimize-contrast;
                 -ms-interpolation-mode: nearest-neighbor; 
             }
-            #game-screen{
+            #loading{
+                width:2000px;
+                height:2200px;
+                position:absolute;
+                top:0px;
+                left:0px;
+                display:block;
+                background:#000;
+                opacity:0.9;
+                z-index:100;
             }
+            #game-screen{
+    position: absolute;
+    height: 600px;
+    width: 800px;
+    background:red;
+    top:calc(50% - 600px/2);   /* 50% - height/2 */
+    left:calc(50% - 800px/2);  /* 50% - width/2 */
+}
         </style>
     </head>
     <body>
+        <div id="loading"></div>
         <script>
             $(function(){
                 com.manatee.game.initialize("resources/world.json")

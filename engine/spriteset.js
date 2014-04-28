@@ -10,6 +10,18 @@ if (typeof (com.manatee.spritesets) === "undefined") {
     com.manatee.spritesets = {
         _loadedSpritesets: {},
         _loadedSpritesetsById: {},
+        allLoaded: function(){
+            var loaded = true;
+            Object.keys(com.manatee.spritesets._loadedSpritesets).forEach(function(key){
+                if(!com.manatee.spritesets._loadedSpritesets[key].loaded){
+                    console.log("Spriteset " + key + " is still not loaded.");
+                    loaded = false;
+                }else{
+                    console.log("Spriteset " + key + " is loaded.");
+                }
+            });
+            return loaded;
+        },
         load: function(spritesetLocation) {
             var spriteset = com.manatee.spritesets._loadedSpritesets[spritesetLocation];
             if (spriteset == undefined) {
@@ -25,16 +37,12 @@ if (typeof (com.manatee.spritesets) === "undefined") {
             var newSpriteset = new Spriteset();
             newSpriteset.id = data.id;
             newSpriteset.srcLocation = spritesetLocation;
+            newSpriteset.loaded = false;
             newSpriteset.img = $("<img>")
-                    .attr(
-                            {
-                                "src": data.src,
-                                "id": data.id + "-img"
-                            }
-                    ).css("display", "none")
+                    .css("display", "none")
                     .load(
                             function() {
-
+                                console.log("Sprite set image loaded...");
                                 var flipCanvas = $("<canvas>").appendTo('body');
                                 var flipContext = null;
 
@@ -71,9 +79,22 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                                         frameContext.putImageData(imgData, 0, 0);
 
                                     }
+                                    $(frame.img).remove();
                                 })
                                 flipCanvas.remove();
-                            }).appendTo("body");
+                                
+                                newSpriteset.loaded = true;
+                                if(com.manatee.spritesets.allLoaded()){
+                                    com.manatee.game.loop.postMessage({"action":"complete","completed":"spritesets-load"});
+                                }
+                                $(this).remove();
+                            })
+                            .attr(
+                            {
+                                "src": data.src,
+                                "id": data.id + "-img"
+                            }
+                    ).appendTo("body");
 
             data.frames.forEach(function(value) {
                 var newFrame = new SpriteFrame();
@@ -101,8 +122,8 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                 })
 
                 newSpriteset.addSprite(newSprite);
-            })
-
+            });
+            
             return newSpriteset;
         },
         get: function(id) {

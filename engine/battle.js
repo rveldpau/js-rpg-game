@@ -36,6 +36,11 @@ if (typeof (com.manatee.battle) === "undefined") {
             
         },
         end: function() {
+            Object.keys(com.manatee.battle.currentBattle.enemies).forEach(
+                function(key){
+                    com.manatee.game.loop.world.currentMap.remove(com.manatee.battle.currentBattle.enemies[key]);
+                }
+            )
             com.manatee.battle.currentBattle = null;
         },
         processInputs: function() {

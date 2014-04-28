@@ -35,8 +35,8 @@ if (typeof (com.manatee.graphics) === "undefined") {
             com.manatee.graphics._gameScreenCanvas = com.manatee.graphics._createCanvas("game-screen", width, height, true);
             com.manatee.graphics._gameScreen = com.manatee.graphics._gameScreenCanvas.getContext("2d")
 
-            com.manatee.graphics._transitionToCanvas = com.manatee.graphics._createCanvas("transition-to", width, height, true);
-            com.manatee.graphics._transitionToScreen = com.manatee.graphics._transitionToCanvas.getContext("2d")
+            //com.manatee.graphics._transitionToCanvas = com.manatee.graphics._createCanvas("transition-to", width, height, true);
+            //com.manatee.graphics._transitionToScreen = com.manatee.graphics._transitionToCanvas.getContext("2d")
 
         },
         _createCanvas: function(id, width, height, display) {

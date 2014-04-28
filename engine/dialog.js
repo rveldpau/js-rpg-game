@@ -99,23 +99,26 @@ if(typeof(com.manatee.dialog) === "undefined"){
                 com.manatee.dialog.getCurrentPassage().onSelect(dialog, optionId);
             }
             
-            if(com.manatee.input.wasKeyJustPressed(39) || com.manatee.input.wasKeyJustPressed(40)){
-                selectedOption.selected = false;
-                
-                selectedOptionIndex++;
-                if(selectedOptionIndex>=section.options.length){
-                    selectedOptionIndex=0;
+            if(selectedOption!==undefined){
+                if(com.manatee.input.wasKeyJustPressed(39) || com.manatee.input.wasKeyJustPressed(40)){
+                    selectedOption.selected = false;
+                    
+                    selectedOptionIndex++;
+                    if(selectedOptionIndex>=section.options.length){
+                        selectedOptionIndex=0;
+                    }
+                    section.options[selectedOptionIndex].selected = true;
                 }
-                section.options[selectedOptionIndex].selected = true;
-            }
-            if(com.manatee.input.wasKeyJustPressed(37) || com.manatee.input.wasKeyJustPressed(38)){
-                selectedOption.selected = false;
-                
-                selectedOptionIndex--;
-                if(selectedOptionIndex<0){
-                    selectedOptionIndex=section.options.length-1;
+                if(com.manatee.input.wasKeyJustPressed(37) || com.manatee.input.wasKeyJustPressed(38)){
+                    
+                    selectedOption.selected = false;
+                    
+                    selectedOptionIndex--;
+                    if(selectedOptionIndex<0){
+                        selectedOptionIndex=section.options.length-1;
+                    }
+                    section.options[selectedOptionIndex].selected = true;
                 }
-                section.options[selectedOptionIndex].selected = true;
             }
         },
         getSelectedOptionId: function(){
@@ -164,9 +167,11 @@ if(typeof(com.manatee.dialog) === "undefined"){
                     displaySection.y = section.y;
                     displaySection.width = section.width;
                     displaySection.height = section.height;
-                    if(passageSection.getText==undefined){
+                    if(passageSection.getText===undefined){
+                        console.log("Passage Section get text is undefined..., using default, it is " + passageSection.getText);
                         passageSection.getText = com.manatee.dialog._defaultGetText;
                     }
+                    console.log("Getting section text for " + sectionId + " of " + com.manatee.dialog.passageId);
                     displaySection.text = passageSection.getText();
                     displaySection.oneOptionPerLine = passageSection.oneOptionPerLine;
                     if(passageSection.getOptions==undefined){

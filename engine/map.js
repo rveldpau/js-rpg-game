@@ -137,6 +137,15 @@ function Map() {
     this.data = [];
     this.boundaries = new Boundary();
     this.tileSize = 32;
+    this.remove=function(obj){
+        for(var zoneCol=0;zoneCol<this.zones.length;zoneCol++){
+            var currentZoneCol = this.zones[zoneCol];
+            for(var zoneRow=0;zoneRow<currentZoneCol.length;zoneRow++){
+                var currentZone = currentZoneCol[zoneRow];
+                delete currentZone.objects[obj.id];
+            }
+        }
+    }
     this.objectsIn=function(boundary){
         var objects = [];
         for(var zoneCol=0;zoneCol<this.zones.length;zoneCol++){
