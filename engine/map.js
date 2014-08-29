@@ -110,7 +110,9 @@ if(typeof(com.manatee.maps) === "undefined"){
                         
                         if(valueMapping.properties !== undefined){
                             Object.keys(valueMapping.properties).forEach(function(key){
+                                console.log("Value of " + key + ": " + valueMapping.properties[key]);
                                 object[key] = eval(valueMapping.properties[key]);
+                                console.log("Value in " + object.id + " of " + key + ": " + object[key]);
                             });
                         }
                         

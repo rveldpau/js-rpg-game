@@ -28,6 +28,9 @@ if (typeof (com.manatee.game.loop) === "undefined") {
         _pause: false,
         world: null,
         camera: null,
+        getWorld: function(){
+            return com.manatee.game.loop.world;
+        },
         initialize: function(baseUrl, worldLocation, screenWidth, screenHeight) {
             console.realLog = console.log;
             console.log = function(msg) {
@@ -123,7 +126,7 @@ if (typeof (com.manatee.game.loop) === "undefined") {
                 }
                 com.manatee.game.loop.lastRunTime = loopStartTime;
             } catch (ex) {
-                console.log(ex.message);
+                console.log(ex.stack);
                 throw ex;
             }
         }

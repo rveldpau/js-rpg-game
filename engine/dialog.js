@@ -1,198 +1,235 @@
-importScripts('input.js','data.js')
+importScripts('input.js', 'data.js', 'logger.js')
 
-if(typeof(com)==="undefined"){
+if (typeof (com) === "undefined") {
     com = {};
 }
 
-if(typeof(com.manatee) === "undefined"){
+if (typeof (com.manatee) === "undefined") {
     com.manatee = {};
 }
 
-if(typeof(com.manatee.dialog) === "undefined"){
-    com.manatee.dialog = {
-        currentDialog:null,
-        _promptMessage:null,
-        _defaultSection: {
-            x:5,
-            y:500,
-            width:790,
-            height:95,
-            id:"default"
-        },
-        _defaultGetOptions: function(){
+if (typeof (com.manatee.dialog) === "undefined") {
+    com.manatee.dialog = (function() {
+        var LOG = new Logger("dialog");
+        var dialog = {};
+
+        var _dialogs = {};
+        var currentDialog = null;
+        var currentPassageId = null;
+        var currentSectionId = "default";
+
+        var _promptMessage = null;
+
+        var _defaultSection = {
+            x: 5,
+            y: 500,
+            width: 790,
+            height: 95,
+            id: "default"
+        };
+        dialog._defaultGetOptions = function() {
             return this.options;
-        },
-        _defaultGetText: function(){
+        };
+        dialog._defaultGetText = function() {
             return this.text;
-        },
-        _dialogs:{},
-        passageId:null,
-        sectionId:"default",
-        registerDialog: function(name,dialogLocation){
-            console.log("Registering dialog '" + name + "': " + dialogLocation)
-            com.manatee.dialog._dialogs[name] = dialogLocation;
-        },
-        isInDialog: function(){
-            return com.manatee.dialog.currentDialog!=null;
-        },
-        _loadDialog: function(dialogName){
-            console.log("Locating dialog " + dialogName)
-            var dialogLocation = com.manatee.dialog._dialogs[dialogName];
-            console.log("Dialog is located at " + dialogLocation)
-            var dialogScript = com.manatee.data.loadText(dialogLocation);
-            console.log("Executing script: " + dialogScript)
-            var dialog = eval(dialogScript)[0];
-            dialog.id = dialogName;
-            return dialog;
-        },
-        show: function(dialogName, target){
-            var dialog = com.manatee.dialog._loadDialog(dialogName);
-            if(dialog===undefined){
-                console.log("No dialog named " + dialogName);
-            }else{
-                if(dialog.sections===undefined) {
+        };
+
+        dialog.registerDialog = function(name, dialogLocation) {
+            LOG.write("Registering dialog '" + name + "': " + dialogLocation)
+            _dialogs[name] = dialogLocation;
+        }
+        dialog.isInDialog = function() {
+            return currentDialog != null;
+        }
+        dialog.show = function(dialogName, target) {
+            var dialog = _loadDialog(dialogName);
+            if (dialog === undefined) {
+                LOG.write("No dialog named " + dialogName);
+            } else {
+                if (dialog.sections === undefined) {
                     dialog.sections = {
-                        "default":com.manatee.dialog._defaultSection
+                        "default": _defaultSection
                     };
                 }
 
-                if(dialog.startPassage===undefined){
+                if (dialog.startPassage === undefined) {
                     dialog.startPassage = Object.keys(dialog.passages)[0];
                 }
-                if(dialog.startSection===undefined){
+                if (dialog.startSection === undefined) {
                     dialog.startSection = Object.keys(dialog.sections)[0];
                 }
-                com.manatee.dialog.passageId = dialog.startPassage;
-                com.manatee.dialog.sectionId = dialog.startSection;
+                currentPassageId = dialog.startPassage;
+                currentSectionId = dialog.startSection;
                 dialog.target = target;
-                com.manatee.dialog.currentDialog = dialog;
+                currentDialog = dialog;
             }
-        },
-        prompt: function(promptText){
-            com.manatee.dialog._promptMessage = promptText;
-            com.manatee.dialog.show("prompt");
-        },
-        close: function(){
-            if(com.manatee.dialog.currentDialog.onEnd !== undefined){
-                com.manatee.dialog.currentDialog.onEnd()
-            }
-            com.manatee.dialog.passageId = null;
-            com.manatee.dialog.currentDialog = null;
-        },
-        processInputs: function(){
-            var dialog = com.manatee.dialog.currentDialog;
-            
-            var section = com.manatee.dialog.getCurrentSection();
-            var selectedOptionIndex = com.manatee.dialog.getSelectedOptionId();
-            var selectedOption = undefined;
-            if(selectedOptionIndex!==null){
-                selectedOption = section.options[selectedOptionIndex];
-            }
+        }
+        var _loadDialog = function(dialogName) {
+            LOG.write("Locating dialog " + dialogName)
+            var dialogLocation = _dialogs[dialogName];
+            LOG.write("Dialog is located at " + dialogLocation)
+            var dialog = com.manatee.data.loadScript(dialogLocation)[0];
+            dialog.id = dialogName;
+            return dialog;
+        }
 
-            if(com.manatee.input.wasKeyJustPressed(27) && dialog.escapable){
-                com.manatee.dialog.close();
+        dialog.showPassage = function(passageIdIn) {
+            currentPassageId = passageIdIn;
+        }
+        dialog.showSection = function(sectionIdIn) {
+            currentSectionId = sectionIdIn;
+        }
+
+        dialog.prompt = function(promptText) {
+            _promptMessage = promptText;
+            dialog.show("prompt");
+        }
+        dialog.close = function() {
+            if (currentDialog.onEnd !== undefined) {
+                currentDialog.onEnd()
             }
-            
-            if(com.manatee.input.wasKeyJustPressed(13) || com.manatee.input.wasKeyJustPressed(32)){
-                var optionId = selectedOption===undefined?null:selectedOption.id
-                console.log("Selected option " + optionId + " for " + dialog.id)
-                com.manatee.dialog.getCurrentPassage().onSelect(dialog, optionId);
+            currentPassageId = null;
+            currentDialog = null;
+        }
+
+        dialog.getCurrentSection = function() {
+            var passage = dialog.getCurrentPassage();
+            var section = passage.section[currentSectionId];
+            if (section == undefined) {
+                currentSectionId = Object.keys(passage.section)[0];
+                section = passage.section[currentSectionId];
             }
-            
-            if(selectedOption!==undefined){
-                if(com.manatee.input.wasKeyJustPressed(39) || com.manatee.input.wasKeyJustPressed(40)){
-                    selectedOption.selected = false;
-                    
-                    selectedOptionIndex++;
-                    if(selectedOptionIndex>=section.options.length){
-                        selectedOptionIndex=0;
-                    }
-                    section.options[selectedOptionIndex].selected = true;
-                }
-                if(com.manatee.input.wasKeyJustPressed(37) || com.manatee.input.wasKeyJustPressed(38)){
-                    
-                    selectedOption.selected = false;
-                    
-                    selectedOptionIndex--;
-                    if(selectedOptionIndex<0){
-                        selectedOptionIndex=section.options.length-1;
-                    }
-                    section.options[selectedOptionIndex].selected = true;
-                }
+            return section;
+        }
+        dialog.getCurrentPassage = function() {
+            var passage = currentDialog.passages[currentPassageId];
+            if (passage == undefined) {
+                currentPassageId = Object.keys(currentDialog.passages)[0];
+                passage = currentDialog.passages[currentPassageId];
             }
-        },
-        getSelectedOptionId: function(){
-            var section = com.manatee.dialog.getCurrentSection();
-            if(section.options != undefined && section.options.length!=0){
-                for(var currentOptionIndex = 0;currentOptionIndex<section.options.length;currentOptionIndex++){
-                    if(section.options[currentOptionIndex].selected){
+            return passage;
+        }
+        dialog.getSelectedOptionId = function() {
+            var section = dialog.getCurrentSection();
+            if (section.options != undefined && section.options.length != 0) {
+                for (var currentOptionIndex = 0; currentOptionIndex < section.options.length; currentOptionIndex++) {
+                    if (section.options[currentOptionIndex].selected) {
                         return currentOptionIndex;
                     }
                 }
             }
             return null;
-        },
-        getCurrentSection: function(){
-            var passage = com.manatee.dialog.getCurrentPassage();
-            var section = passage.section[com.manatee.dialog.sectionId];
-            if(section==undefined){
-                com.manatee.dialog.sectionId = Object.keys(passage.section)[0];
-                section = passage.section[com.manatee.dialog.sectionId];
+        }
+
+        dialog.getSelectedOption = function() {
+            var section = dialog.getCurrentSection();
+            if (section == undefined || section.options == undefined) {
+                return undefined;
             }
-            return section;
-        },
-        getCurrentPassage: function(){
-            var dialog = com.manatee.dialog.currentDialog;
-            var passage = dialog.passages[com.manatee.dialog.passageId];
-            if(passage==undefined){
-                com.manatee.dialog.passageId = Object.keys(dialog.passages)[0];
-                passage = dialog.passages[com.manatee.dialog.passageId];
+            return section.options[dialog.getSelectedOptionId()];
+        }
+        dialog.selectOption = function(newOptionIndex) {
+            var section = dialog.getCurrentSection();
+
+            dialog.getSelectedOption().selected = false;
+            section.options[newOptionIndex].selected = true;
+        }
+        dialog.selectNextOption = function() {
+            var section = dialog.getCurrentSection();
+            var selectedOptionIndex = dialog.getSelectedOptionId();
+
+            selectedOptionIndex++;
+            if (selectedOptionIndex >= section.options.length) {
+                selectedOptionIndex = 0;
             }
-            return passage;
-        },
-        getCurrentDialogDisplay: function(){
-            var dialog = com.manatee.dialog.currentDialog;
-            if(dialog==undefined||dialog==null){
+            dialog.selectOption(selectedOptionIndex);
+        }
+        dialog.selectPreviousOption = function() {
+            var section = dialog.getCurrentSection();
+            var selectedOptionIndex = dialog.getSelectedOptionId();
+
+            selectedOptionIndex--;
+            if (selectedOptionIndex < 0) {
+                selectedOptionIndex = section.options.length - 1;
+            }
+            dialog.selectOption(selectedOptionIndex);
+        }
+        dialog.processSelectedOption = function() {
+            var selectedOption = dialog.getSelectedOption();
+            var optionId = selectedOption === undefined ? null : selectedOption.id
+            LOG.write("Selected option " + optionId + " for " + currentDialog.id)
+            dialog.getCurrentPassage().onSelect(currentDialog, optionId);
+            LOG.write("Finished processing slected item");
+        }
+
+        dialog.processInputs = function() {
+            var selectedOption = dialog.getSelectedOption();
+
+            if (com.manatee.input.wasKeyJustPressed(27) && currentDialog.escapable) {
+                dialog.close();
+            }
+
+            if (com.manatee.input.wasKeyJustPressed(13) || com.manatee.input.wasKeyJustPressed(32)) {
+                dialog.processSelectedOption();
+            }
+
+            if (selectedOption !== undefined) {
+                if (com.manatee.input.wasKeyJustPressed(39) || com.manatee.input.wasKeyJustPressed(40)) {
+                    dialog.selectNextOption();
+                }
+                if (com.manatee.input.wasKeyJustPressed(37) || com.manatee.input.wasKeyJustPressed(38)) {
+                    dialog.selectPreviousOption();
+                }
+            }
+        }
+        dialog.getCurrentDialogDisplay = function() {
+            if (currentDialog == undefined || currentDialog == null) {
                 return null;
             }
-            var passage = com.manatee.dialog.getCurrentPassage();
+
+            LOG.write("Starting dialog display");
+
+            var passage = dialog.getCurrentPassage();
             var display = new DialogDisplay();
+
             var displaySection = null;
-            Object.keys(dialog.sections).forEach(function(sectionId){
+            Object.keys(currentDialog.sections).forEach(function(sectionId) {
                 var passageSection = passage.section[sectionId];
-                if(passageSection!=undefined){
-                    var section = dialog.sections[sectionId];
+                if (passageSection != undefined) {
+                    var section = currentDialog.sections[sectionId];
                     displaySection = new DialogDisplaySection();
                     displaySection.x = section.x;
                     displaySection.y = section.y;
                     displaySection.width = section.width;
                     displaySection.height = section.height;
-                    if(passageSection.getText===undefined){
-                        console.log("Passage Section get text is undefined..., using default, it is " + passageSection.getText);
-                        passageSection.getText = com.manatee.dialog._defaultGetText;
+                    if (passageSection.getText === undefined) {
+                        LOG.write("Passage Section get text is undefined..., using default, it is " + passageSection.getText);
+                        passageSection.getText = dialog._defaultGetText;
                     }
-                    console.log("Getting section text for " + sectionId + " of " + com.manatee.dialog.passageId);
+                    LOG.write("Getting section text for " + sectionId + " of " + dialog.passageId);
                     displaySection.text = passageSection.getText();
                     displaySection.oneOptionPerLine = passageSection.oneOptionPerLine;
-                    if(passageSection.getOptions==undefined){
-                        passageSection.getOptions = com.manatee.dialog._defaultGetOptions;
+                    if (passageSection.getOptions == undefined) {
+                        passageSection.getOptions = dialog._defaultGetOptions;
                     }
                     displaySection.options = passageSection.getOptions();
                     displaySection.preformatted = passageSection.preformatted;
                     display.sections.push(displaySection);
                 }
             });
-            
+            LOG.write("Ending dialog display");
             return display;
         }
-    }
+
+        return dialog;
+    })()
 }
 
-function DialogDisplay(){
+function DialogDisplay() {
     this.sections = [];
 }
 
-function DialogDisplaySection(){
+function DialogDisplaySection() {
     this.x = 0;
     this.y = 0;
     this.width = 0;

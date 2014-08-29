@@ -7,23 +7,27 @@ if(typeof(com.manatee) === "undefined"){
 }
 
 if(typeof(com.manatee.config) === "undefined"){
-    com.manatee.config = {
-        _props: {},
-        BASEURL: "baseUrl",
-        SCREEN_DIMENSIONS: "screenDim",
-        getProperty: function(propertyName){
-            return com.manatee.config._props[propertyName];
-        },
-        setProperty: function(propertyName, value){
-            com.manatee.config._props[propertyName] = value;
-            if(com.manatee.config.onConfigChange!=undefined){
-                com.manatee.config.onConfigChange(propertyName,value);
+    com.manatee.config = (function(){
+        var config = {};
+        var props = {};
+        
+        config.BASEURL = "baseUrl";
+        config.SCREEN_DIMENSIONS = "screenDim",
+        
+        config.getProperty = function(propertyName){
+            return props[propertyName];
+        };
+        config.setProperty = function(propertyName, value){
+            props[propertyName] = value;
+            if(config.onConfigChange!==undefined){
+                config.onConfigChange(propertyName,value);
             }
-        },
-        getAll: function(){
+        };
+        config.getAll = function(){
             return _props;
         },
-        onConfigChange: undefined
-    }
+        config.onConfigChange = undefined;
+        return config;
+    })();
 }
 

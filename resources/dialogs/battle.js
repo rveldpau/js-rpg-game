@@ -51,14 +51,21 @@
                     com.manatee.battle.end();
                     com.manatee.dialog.close();
                 }else if(selectedOption==="magic"){
-                    com.manatee.dialog.passageId="psiSelect";
-                    com.manatee.dialog.sectionId="detail";
+                    com.manatee.dialog.showPassage("psiSelect");
+                    com.manatee.dialog.showSection("detail");
                 }else if(selectedOption==="attack"){
                     console.log("Attack!!!");
+                    var targetted = dialog.target.enemies[0];
                     var damage = Math.floor(Math.random() * 11);
-                    dialog.target.life -= damage;
+                    
+                    targetted.life -= damage;
+                    console.log(JSON.stringify(targetted));
                     com.manatee.battle.message = "Hit for " + damage + " points!";
-                    com.manatee.dialog.passageId="message";
+                    com.manatee.dialog.showPassage("message");
+                    if(targetted.life<=0){
+                        com.manatee.battle.end();
+                        com.manatee.dialog.close();
+                    }
                 }
             }
         },
@@ -124,7 +131,7 @@
                 }
             },
             onSelect: function(selectedOption) {
-                com.manatee.dialog.passageId = 'menu';
+                com.manatee.dialog.showPassage('menu');
             }
         }
     }

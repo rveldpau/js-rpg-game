@@ -6,177 +6,201 @@
         "resources/spritesets/characters-spriteset.json"
     ],
     "dialogs": {
-        "prompt":"resources/maps/onett/dialogs/prompt.js",
-        "test":"resources/maps/onett/dialogs/test.js"
+        "prompt": "resources/maps/onett/dialogs/prompt.js",
+        "test": "resources/maps/onett/dialogs/test.js"
     },
-    "boundaries":{
-        "startX":"0",
-        "startY":"0"
+    "boundaries": {
+        "startX": "0",
+        "startY": "0"
     },
     "mapping": {
-        "|":{"set":"background",
-            "sprite":"path-n-2-2-l",
-            "collision-detection":"com.manatee.collision.always",
-            "onInteract":"com.manatee.dialog.prompt(\"I'm a wall that looks like a path!\")",
-            "boundingBox":{
-                "top":0,
-                "left":10,
-                "bottom":32,
-                "right":32
-            }},
-        "l":{"set":"background",
-            "sprite":"path-n-2-2-r",
-            "collision-detection":"com.manatee.collision.always",
-            "onCollision":"",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":22
-            }},
-        "/":{"set":"background",
-            "sprite":"path-ne-2-2",
-            "collision-detection":"com.manatee.collision.always",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":32
-            }},
-        "-":{"set":"background",
-            "sprite":"path-e-a",
-            "collision-detection":"com.manatee.collision.always",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":22,
-                "right":32
-            }},
-        "\\":{"set":"background",
-            "sprite":"path-nw-2-2",
-            "collision-detection":"com.manatee.collision.always",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":32
-            }},
-        "c":{"set":"background",
-            "sprite":"grass-empty",
-            "collision-detection":"com.manatee.collision.never",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":32
-            }},
-        "d":{"set":"background",
-            "sprite":"grass-sparse",
-            "collision-detection":"com.manatee.collision.never",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":32
-            }},
-        "e":{"set":"background",
-            "sprite":"grass-dense",
-            "collision-detection":"com.manatee.collision.never",
-            "boundingBox":{
-                "top":0,
-                "left":0,
-                "bottom":32,
-                "right":32
-            }},
-        "u":{"set":"characters",
-            "sprite":"ness-dead",
-            "collision-detection":"com.manatee.collision.always",
-            "onTalk":"com.manatee.dialog.show(\"test\", this)",
-            "ai":"var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 2;\n runIntent.stopTolerance = 50;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
-            "boundingBox":{
-                "top":-8,
-                "left":-8,
-                "bottom":0,
-                "right":8
+        "|": {
+            "set": "background",
+            "sprite": "path-n-2-2-l",
+            "collision-detection": "com.manatee.collision.always",
+            "onInteract": "com.manatee.dialog.prompt(\"I'm a wall that looks like a path!\")",
+            "boundingBox": {
+                "top": 0,
+                "left": 10,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "l": {
+            "set": "background",
+            "sprite": "path-n-2-2-r",
+            "collision-detection": "com.manatee.collision.always",
+            "onCollision": "",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 22
+            }
+        },
+        "/": {
+            "set": "background",
+            "sprite": "path-ne-2-2",
+            "collision-detection": "com.manatee.collision.always",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "-": {
+            "set": "background",
+            "sprite": "path-e-a",
+            "collision-detection": "com.manatee.collision.always",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 22,
+                "right": 32
+            }
+        },
+        "\\": {
+            "set": "background",
+            "sprite": "path-nw-2-2",
+            "collision-detection": "com.manatee.collision.always",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "c": {
+            "set": "background",
+            "sprite": "grass-empty",
+            "collision-detection": "com.manatee.collision.never",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "d": {
+            "set": "background",
+            "sprite": "grass-sparse",
+            "collision-detection": "com.manatee.collision.never",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "e": {
+            "set": "background",
+            "sprite": "grass-dense",
+            "collision-detection": "com.manatee.collision.never",
+            "boundingBox": {
+                "top": 0,
+                "left": 0,
+                "bottom": 32,
+                "right": 32
+            }
+        },
+        "u": {
+            "set": "characters",
+            "sprite": "ness-dead",
+            "collision-detection": "com.manatee.collision.always",
+            "onTalk": "com.manatee.dialog.show(\"test\", this)",
+            "ai": "var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 2;\n runIntent.stopTolerance = 50;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
+            "boundingBox": {
+                "top": -8,
+                "left": -8,
+                "bottom": 0,
+                "right": 8
             },
-            "properties":{
-                "life":"100"
-            }},
-        "p":{"set":"characters",
-            "sprite":"ness-dead",
-            "collision-detection":"com.manatee.collision.always",
-            "ai":"var runIntent=new Intent(\"runaway\");\n runIntent.object = object;\n runIntent.speed = 2;\n com.manatee.intents.addIntent(runIntent)",
-            "onTalk":"com.manatee.dialog.show(\"test\", this)",
-            "boundingBox":{
-                "top":-8,
-                "left":-8,
-                "bottom":0,
-                "right":8
-            }},
-        "o":{"set":"characters",
-            "sprite":"fobby-stand-s",
-            "spriteBase":"fobby",
-            "spriteDirections":4,
-            "spriteMotions":1,
-            "collision-detection":"com.manatee.collision.always",
-            "ai":"var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 0.8;\n runIntent.stopTolerance = 0;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
-            "onTalk":"com.manatee.dialog.show(\"test\", this)",
-            "onCollision":"com.manatee.battle.start([this])",
-            "boundingBox":{
-                "top":-4,
-                "left":-8,
-                "bottom":0,
-                "right":8
-            }}
+            "properties": {
+                "life": "100"
+            }
+        },
+        "p": {
+            "set": "characters",
+            "sprite": "ness-dead",
+            "collision-detection": "com.manatee.collision.always",
+            "ai": "var runIntent=new Intent(\"runaway\");\n runIntent.object = object;\n runIntent.speed = 2;\n com.manatee.intents.addIntent(runIntent)",
+            "onTalk": "com.manatee.dialog.show(\"test\", this)",
+            "boundingBox": {
+                "top": -8,
+                "left": -8,
+                "bottom": 0,
+                "right": 8
+            }
+        },
+        "o": {
+            "set": "characters",
+            "sprite": "fobby-stand-s",
+            "spriteBase": "fobby",
+            "spriteDirections": 4,
+            "spriteMotions": 1,
+            "collision-detection": "com.manatee.collision.always",
+            "ai": "var runIntent=new Intent(\"runto\");\n runIntent.object = object;\n runIntent.speed = 0.8;\n runIntent.stopTolerance = 0;\n runIntent.startTolerance = 100;\n com.manatee.intents.addIntent(runIntent)",
+            "onTalk": "com.manatee.dialog.show(\"test\", this)",
+            "onCollision": "com.manatee.battle.start([this])",
+            "boundingBox": {
+                "top": -4,
+                "left": -8,
+                "bottom": 0,
+                "right": 8
+            },
+            "properties": {
+                "life": 20
+            }
+        }
     },
     "map": [[
-        "cedcdcedcdcedcdcedcdcddcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
-        "ccdecedcdcedcdcedcdcdcdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
-        "cdecedcdcedcdcedcdecccecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddc",
-        "decedcdcedcdcedcdeccdeeedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdecc",
-        "ecedcdcedcdcedcdcecdcdccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcccd",
-        "ecedcdcedcdcedcdcecdcdccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcccd",
-        "ccdecedcdcedcdcedcdccddecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
-        "cdecedcdcedcdcedcdeeeeecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddd",
-        "cedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
-        "ccdecedcdcedcdcedcdcecdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
-        "cdecedcdcedcdcedcdecececedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdde",
-        "decedcdcedcdcedcddeceededcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdeec",
-        "ecedcdcedcdcedcdcecddeccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdedcd",
-        "cedcdcedcdcedcdcedcceceddcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
-        "ccdecedcdcedcdcedcdccedceedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
-        "cedcdcedcdedceecedccedecdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
-        "ccdecedcdcedcdcedcdececccedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
-        "cdecedcdcedcdcedcdedcedcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcedc",
-        "decedcdcedcdcedcdedcecdcdcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddec",
-        "ecedcdcedcdcedcddecdedcddecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdedcd",
-        "cedcdcedcdcedcdcedcdcecddcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
-        "ccdecedcdcedcdcedcdccecdeedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc"
-    ],[
-        "                                                                      ",
-        "                                                                      ",
-        "                                                                      ",
-        "                                                                      ",
-        "                                                                      ",
-        "--------------------\\/------------------------------------------------",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "        o   p       |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "      u             |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                ",
-        "                    |l                                                "
-    ]],
+            "cedcdcedcdcedcdcedcdcddcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
+            "ccdecedcdcedcdcedcdcdcdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
+            "cdecedcdcedcdcedcdecccecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddc",
+            "decedcdcedcdcedcdeccdeeedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdecc",
+            "ecedcdcedcdcedcdcecdcdccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcccd",
+            "ecedcdcedcdcedcdcecdcdccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcccd",
+            "ccdecedcdcedcdcedcdccddecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
+            "cdecedcdcedcdcedcdeeeeecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddd",
+            "cedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
+            "ccdecedcdcedcdcedcdcecdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
+            "cdecedcdcedcdcedcdecececedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdde",
+            "decedcdcedcdcedcddeceededcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdeec",
+            "ecedcdcedcdcedcdcecddeccdecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdedcd",
+            "cedcdcedcdcedcdcedcceceddcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
+            "ccdecedcdcedcdcedcdccedceedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
+            "cedcdcedcdedceecedccedecdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
+            "ccdecedcdcedcdcedcdececccedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc",
+            "cdecedcdcedcdcedcdedcedcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcedc",
+            "decedcdcedcdcedcdedcecdcdcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcddec",
+            "ecedcdcedcdcedcddecdedcddecedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdedcd",
+            "cedcdcedcdcedcdcedcdcecddcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcd",
+            "ccdecedcdcedcdcedcdccecdeedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdcedcdc"
+        ], [
+            "                                                                      ",
+            "                                                                      ",
+            "                                                                      ",
+            "                                                                      ",
+            "                                                                      ",
+            "--------------------\\/------------------------------------------------",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "        o   p       |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "      u             |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                ",
+            "                    |l                                                "
+        ]],
     "objects": [
-        
     ]
 }

@@ -9,47 +9,48 @@ if (typeof (com.manatee) === "undefined") {
 }
 
 if (typeof (com.manatee.battle) === "undefined") {
-    com.manatee.battle = {
-        currentBattle: null,
-        isInBattle: function() {
-            return com.manatee.battle.currentBattle !== null;
-        },
-        start: function(enemies) {
+    com.manatee.battle = (function() {
+        var battle = {};
+        var currentBattle = null;
+        battle.isInBattle = function() {
+            return currentBattle !== null;
+        }
+        battle.start = function(enemies) {
             console.log("Staring battle against " + enemies.length + " enemies");
-            enemies.forEach(function(enemy){
+            enemies.forEach(function(enemy) {
                 console.log("\tID:    " + enemy.id);
                 console.log("\tLife: " + enemy.life);
                 console.log("----------------------")
             })
             console.log("Enemy ID");
-            com.manatee.battle.currentBattle = {
-                "enemies":enemies
+            currentBattle = {
+                "enemies": enemies
             };
-            
-            
-        },
-        process: function(){
-            if(!com.manatee.dialog.isInDialog() && com.manatee.battle.isInBattle()){
-                com.manatee.dialog.show("battle",com.manatee.battle.currentBattle);
+        };
+        battle.process = function() {
+            if (!com.manatee.dialog.isInDialog() && battle.isInBattle()) {
+                com.manatee.dialog.show("battle", currentBattle);
             }
-            
-            
-        },
-        end: function() {
-            Object.keys(com.manatee.battle.currentBattle.enemies).forEach(
-                function(key){
-                    com.manatee.game.loop.world.currentMap.remove(com.manatee.battle.currentBattle.enemies[key]);
-                }
-            )
-            com.manatee.battle.currentBattle = null;
-        },
-        processInputs: function() {
-        },
-        getCurrentBattleDisplay: function() {
-            return com.manatee.battle.currentBattle;
+
+
         }
-    }
-    console.log("Loaded Battle system")
+        battle.end = function() {
+            Object.keys(currentBattle.enemies).forEach(
+                    function(key) {
+                        com.manatee.game.loop.world.currentMap.remove(currentBattle.enemies[key]);
+                    }
+            )
+            currentBattle = null;
+        }
+        battle.processInputs = function() {
+        }
+        battle.getCurrentBattleDisplay = function() {
+            return currentBattle;
+        }
+        console.log("Loaded Battle system")
+        return battle;
+    })()
+
 }
 
 function Battle() {

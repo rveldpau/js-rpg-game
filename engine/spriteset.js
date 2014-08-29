@@ -85,7 +85,7 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                                 
                                 newSpriteset.loaded = true;
                                 if(com.manatee.spritesets.allLoaded()){
-                                    com.manatee.game.loop.postMessage({"action":"complete","completed":"spritesets-load"});
+                                    com.manatee.game.postMessage({"action":"complete","completed":"spritesets-load"});
                                 }
                                 $(this).remove();
                             })

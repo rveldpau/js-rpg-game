@@ -9,33 +9,36 @@ if(typeof(com.manatee) === "undefined"){
 }
 
 if(typeof(com.manatee.input) === "undefined"){
-    com.manatee.input = {
-        _pressedKeys: {},
-        _freshKeys: {},
-        _processFunction: function(input, world, timeElapsed){},
-        load: function(inputScriptLocation){
+    com.manatee.input = (function(){
+        var input = {};
+        var _pressedKeys = {};
+        var _freshKeys = {};
+        var _processFunction = function(input, world, timeElapsed){};
+        input.load = function(inputScriptLocation){
+            console.log("Loading input script");
             var scriptText = com.manatee.data.loadText(inputScriptLocation);
-            var functionText = "com.manatee.input._processFunction = function(input, world, timeElapsed){\n"+scriptText+"\n}";
+            var functionText = "(function(){var inputScript = function(input, world, timeElapsed){\n"+scriptText+"\n}; return inputScript;})()";
             console.log("Input function: " + functionText);
-            eval(functionText);
-        },
-        keyup: function(keycode){
-            com.manatee.input._pressedKeys[keycode] = false;
-        },
-        keydown: function(keycode){
-            if(!com.manatee.input.isKeyPressed(keycode)){
-                com.manatee.input._freshKeys[keycode] = true;
+            _processFunction = eval(functionText);
+            console.log(_processFunction);
+        }
+        input.keyup = function(keycode){
+            _pressedKeys[keycode] = false;
+        }
+        input.keydown = function(keycode){
+            if(!input.isKeyPressed(keycode)){
+                _freshKeys[keycode] = true;
             }
-            com.manatee.input._pressedKeys[keycode] = true;
+            _pressedKeys[keycode] = true;
             
+        }
+        input.isKeyPressed = function(keycode){
+            return _pressedKeys[keycode] == true;
+        }
+        input.wasKeyJustPressed = function(keycode){
+            return _freshKeys[keycode] == true;
         },
-        isKeyPressed: function(keycode){
-            return com.manatee.input._pressedKeys[keycode] == true;
-        },
-        wasKeyJustPressed: function(keycode){
-            return com.manatee.input._freshKeys[keycode] == true;
-        },
-        processInputs: function(timeElapsed){
+        input.processInputs = function(timeElapsed){
             
             if(com.manatee.dialog.isInDialog()){
                 com.manatee.dialog.processInputs();
@@ -43,10 +46,11 @@ if(typeof(com.manatee.input) === "undefined"){
                 com.manatee.battle.processInputs();
             }else{
                 //console.log("Processing inputs: " + timeElapsed)
-                com.manatee.input._processFunction(com.manatee.input,com.manatee.game.loop.world,timeElapsed);
+                _processFunction(input,com.manatee.game.loop.getWorld(),timeElapsed);
             }
-            com.manatee.input._freshKeys = {};
+            _freshKeys = {};
         }
-    }
+        return input;
+    })();
 }
 

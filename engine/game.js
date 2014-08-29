@@ -9,48 +9,55 @@ if (typeof (com.manatee) === "undefined") {
 }
 
 if (typeof (com.manatee.game) === "undefined") {
-    com.manatee.game = {
-        loop: null,
-        world: null,
-        initialize: function(worldLocation) {
-            
+    com.manatee.game = (function() {
+        var game = {};
+        game.loop = null;
+        
+        game.getWorld = function(){
+            return loop.getWorld();
+        }
+        game.initialize = function(worldLocation) {
+
             var screenWidth = 800;
             var screenHeight = 600;
-            com.manatee.graphics._createScreen(screenWidth, screenHeight);
+            com.manatee.graphics.createScreen(screenWidth, screenHeight);
 
-            com.manatee.game.loop = new Worker(com.manatee._engineBase + "game_loop.js");
-            com.manatee.game.loop.onmessage = com.manatee.game._handleLoopMessage;
+            game.loop = new Worker(com.manatee._engineBase + "game_loop.js");
+            game.loop.onmessage = _handleLoopMessage;
 
             $('body').keydown(function(ev) {
-                com.manatee.game.loop.postMessage({"action": "keydown", "keycode": ev.keyCode})
+                game.loop.postMessage({"action": "keydown", "keycode": ev.keyCode})
                 return false;
             });
             $('body').keyup(function(ev) {
-                com.manatee.game.loop.postMessage({"action": "keyup", "keycode": ev.keyCode})
+                game.loop.postMessage({"action": "keyup", "keycode": ev.keyCode})
                 return false;
             });
 
             $(window).focus(function() {
-                com.manatee.game.loop.postMessage({"action": "resume"})
+                game.loop.postMessage({"action": "resume"})
                 document.title = document.title.replace(" - Paused", "")
             })
 
             $(window).blur(function() {
-                com.manatee.game.loop.postMessage({"action": "pause"})
+                game.loop.postMessage({"action": "pause"})
                 if (document.title.indexOf("Paused") == -1) {
                     document.title = document.title + " - Paused"
                 }
             })
 
-            com.manatee.game.loop.postMessage({"action": "start",
+            game.loop.postMessage({"action": "start",
                 "baseUrl": document.location.href,
                 "worldLocation": worldLocation,
                 "screenHeight": screenHeight,
                 "screenWidth": screenWidth})
 
             console.log("Initialized")
-        },
-        _handleLoopMessage: function(event) {
+        };
+        game.postMessage = function(msgProperties){
+            game.loop.postMessage(msgProperties);
+        }
+        var _handleLoopMessage = function(event) {
             var data = event.data;
             switch (data.action) {
                 case "log":
@@ -81,12 +88,12 @@ if (typeof (com.manatee.game) === "undefined") {
                     com.manatee.config.setProperty(data.property, data.value);
                     break;
                 case "ready":
-                    $("#loading").css({'display':'none'});
+                    $("#loading").css({'display': 'none'});
                     break;
             }
-            com.manatee.game.loop.postMessage({"action": "complete", "completed": data.action})
-
-
+            game.loop.postMessage({"action": "complete", "completed": data.action})
         }
-    }
+        
+        return game;
+    })()
 }

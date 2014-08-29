@@ -7,8 +7,9 @@ if(typeof(com.manatee) === "undefined"){
 }
 
 if(typeof(com.manatee.ai) === "undefined"){
-    com.manatee.ai = {
-        processIntelligence: function(objects, timeElapsed){
+    com.manatee.ai = (function(){
+        var ai = {}
+        ai.processIntelligence = function(objects, timeElapsed){
             objects.forEach(function(object){
                 if(object.ai != undefined){
                     object.ai(object,timeElapsed); 
@@ -16,6 +17,7 @@ if(typeof(com.manatee.ai) === "undefined"){
             })
             
         }
-    }
+        return ai;
+    })();
 }
 
