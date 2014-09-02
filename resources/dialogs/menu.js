@@ -46,13 +46,13 @@
                 else if (selectedOption == "talk") {
                     var talkIntent = new Intent();
                     talkIntent.intentId = "talk";
-                    talkIntent.object = com.manatee.game.loop.world.character;
+                    talkIntent.object = com.manatee.game.loop.getWorld().character;
                     com.manatee.intents.addIntent(talkIntent);
                     com.manatee.dialog.close();
                 } else if (selectedOption == "check") {
                     var interactIntent = new Intent();
                     interactIntent.intentId = "interact";
-                    interactIntent.object = com.manatee.game.loop.world.character;
+                    interactIntent.object = com.manatee.game.loop.getWorld().character;
                     com.manatee.intents.addIntent(interactIntent);
                     com.manatee.dialog.close();
                 } else {
