@@ -1,4 +1,4 @@
-importScripts('sprite.js')
+importScripts('logger.js', 'sprite.js')
 if (typeof (com) === "undefined") {
     com = {};
 }
@@ -8,6 +8,7 @@ if (typeof (com.manatee) === "undefined") {
 }
 if (typeof (com.manatee.spritesets) === "undefined") {
     com.manatee.spritesets = (function(){
+        var LOG = new Logger("spritesets");
         var spritesets = {};
         var _loadedSpritesets = {};
         var _loadedSpritesetsById = {};
@@ -15,10 +16,10 @@ if (typeof (com.manatee.spritesets) === "undefined") {
             var loaded = true;
             Object.keys(_loadedSpritesets).forEach(function(key){
                 if(!_loadedSpritesets[key].loaded){
-                    console.log("Spriteset " + key + " is still not loaded.");
+                    LOG.write("Spriteset " + key + " is still not loaded.");
                     loaded = false;
                 }else{
-                    console.log("Spriteset " + key + " is loaded.");
+                    LOG.write("Spriteset " + key + " is loaded.");
                 }
             });
             return loaded;
@@ -26,7 +27,7 @@ if (typeof (com.manatee.spritesets) === "undefined") {
         spritesets.load = function(spritesetLocation) {
             var spriteset = _loadedSpritesets[spritesetLocation];
             if (spriteset == undefined) {
-                console.log("Loading spriteset " + spritesetLocation)
+                LOG.write("Loading spriteset " + spritesetLocation)
                 var data = com.manatee.data.load(spritesetLocation);
                 spriteset = _handleLoadedData(data);
                 _loadedSpritesets[spritesetLocation] = spriteset;
@@ -43,13 +44,13 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                     .css("display", "none")
                     .load(
                             function() {
-                                console.log("Sprite set image loaded...");
+                                LOG.write("Sprite set image loaded...");
                                 var flipCanvas = $("<canvas>").appendTo('body');
                                 var flipContext = null;
 
                                 com.manatee.graphics.resizePreloadBuffer(newSpriteset.img.width(), newSpriteset.img.height());
                                 var preloader = com.manatee.graphics.getPreloadBufferContext();
-                    console.log("Pre-loading spriteset image");
+                    LOG.write("Pre-loading spriteset image");
                     preloader.drawImage(newSpriteset.img[0],0,0);
                                 var imgData = null;
                                 var frame = null;

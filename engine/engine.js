@@ -50,9 +50,6 @@ if (!importScripts) {
                         xhr.send(null);
                         data = xhr.responseText;
                         importedScripts.push(args[i]);
-                    }else{
-                        console.log("Already loaded " + args[i]);
-                        console.log($.inArray(args[i],importedScripts));
                     }
                 }
                 globalEval(data);

@@ -1,4 +1,4 @@
-importScripts("configuration.js", "world.js", "graphics.js", "spriteset.js", "battle.js", "effects.js", "fx/wave.js")
+importScripts("logger.js", "configuration.js", "world.js", "graphics.js", "spriteset.js", "battle.js", "effects.js", "fx/wave.js")
 
 if (typeof (com) === "undefined") {
     com = {};
@@ -10,10 +10,11 @@ if (typeof (com.manatee) === "undefined") {
 
 if (typeof (com.manatee.game) === "undefined") {
     com.manatee.game = (function() {
+        var LOG = new Logger("game-ui");
         var game = {};
         game.loop = null;
-        
-        game.getWorld = function(){
+
+        game.getWorld = function() {
             return loop.getWorld();
         }
         game.initialize = function(worldLocation) {
@@ -52,16 +53,16 @@ if (typeof (com.manatee.game) === "undefined") {
                 "screenHeight": screenHeight,
                 "screenWidth": screenWidth})
 
-            console.log("Initialized")
+            LOG.write("Initialized")
         };
-        game.postMessage = function(msgProperties){
+        game.postMessage = function(msgProperties) {
             game.loop.postMessage(msgProperties);
         }
         var _handleLoopMessage = function(event) {
             var data = event.data;
             switch (data.action) {
                 case "log":
-                    console.log(data.message);
+                    console.log("backend: " + data.message);
                     break;
                 case "load":
                     if (data.type === "spriteset") {
@@ -84,16 +85,23 @@ if (typeof (com.manatee.game) === "undefined") {
                     //com.manatee.graphics.showDialog(data.dialog);
                     break;
                 case "config-change":
-                    console.log("Config updated from loop");
+                    LOG.write("Config updated from loop");
                     com.manatee.config.setProperty(data.property, data.value);
                     break;
                 case "ready":
                     $("#loading").css({'display': 'none'});
                     break;
+                case "logging":
+                    if (event.data.toAdd) {
+                        com.manatee.logging.enable(event.data.name);
+                    } else {
+                        com.manatee.logging.disable(event.data.name);
+                    }
+                    break;
             }
             game.loop.postMessage({"action": "complete", "completed": data.action})
         }
-        
+
         return game;
     })()
 }

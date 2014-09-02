@@ -1,4 +1,4 @@
-importScripts('data.js', 'input.js', 'map.js', 'robject.js')
+importScripts('logger.js', 'data.js', 'input.js', 'map.js', 'robject.js')
 
 if (typeof (com) === "undefined") {
     com = {};
@@ -10,6 +10,7 @@ if (typeof (com.manatee) === "undefined") {
 
 if (typeof (com.manatee.world) === "undefined") {
     com.manatee.world = (function(){
+        var LOG = new Logger("world");
         var world = {};
         world.load = function(worldLocation) {
             var newWorld = null;
@@ -24,7 +25,7 @@ if (typeof (com.manatee.world) === "undefined") {
             newWorld.id = data.id;
             newWorld.name = data.name;
 
-            console.log("Loading spritesets...")
+            LOG.write("Loading spritesets...")
             data.spritesets.forEach(function(spritesetLocation) {
                 postMessage({
                     "action": "load",
@@ -33,14 +34,14 @@ if (typeof (com.manatee.world) === "undefined") {
                 })
             });
 
-            console.log("Registering common dialogs...")
+            LOG.write("Registering common dialogs...")
             for(var dialogName in data.dialogs){
                 com.manatee.dialog.registerDialog(dialogName, data.dialogs[dialogName])    
             }
 
             com.manatee.input.load(data.inputScript);
 
-            console.log("Loading maps...")
+            LOG.write("Loading maps...")
             data.maps.forEach(function(mapLocation) {
                 var map = com.manatee.maps.load(mapLocation);
                 newWorld.maps[map.id] = map;
@@ -50,7 +51,7 @@ if (typeof (com.manatee.world) === "undefined") {
             newWorld.start = data.start;
 
 
-            console.log("Creating character")
+            LOG.write("Creating character")
             newWorld.character = new Robject();
             newWorld.character.location.x = newWorld.start.location.x;
             newWorld.character.location.y = newWorld.start.location.y;

@@ -46,7 +46,6 @@
                 }
             },
             onSelect: function(dialog, selectedOption) {
-                console.log("Selected ... " + selectedOption);
                 if(selectedOption==="run"){
                     com.manatee.battle.end();
                     com.manatee.dialog.close();
@@ -54,12 +53,10 @@
                     com.manatee.dialog.showPassage("psiSelect");
                     com.manatee.dialog.showSection("detail");
                 }else if(selectedOption==="attack"){
-                    console.log("Attack!!!");
                     var targetted = dialog.target.enemies[0];
                     var damage = Math.floor(Math.random() * 11);
                     
                     targetted.life -= damage;
-                    console.log(JSON.stringify(targetted));
                     com.manatee.battle.message = "Hit for " + damage + " points!";
                     com.manatee.dialog.showPassage("message");
                     if(targetted.life<=0){

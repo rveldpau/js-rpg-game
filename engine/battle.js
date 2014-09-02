@@ -1,4 +1,4 @@
-importScripts('input.js')
+importScripts('input.js','logger.js')
 
 if (typeof (com) === "undefined") {
     com = {};
@@ -10,19 +10,20 @@ if (typeof (com.manatee) === "undefined") {
 
 if (typeof (com.manatee.battle) === "undefined") {
     com.manatee.battle = (function() {
+        var LOG = new Logger("battle");
         var battle = {};
         var currentBattle = null;
         battle.isInBattle = function() {
             return currentBattle !== null;
         }
         battle.start = function(enemies) {
-            console.log("Staring battle against " + enemies.length + " enemies");
+            LOG.write("Staring battle against " + enemies.length + " enemies");
             enemies.forEach(function(enemy) {
-                console.log("\tID:    " + enemy.id);
-                console.log("\tLife: " + enemy.life);
-                console.log("----------------------")
+                LOG.write("\tID:    " + enemy.id);
+                LOG.write("\tLife: " + enemy.life);
+                LOG.write("----------------------")
             })
-            console.log("Enemy ID");
+            LOG.write("Enemy ID");
             currentBattle = {
                 "enemies": enemies
             };
@@ -47,7 +48,7 @@ if (typeof (com.manatee.battle) === "undefined") {
         battle.getCurrentBattleDisplay = function() {
             return currentBattle;
         }
-        console.log("Loaded Battle system")
+        LOG.write("Loaded Battle system")
         return battle;
     })()
 

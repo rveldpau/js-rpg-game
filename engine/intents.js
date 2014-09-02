@@ -10,6 +10,7 @@ if (typeof (com.manatee) === "undefined") {
 
 if (typeof (com.manatee.intents) === "undefined") {
     com.manatee.intents = (function() {
+        var LOG = new Logger("intents");
         var intents = {};
         var _intentProcessors = {};
         var _currentIntents = [];
@@ -33,7 +34,7 @@ if (typeof (com.manatee.intents) === "undefined") {
             return _intentProcessors[id];
         }
         intents.processIntent = function(intent, world, timeElapsed) {
-            //console.log("Processing Intent: " + JSON.stringify(intent) + " for " + JSON.stringify(object))
+            LOG.write("Processing Intent: " + JSON.stringify(intent));
             var intentProcessor = _intentProcessors[intent.intentId];
             intentProcessor(intent, world, timeElapsed);
         }

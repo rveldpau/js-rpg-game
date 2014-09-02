@@ -81,7 +81,7 @@ if (typeof (com.manatee.dialog) === "undefined") {
         }
 
         dialog.prompt = function(promptText) {
-            _promptMessage = promptText;
+            dialog._promptMessage = promptText;
             dialog.show("prompt");
         }
         dialog.close = function() {
@@ -206,7 +206,7 @@ if (typeof (com.manatee.dialog) === "undefined") {
                         LOG.write("Passage Section get text is undefined..., using default, it is " + passageSection.getText);
                         passageSection.getText = dialog._defaultGetText;
                     }
-                    LOG.write("Getting section text for " + sectionId + " of " + dialog.passageId);
+                    LOG.write("Getting section text for " + sectionId + " of " + currentPassageId);
                     displaySection.text = passageSection.getText();
                     displaySection.oneOptionPerLine = passageSection.oneOptionPerLine;
                     if (passageSection.getOptions == undefined) {

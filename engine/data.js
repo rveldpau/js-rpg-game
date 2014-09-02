@@ -1,4 +1,4 @@
-importScripts('configuration.js')
+importScripts('logger.js','configuration.js')
 
 if(typeof(com)==="undefined"){
     com = {};
@@ -10,6 +10,7 @@ if(typeof(com.manatee) === "undefined"){
 
 if(typeof(com.manatee.data) === "undefined"){
     com.manatee.data = (function(){
+        var LOG = new Logger("data");
         var data = {};
         var xmlhttp = new XMLHttpRequest();
         
@@ -25,14 +26,14 @@ if(typeof(com.manatee.data) === "undefined"){
                 url += "/";
             }
             url += dataLocation;
-            console.log("Loading... " + url)
+            LOG.write("Loading... " + url)
             xmlhttp.open("GET",url,false);
             xmlhttp.send();
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
                 return xmlhttp.responseText;
             }else{
-                console.log("Failed to get")
+                LOG.write("Failed to get")
                 throw {
                     "message": "Failed to get " + url,
                     "status": xmlhttp.status,

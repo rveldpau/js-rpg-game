@@ -8,10 +8,11 @@ if(typeof(com.manatee) === "undefined"){
 }
 if(typeof(com.manatee.maps) === "undefined"){
     com.manatee.maps = (function(){
+        var LOG = new Logger("maps");
         var maps = {}
         maps.load = function(mapLocation){
             var map = null;
-            console.log("Loading map " + mapLocation)
+            LOG.write("Loading map " + mapLocation)
             var data = com.manatee.data.load(mapLocation);
             map = _handleLoadedData(data);
             return map;
@@ -36,7 +37,7 @@ if(typeof(com.manatee.maps) === "undefined"){
                 })
             })
             
-            console.log("Registering dialogs for map '" + map.name + "'...")
+            LOG.write("Registering dialogs for map '" + map.name + "'...")
             for(var dialogName in data.dialogs){
                 com.manatee.dialog.registerDialog(dialogName, data.dialogs[dialogName])    
             }
@@ -111,9 +112,9 @@ if(typeof(com.manatee.maps) === "undefined"){
                         
                         if(valueMapping.properties !== undefined){
                             Object.keys(valueMapping.properties).forEach(function(key){
-                                console.log("Value of " + key + ": " + valueMapping.properties[key]);
+                                LOG.write("Value of " + key + ": " + valueMapping.properties[key]);
                                 object[key] = eval(valueMapping.properties[key]);
-                                console.log("Value in " + object.id + " of " + key + ": " + object[key]);
+                                LOG.write("Value in " + object.id + " of " + key + ": " + object[key]);
                             });
                         }
                         

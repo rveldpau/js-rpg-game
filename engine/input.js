@@ -10,17 +10,17 @@ if(typeof(com.manatee) === "undefined"){
 
 if(typeof(com.manatee.input) === "undefined"){
     com.manatee.input = (function(){
+        var LOG = new Logger("input");
         var input = {};
         var _pressedKeys = {};
         var _freshKeys = {};
         var _processFunction = function(input, world, timeElapsed){};
         input.load = function(inputScriptLocation){
-            console.log("Loading input script");
+            LOG.write("Loading input script");
             var scriptText = com.manatee.data.loadText(inputScriptLocation);
             var functionText = "(function(){var inputScript = function(input, world, timeElapsed){\n"+scriptText+"\n}; return inputScript;})()";
-            console.log("Input function: " + functionText);
+            LOG.write("Input function: " + functionText);
             _processFunction = eval(functionText);
-            console.log(_processFunction);
         }
         input.keyup = function(keycode){
             _pressedKeys[keycode] = false;
@@ -45,7 +45,7 @@ if(typeof(com.manatee.input) === "undefined"){
             }else if(com.manatee.battle.isInBattle()){
                 com.manatee.battle.processInputs();
             }else{
-                //console.log("Processing inputs: " + timeElapsed)
+                //LOG.write("Processing inputs: " + timeElapsed)
                 _processFunction(input,world,timeElapsed);
             }
             _freshKeys = {};
