@@ -9,19 +9,20 @@ if (typeof (com.manatee) === "undefined") {
 }
 
 if (typeof (com.manatee.world) === "undefined") {
-    com.manatee.world = {
-        load: function(worldLocation) {
-            var world = null;
+    com.manatee.world = (function(){
+        var world = {};
+        world.load = function(worldLocation) {
+            var newWorld = null;
             var data = com.manatee.data.load(worldLocation);
-            world = com.manatee.world._handleLoadedData(data);
+            newWorld = _handleLoadedData(data);
 
-            return world;
+            return newWorld;
 
-        },
-        _handleLoadedData: function(data) {
-            var world = new World();
-            world.id = data.id;
-            world.name = data.name;
+        }
+        var _handleLoadedData = function(data) {
+            var newWorld = new World();
+            newWorld.id = data.id;
+            newWorld.name = data.name;
 
             console.log("Loading spritesets...")
             data.spritesets.forEach(function(spritesetLocation) {
@@ -42,28 +43,29 @@ if (typeof (com.manatee.world) === "undefined") {
             console.log("Loading maps...")
             data.maps.forEach(function(mapLocation) {
                 var map = com.manatee.maps.load(mapLocation);
-                world.maps[map.id] = map;
+                newWorld.maps[map.id] = map;
             })
 
-            world.currentMap = world.maps[data.start.map];
-            world.start = data.start;
+            newWorld.currentMap = newWorld.maps[data.start.map];
+            newWorld.start = data.start;
 
 
             console.log("Creating character")
-            world.character = new Robject();
-            world.character.location.x = world.start.location.x;
-            world.character.location.y = world.start.location.y;
-            world.character.location.layer = world.start.location.layer;
-            world.character.lastDirection = world.start.direction;
-            world.character.sprite = data.character.sprite;
-            world.character.boundingBox.top = data.character.boundingBox.top;
-            world.character.boundingBox.left = data.character.boundingBox.left;
-            world.character.boundingBox.bottom = data.character.boundingBox.bottom;
-            world.character.boundingBox.right = data.character.boundingBox.right;
+            newWorld.character = new Robject();
+            newWorld.character.location.x = newWorld.start.location.x;
+            newWorld.character.location.y = newWorld.start.location.y;
+            newWorld.character.location.layer = newWorld.start.location.layer;
+            newWorld.character.lastDirection = newWorld.start.direction;
+            newWorld.character.sprite = data.character.sprite;
+            newWorld.character.boundingBox.top = data.character.boundingBox.top;
+            newWorld.character.boundingBox.left = data.character.boundingBox.left;
+            newWorld.character.boundingBox.bottom = data.character.boundingBox.bottom;
+            newWorld.character.boundingBox.right = data.character.boundingBox.right;
 
-            return world;
+            return newWorld;
         }
-    }
+        return world;
+    })()
 }
 
 function World() {

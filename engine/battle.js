@@ -37,7 +37,7 @@ if (typeof (com.manatee.battle) === "undefined") {
         battle.end = function() {
             Object.keys(currentBattle.enemies).forEach(
                     function(key) {
-                        com.manatee.game.loop.world.currentMap.remove(currentBattle.enemies[key]);
+                        com.manatee.game.loop.getWorld().currentMap.remove(currentBattle.enemies[key]);
                     }
             )
             currentBattle = null;

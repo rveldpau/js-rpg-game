@@ -7,13 +7,14 @@ if (typeof (com.manatee) === "undefined") {
     com.manatee = {};
 }
 if (typeof (com.manatee.spritesets) === "undefined") {
-    com.manatee.spritesets = {
-        _loadedSpritesets: {},
-        _loadedSpritesetsById: {},
-        allLoaded: function(){
+    com.manatee.spritesets = (function(){
+        var spritesets = {};
+        var _loadedSpritesets = {};
+        var _loadedSpritesetsById = {};
+        spritesets.allLoaded = function(){
             var loaded = true;
-            Object.keys(com.manatee.spritesets._loadedSpritesets).forEach(function(key){
-                if(!com.manatee.spritesets._loadedSpritesets[key].loaded){
+            Object.keys(_loadedSpritesets).forEach(function(key){
+                if(!_loadedSpritesets[key].loaded){
                     console.log("Spriteset " + key + " is still not loaded.");
                     loaded = false;
                 }else{
@@ -21,19 +22,19 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                 }
             });
             return loaded;
-        },
-        load: function(spritesetLocation) {
-            var spriteset = com.manatee.spritesets._loadedSpritesets[spritesetLocation];
+        }
+        spritesets.load = function(spritesetLocation) {
+            var spriteset = _loadedSpritesets[spritesetLocation];
             if (spriteset == undefined) {
                 console.log("Loading spriteset " + spritesetLocation)
                 var data = com.manatee.data.load(spritesetLocation);
-                spriteset = com.manatee.spritesets._handleLoadedData(data);
-                com.manatee.spritesets._loadedSpritesets[spritesetLocation] = spriteset;
-                com.manatee.spritesets._loadedSpritesetsById[spriteset.id] = spriteset;
+                spriteset = _handleLoadedData(data);
+                _loadedSpritesets[spritesetLocation] = spriteset;
+                _loadedSpritesetsById[spriteset.id] = spriteset;
             }
             return spriteset;
-        },
-        _handleLoadedData: function(data, spritesetLocation) {
+        }
+        var _handleLoadedData = function(data, spritesetLocation) {
             var newSpriteset = new Spriteset();
             newSpriteset.id = data.id;
             newSpriteset.srcLocation = spritesetLocation;
@@ -84,7 +85,7 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                                 flipCanvas.remove();
                                 
                                 newSpriteset.loaded = true;
-                                if(com.manatee.spritesets.allLoaded()){
+                                if(spritesets.allLoaded()){
                                     com.manatee.game.postMessage({"action":"complete","completed":"spritesets-load"});
                                 }
                                 $(this).remove();
@@ -125,11 +126,12 @@ if (typeof (com.manatee.spritesets) === "undefined") {
             });
             
             return newSpriteset;
-        },
-        get: function(id) {
-            return com.manatee.spritesets._loadedSpritesetsById[id];
         }
-    }
+        spritesets.get = function(id) {
+            return _loadedSpritesetsById[id];
+        }
+        return spritesets;
+    })()
 }
 
 function Spriteset() {

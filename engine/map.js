@@ -7,16 +7,17 @@ if(typeof(com.manatee) === "undefined"){
     com.manatee = {};
 }
 if(typeof(com.manatee.maps) === "undefined"){
-    com.manatee.maps = {
-        load: function(mapLocation){
+    com.manatee.maps = (function(){
+        var maps = {}
+        maps.load = function(mapLocation){
             var map = null;
             console.log("Loading map " + mapLocation)
             var data = com.manatee.data.load(mapLocation);
-            map = com.manatee.maps._handleLoadedData(data);
+            map = _handleLoadedData(data);
             return map;
             
-        },
-        _handleLoadedData: function(data){
+        }
+        var _handleLoadedData = function(data){
             var map = new Map();
             map.id = data.id;
             map.name = data.name;
@@ -128,7 +129,8 @@ if(typeof(com.manatee.maps) === "undefined"){
             
             return map;
         }
-    }
+        return maps;
+    })()
 }
 
 function Map() {

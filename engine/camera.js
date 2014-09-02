@@ -13,14 +13,14 @@ if(typeof(com.manatee.camera) === "undefined"){
     }
 }
 
-function Camera() {
+function Camera(world) {
     this.id=null;
     this.location=new Point();
     var screenDim = com.manatee.config.getProperty(com.manatee.config.SCREEN_DIMENSIONS);
     this.frameWidth=screenDim.width;
     this.frameHeight=screenDim.height;
     this.scale=1.0;
-    this.world=null;
+    this.world=world;
     this._timeTotal = 0;
     this._renderCount = 0;
     

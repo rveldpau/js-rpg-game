@@ -38,7 +38,7 @@ if(typeof(com.manatee.input) === "undefined"){
         input.wasKeyJustPressed = function(keycode){
             return _freshKeys[keycode] == true;
         },
-        input.processInputs = function(timeElapsed){
+        input.processInputs = function(world,timeElapsed){
             
             if(com.manatee.dialog.isInDialog()){
                 com.manatee.dialog.processInputs();
@@ -46,7 +46,7 @@ if(typeof(com.manatee.input) === "undefined"){
                 com.manatee.battle.processInputs();
             }else{
                 //console.log("Processing inputs: " + timeElapsed)
-                _processFunction(input,com.manatee.game.loop.getWorld(),timeElapsed);
+                _processFunction(input,world,timeElapsed);
             }
             _freshKeys = {};
         }
