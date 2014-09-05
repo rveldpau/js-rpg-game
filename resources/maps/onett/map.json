@@ -118,7 +118,11 @@
                 "right": 8
             },
             "properties": {
-                "life": "100"
+                "battle":{
+                    "life": 50,
+                    "sprite": "ghost",
+                    "spriteset": "characters-battle"
+                }
             }
         },
         "p": {
@@ -132,6 +136,13 @@
                 "left": -8,
                 "bottom": 0,
                 "right": 8
+            },
+            "properties": {
+                "battle":{
+                    "life": 50,
+                    "sprite": "ghost",
+                    "spriteset": "characters-battle"
+                }
             }
         },
         "o": {

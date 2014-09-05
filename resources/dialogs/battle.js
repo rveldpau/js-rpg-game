@@ -56,7 +56,7 @@
                     var targetted = dialog.target.enemies[0];
                     var damage = Math.floor(Math.random() * 11);
                     
-                    targetted.life -= damage;
+                    targetted.battle.life -= damage;
                     com.manatee.battle.message = "Hit for " + damage + " points!";
                     com.manatee.dialog.showPassage("message");
                     if(targetted.battle.life<=0){

@@ -19,6 +19,7 @@ if (typeof (com.manatee.battle) === "undefined") {
         battle.start = function(enemies) {
             LOG.write("Staring battle against " + enemies.length + " enemies");
             enemies.forEach(function(enemy) {
+                LOG.write("\tEnemy:  " + JSON.stringify(enemy));
                 LOG.write("\tID:    " + enemy.id);
                 LOG.write("\tLife: " + enemy.battle.life);
                 LOG.write("----------------------")
