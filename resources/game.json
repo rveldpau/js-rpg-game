@@ -1,0 +1,15 @@
+{
+    "id": "test",
+    "name": "Test Game",
+    "inputScript": "resources/input.js",
+    "renderers":{
+        "world":"engine/renderers/worldRenderer.js",
+        "battle":"engine/renderers/battleRenderer.js",
+        "dialog":"engine/renderers/dialogRenderer.js"
+    },
+    "screen":{
+      "width":800,
+      "height":600
+    },
+    "world": "resources/world.json"
+}

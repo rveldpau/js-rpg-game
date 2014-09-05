@@ -24,7 +24,7 @@ if(typeof(com.manatee.config) === "undefined"){
             }
         };
         config.getAll = function(){
-            return _props;
+            return props;
         },
         config.onConfigChange = undefined;
         return config;

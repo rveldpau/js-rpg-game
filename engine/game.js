@@ -17,15 +17,23 @@ if (typeof (com.manatee.game) === "undefined") {
         game.getWorld = function() {
             return loop.getWorld();
         }
-        game.initialize = function(worldLocation) {
-
-            var screenWidth = 800;
-            var screenHeight = 600;
-            com.manatee.graphics.createScreen(screenWidth, screenHeight);
-
+        game.initialize = function(gameLocation) {
             game.loop = new Worker(com.manatee._engineBase + "game_loop.js");
             game.loop.onmessage = _handleLoopMessage;
+            
+            com.manatee.config.setProperty(com.manatee.config.BASEURL, "/");
+            
+            var gameData = com.manatee.data.load(gameLocation);
+            
+            var screenWidth = gameData.screen.width;
+            var screenHeight = gameData.screen.height;
+            com.manatee.graphics.createScreen(screenWidth, screenHeight);
 
+            LOG.write("Loading renderers");
+            Object.keys(gameData.renderers).forEach(function(mode){
+                com.manatee.graphics.loadRenderer(mode,gameData.renderers[mode]);
+            })
+            
             $('body').keydown(function(ev) {
                 game.loop.postMessage({"action": "keydown", "keycode": ev.keyCode})
                 return false;
@@ -49,7 +57,7 @@ if (typeof (com.manatee.game) === "undefined") {
 
             game.loop.postMessage({"action": "start",
                 "baseUrl": document.location.href,
-                "worldLocation": worldLocation,
+                "worldLocation": gameData.world,
                 "screenHeight": screenHeight,
                 "screenWidth": screenWidth})
 

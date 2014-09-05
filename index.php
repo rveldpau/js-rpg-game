@@ -45,7 +45,7 @@
         <div id="loading"></div>
         <script>
             $(function(){
-                com.manatee.game.initialize("resources/world.json")
+                com.manatee.game.initialize("resources/game.json")
             });
         </script>
     </body>
