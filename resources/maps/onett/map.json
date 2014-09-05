@@ -3,7 +3,8 @@
     "name": "Test Map",
     "spritesets": [
         "resources/spritesets/background-spriteset.json",
-        "resources/spritesets/characters-spriteset.json"
+        "resources/spritesets/characters-spriteset.json",
+        "resources/spritesets/characters-battle-spriteset.json"
     ],
     "dialogs": {
         "prompt": "resources/maps/onett/dialogs/prompt.js",
@@ -150,7 +151,11 @@
                 "right": 8
             },
             "properties": {
-                "life": 20
+                "battle":{
+                    "life": 20,
+                    "sprite": "fobby-battle",
+                    "spriteset": "characters-battle"
+                }
             }
         }
     },

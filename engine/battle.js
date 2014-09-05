@@ -20,7 +20,7 @@ if (typeof (com.manatee.battle) === "undefined") {
             LOG.write("Staring battle against " + enemies.length + " enemies");
             enemies.forEach(function(enemy) {
                 LOG.write("\tID:    " + enemy.id);
-                LOG.write("\tLife: " + enemy.life);
+                LOG.write("\tLife: " + enemy.battle.life);
                 LOG.write("----------------------")
             })
             LOG.write("Enemy ID");
@@ -59,7 +59,7 @@ function Battle() {
     this.enemiesDefeated = function() {
         var allDefeated = true;
         this.enemies.some(function(enemy) {
-            if (enemy.life !== undefined && enemy.life !== 0) {
+            if (enemy.battle.life !== undefined && enemy.battle.life !== 0) {
                 allDefeated = false;
             }
             return true;

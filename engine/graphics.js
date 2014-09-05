@@ -106,7 +106,7 @@ if (typeof (com.manatee.graphics) === "undefined") {
             battleGraphics.drawBattleBackground();
 
             battle.enemies.forEach(function(enemy) {
-                var sprite = com.manatee.spritesets.get(enemy.sprite.set).sprites[enemy.sprite.id];
+                var sprite = com.manatee.spritesets.get(enemy.battle.spriteset).get(enemy.battle.sprite);
                 var currentFrame = sprite.getCurrentFrame(0);
                 _buffer.drawImage(currentFrame.img, 300, 300);
             });
@@ -165,7 +165,7 @@ if (typeof (com.manatee.graphics) === "undefined") {
             },
             drawObjects: function(left, top, timeElapsed, objects) {
                 objects.forEach(function(obj) {
-                    var sprite = com.manatee.spritesets.get(obj.sprite.set).sprites[obj.sprite.id];
+                    var sprite = com.manatee.spritesets.get(obj.sprite.set).get(obj.sprite.id);
                     if (sprite === undefined) {
                         return;
                     }

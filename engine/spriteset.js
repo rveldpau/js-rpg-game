@@ -53,9 +53,7 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                     LOG.write("Pre-loading spriteset image");
                     preloader.drawImage(newSpriteset.img[0],0,0);
                                 var imgData = null;
-                                var frame = null;
-                                Object.keys(newSpriteset.frames).forEach(function(frameId) {
-                                    frame = newSpriteset.frames[frameId];
+                                newSpriteset.forEachFrame(function(frame) {
                                     frame.img = $("<canvas>")
                                             .css({"display": "none"})
                                             .attr({
@@ -120,7 +118,7 @@ if (typeof (com.manatee.spritesets) === "undefined") {
                 newSprite.offsetY = (value.offsetY == undefined) ? 0 : value.offsetY;
                 newSprite.frameDisplayTime = (value.frameDisplayTime == undefined) ? 0 : value.frameDisplayTime
                 value.frames.forEach(function(frameId) {
-                    newSprite.frames.push(newSpriteset.frames[frameId]);
+                    newSprite.addFrame(newSpriteset.getFrame(frameId));
                 })
 
                 newSpriteset.addSprite(newSprite);
@@ -129,7 +127,11 @@ if (typeof (com.manatee.spritesets) === "undefined") {
             return newSpriteset;
         }
         spritesets.get = function(id) {
-            return _loadedSpritesetsById[id];
+            var spriteset = _loadedSpritesetsById[id];
+            if(spriteset === undefined){
+                throw new Exception("Spriteset " + id + " does not exist");
+            }
+            return spriteset;
         }
         return spritesets;
     })()
@@ -138,25 +140,56 @@ if (typeof (com.manatee.spritesets) === "undefined") {
 function Spriteset() {
     this.id = null;
     this.srcLocation = null;
-    this.sprites = {};
-    this.frames = {};
-    this._spriteNames = {};
+    var sprites = {};
+    var spriteNames = {};
+    var frames = {};
+    
     this.image = null;
     this.addFrame = function(frame) {
-        this.frames[frame.id] = frame;
+        frames[frame.id] = frame;
         frame.spriteset = this;
     }
     this.addSprite = function(sprite) {
-        this.sprites[sprite.id] = sprite;
-        this._spriteNames[sprite.name] = sprite.id;
+        sprites[sprite.id] = sprite;
+        spriteNames[sprite.name] = sprite.id;
         sprite.spriteset = this;
     }
     this.getSpriteByName = function(name) {
-        var id = this._spriteNames[name];
-        return this.sprites[id];
+        var id = spriteNames[name];
+        if(id === undefined){
+            throw new Exception("No sprite named " + name);
+        }
+        return this.get(id);
+    }
+    this.get = function(id) {
+        var sprite = sprites[id];
+        if(sprite===undefined){
+            throw new Exception("No sprite with ID " + id);
+        }
+        return sprite;
+    }
+    
+    this.getFrame = function(id) {
+        var frame = frames[id];
+        if(frame === undefined){
+           throw new Exception("No frame with ID " + id);
+        }
+        return frame;
     }
     this.containsSprite = function(name) {
         return this.getSpriteByName(name) !== undefined;
+    }
+    
+    this.forEachSprite = function(action){
+        Object.keys(sprites).forEach(function(key){
+            action(sprites[key]);
+        })
+    }
+    
+    this.forEachFrame = function(action){
+        Object.keys(frames).forEach(function(key){
+            action(frames[key]);
+        })
     }
 
 }

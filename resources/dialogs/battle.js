@@ -59,7 +59,7 @@
                     targetted.life -= damage;
                     com.manatee.battle.message = "Hit for " + damage + " points!";
                     com.manatee.dialog.showPassage("message");
-                    if(targetted.life<=0){
+                    if(targetted.battle.life<=0){
                         com.manatee.battle.end();
                         com.manatee.dialog.close();
                     }

@@ -10,7 +10,7 @@ function SpriteFrame(){
 function Sprite() {
     this.id = null;
     this.name = null;
-    this.frames = [];
+    var frames = [];
     //Number of milliseconds to show frame for
     this.frameDisplayTime = 100;
     //Frame displayed for
@@ -22,17 +22,21 @@ function Sprite() {
     //The time elapsed since the last draw of anything...
     this.getCurrentFrame = function(timeElapsed){
         this._currentFrameShown += timeElapsed;
-        if(this.frames.length==0){
-            return this.frames[0];
+        if(frames.length===1){
+            return frames[0];
         }
         
         if(this._currentFrameShown > this.frameDisplayTime){
             this._currentFrameShown = 0;
             this.currentFrame++;
-            if(this.currentFrame>=this.frames.length){
+            if(this.currentFrame>=frames.length){
                 this.currentFrame = 0;
             }
         }
-        return this.frames[this.currentFrame];
+        return frames[this.currentFrame];
+    }
+    
+    this.addFrame = function(frame){
+        frames.push(frame);
     }
 }

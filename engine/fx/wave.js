@@ -1,9 +1,9 @@
 if (com.manatee.graphics.effects.wave === undefined) {
-    wave = {};
+    var wave = {};
     wave.currentOffset = 0;
     wave.currentOffsetInc = 1;
     wave.lastDrawTime = null;
-    waveEffect = function(context) {
+    var waveEffect = function(context) {
         
         var width = context.canvas.width;
         var dataLineWidth = width * 4;
