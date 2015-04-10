@@ -33,11 +33,12 @@
             }
             #game-screen{
     position: absolute;
-    height: 600px;
-    width: 800px;
+    height: 960px;
+    width: 1280px;
+    image-rendering:pixelated;
     background:red;
-    top:calc(50% - 600px/2);   /* 50% - height/2 */
-    left:calc(50% - 800px/2);  /* 50% - width/2 */
+    top:calc(50% - 960px/2);   /* 50% - height/2 */
+    left:calc(50% - 1280px/2);  /* 50% - width/2 */
 }
         </style>
     </head>

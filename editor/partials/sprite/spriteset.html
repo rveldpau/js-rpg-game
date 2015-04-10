@@ -1,0 +1,93 @@
+<div id="main-visualization" style="float:left;width:100%">
+    <style>
+
+        #image-container{
+            margin-right: 24em; 
+            position:relative;
+        }
+
+        #image, #frame-selection-visualization{
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+
+
+        #properties{
+            position:absolute;
+            right:0em;
+            top:0em;
+            width:20em;
+        }
+
+        #properties label{
+            width:6em;
+            display: inline-block;
+        }
+
+        #properties h1{
+            font-size: 1.2em;
+        }
+
+
+    </style>    
+    <div>
+        <div id="image-container" style="height:90%;width:400px;overflow: scroll" >
+            <img id="image" />
+            <canvas id="frame-selection-visualization" 
+                    ng-mousedown="onSpriteSelectionMouseDown($event)"
+                    ng-mousemove="onSpriteSelectionMouseMove($event)"
+                    ng-mouseup="onSpriteSelectionMouseUp($event)"/>
+        </div>
+    </div>
+</div>
+<div id="properties" style="width:40em;float:right">
+    &nbsp;
+    <div id="spriteset-properties" style="position:absolute;height:100%;right:20em;width:20em;top:0">
+        <h1>Spriteset Properties</h1>
+        <div><label>Name:</label> <input type="text" ng-model="spriteSet.name" id="spriteset-name" /></div>
+        <div id="image-selector">
+            <label>Source:</label>
+            <select name="image" ng-model="spriteSet.src" ng-change="onSpriteSetImageSelection()">
+                <option value=""></option>
+                <option ng-repeat="image in images" value="image.php?id={{image.id}}">{{image.name}}</option>
+            </select>
+        </div>
+        <div><label>Tile Size:</label> <input type="number" id="spriteset-unit" ng-model="spriteSet.config.tileSize" ng-change="update_visualizations()" /></div>
+        <div><label>Offset X:</label> <input type="number" id="spriteset-offsetx" ng-model="spriteSet.config.offsetX" ng-change="update_visualizations()" /></div>
+        <div><label>Offset Y:</label> <input type="number" id="spriteset-offsety" ng-model="spriteSet.config.offsetY" ng-change="update_visualizations()" /></div>
+        <div><label>Margin:</label> <input type="number" id="spriteset-margin" ng-model="spriteSet.config.margin" ng-change="update_visualizations()" /></div>
+        <div><label>Frames:</label>
+            <div id="frame-list" style="padding-left:2em;">
+                <div ng-repeat="frame in spriteSet.frames">
+                    <div ng-click="selectFrame(frame.id)">{{frame.id}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="current-frame" style="position:absolute;height:100%;right:0em;width:20em;top:0">
+        <h1>Frame Properties</h1>
+
+        <div id="frame-buttons">
+            <button id="add-frame" ng-click="add_selected_frame()"><span>Add</span></button>
+            <button id="clear-frame-selection" ng-click="clear_selected_frame()"><span>Clear</span></button>
+        </div>
+        <br />
+        <div><label>ID:</label> <input type="text" id="frame-id" ng-model="selectedFrame.id" /></div>
+        <div><label>X:</label> <input type="text" id="frame-x" ng-model="selectedFrame.x" /></div>
+        <div><label>Y:</label> <input type="text" id="frame-y" ng-model="selectedFrame.y" /></div>
+        <div><label>Width:</label> <input type="text" id="frame-width" ng-model="selectedFrame.width" /></div>
+        <div><label>Height:</label> <input type="text" id="frame-height" ng-model="selectedFrame.height" /></div>
+
+        <div id="frame-container" style="background-color: #999; padding: 2em; display: inline-block;">
+            <div id="frame-offseter" style="background:#666">
+                <img id="frame" />
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="control" style="position:fixed;bottom:0em;right:0em;z-index:10;display:block;padding:0.5em;">
+    <button id="save" ng-click="save()"><span>Save</span></button>
+</div>

@@ -1,5 +1,6 @@
 function Model() {
     var changeListeners = {};
+    var listeningFields = [];
 
     this.set = function (key, value) {
         var oldValue = this[key];
@@ -11,6 +12,12 @@ function Model() {
             key: key,
             value: value,
             oldValue: oldValue
+        }
+
+        if (changeListeners["*"] !== undefined) {
+            changeListeners["*"].forEach(function (changeListener) {
+                changeListener(change);
+            }, change);
         }
 
         if (changeListeners[key] !== undefined) {
@@ -31,9 +38,9 @@ function Model() {
 
     this.attach = function (field, input) {
         var me = this;
-        
+
         var parseData = function (rawVal) {
-            if (!isNaN(rawVal)) {
+            if (rawVal!="" && !isNaN(rawVal)) {
                 return parseFloat(rawVal);
             } else {
                 return rawVal;
@@ -46,15 +53,25 @@ function Model() {
             $(input).val(this[field]);
         }
 
-        
+
         this.onChange(field, function () {
             $(input).val(me[field]);
         })
 
         $(input).change(function (ev) {
             var rawVal = $(input).val();
-            me.set(field,parseData(rawVal));
+            me.set(field, parseData(rawVal));
         })
+        
+        listeningFields.push(input);
+    }
+    
+    this.detach = function () {
+        listeningFields.forEach(function(input){
+            $(input).unbind("change").val("");
+        })
+        listeningFields = [];
+        changeListeners = {};
     }
 }
 

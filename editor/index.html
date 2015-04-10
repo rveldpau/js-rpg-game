@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="editorApp">
+    <head>
+        <title>Game Editor</title>
+        <script src="/third-party/angular.min.js"></script>
+        <script src="/third-party/angular-resource.min.js"></script>
+        <script src="/third-party/angular-route.min.js"></script>
+        <script src="/editor/app.js" /></script>
+    <script src="/editor/services.js" /></script>
+<script src="/editor/directives.js" /></script>
+<script src="/editor/controllers.js" /></script>
+
+<script src="/third-party/jquery.js" ></script>
+<script src="/editor/model.js" ></script>
+<link rel="stylesheet" href="/editor/style.css" />
+</head>
+<body>
+    <div id="header">
+        <a href="#/">Home</a>
+        <a href="#/images">Images</a>
+        <a href="#/spritesets">Spritesets</a>
+    </div>
+    <div id="body">
+        <div ng-view></div>
+    </div>
+</body>
+</html>

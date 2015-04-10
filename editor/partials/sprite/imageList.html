@@ -1,0 +1,11 @@
+<div>
+    <form action="/backend/sprite/image.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" />
+        <input type="submit" value="Upload Image" name="submit" />
+    </form>
+    <ul>
+        <li ng-repeat="image in images">
+            <a href="#/images/{{image.id}}">{{image.name}}</a>
+        </li>
+    </ul>
+</div>

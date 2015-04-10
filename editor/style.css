@@ -1,0 +1,30 @@
+body{
+    padding:0px;
+    margin:0px;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+#header{
+    background-color: #DDD;
+    padding:0.5em;
+}
+
+#body{
+    margin:1em;
+    position: relative;
+    height:20em;;
+}
+
+#image-preview{
+    position:absolute;
+    top:0px;
+    right:0px;
+    width:20em;
+    height:100%;
+    overflow:hidden;
+}
+
+#image-preview img{
+
+}
