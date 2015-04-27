@@ -1,0 +1,58 @@
+<div style="position:relative">
+    <div style="position:absolute;left:0px;top:0px;width:10em;">
+        <div><label>Name:</label> <span ng-bind="spriteSet.name" id="spriteset-name" /></div>
+        <button ng-click="save()">
+            <span>Save Spriteset</span>
+        </button>
+        <h4> Existing Sprites</h4>
+        <div ng-repeat="sprite in spriteSet.sprites" ng-click="selectSprite(sprite.id)">
+            {{sprite.id}}
+        </div>
+        <button ng-click="newSprite()">
+            <span>New Sprite</span>
+        </button>
+    </div>
+    <div style="margin-left:10em;margin-right:10em">
+        <div>
+            <label>ID:</label><input type="text" ng-model="currentSprite.id" />
+        </div>
+        <div>
+            <label>Name:</label><input type="text" ng-model="currentSprite.name" />
+        </div>
+        <div>
+            <label>Offset X:</label><input type="number" ng-model="currentSprite.offsetX" />
+        </div>
+        <div>
+            <label>Offset Y:</label><input type="number" ng-model="currentSprite.offsetY" />
+        </div>
+        <div>
+            <label>Frame Display Time (ms):</label><input type="number" ng-model="currentSprite.frameDisplayTime" />
+        </div>
+        <div>
+            <span ng-repeat="frame in currentSprite.frames">
+                {{frame}}
+            </span>
+        </div>
+        {{currentFrames}}
+        <div id="sprite-preview">
+            <sprite-frame sprite-set="spriteSet"
+                          frame="frame" ng-repeat="frame in currentFrames"></sprite-frame>
+        </div>
+        <button ng-click="updateCurrentSprite()" ng-show="currentIsInArray">
+            <span>Update Sprite</span>
+        </button>
+        <button ng-click="addCurrentSprite()" ng-show="!currentIsInArray">
+            <span>Add Sprite</span>
+        </button>
+        <div style="margin-top:3em;color:#666">
+        {{currentSprite}}
+        </div>
+    </div>
+    <div id="frames" style="position:absolute;right:0px;top:0px;width:10em;text-align:center">
+        <h4>Available Frames</h4>
+        <div ng-repeat="frame in spriteSet.frames" style="border: 1px solid #DDD; margin:1em;font-size:0.8em;text-align: center" ng-click="addSelectedFrameToSprite(frame.id)">
+            <sprite-frame sprite-set="spriteSet" frame="frame"></sprite-frame>
+            <div>{{frame.id}}</div>
+        </div>
+    </div>
+</div>

@@ -27,6 +27,22 @@ editorApp.config(['$routeProvider',
                     templateUrl: 'editor/partials/sprite/spriteset.html',
                     controller: 'spritesetEditController'
                 }).
+                when('/spritesets/:spritesetId/sprites', {
+                    templateUrl: 'editor/partials/sprite/sprites.html',
+                    controller: 'spritesEditController'
+                }).
+                when('/world/maps', {
+                    templateUrl: 'editor/partials/world/maps.html',
+                    controller: 'mapsEditController'
+                }).
+                when('/world/maps/new', {
+                    templateUrl: 'editor/partials/world/map.html',
+                    controller: 'mapsEditController'
+                }).
+                when('/world/maps/:mapId', {
+                    templateUrl: 'editor/partials/world/map.html',
+                    controller: 'mapsEditController'
+                }).
                 otherwise({
                     redirectTo: '/'
                 })

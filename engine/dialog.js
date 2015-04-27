@@ -22,8 +22,8 @@ if (typeof (com.manatee.dialog) === "undefined") {
 
         var _defaultSection = {
             x: 5,
-            y: 500,
-            width: 790,
+            y: 375,
+            width: 625,
             height: 95,
             id: "default"
         };

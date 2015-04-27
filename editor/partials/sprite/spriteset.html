@@ -64,6 +64,14 @@
                 </div>
             </div>
         </div>
+        <div><label>Sprites:</label>
+            <div id="sprite-list" style="padding-left:2em;">
+                <a ng-href="#/spritesets/{{spriteSet.name}}/sprites">Manage Sprites</a>
+                <div ng-repeat="sprite in spriteSet.sprites">
+                    <div>{{sprite.id}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="current-frame" style="position:absolute;height:100%;right:0em;width:20em;top:0">

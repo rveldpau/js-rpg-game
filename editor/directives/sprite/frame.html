@@ -1,0 +1,8 @@
+<div style="clear:both;display:inline-block">
+    <div style="position:relative;overflow:hidden;width:{{frame.width * spriteSet.config.tileSize|| 0}}px;
+        height:{{frame.height * spriteSet.config.tileSize|| 0}}px">
+        <img ng-src="/resources/{{spriteSet.src}}" style="position:relative;left:{{-frame.x * spriteSet.config.tileSize -  spriteSet.config.offsetX - (frame.x * spriteSet.config.margin)|| 0}}px;
+        top:{{- frame.y * spriteSet.config.tileSize - spriteSet.config.offsetY -  (frame.y * spriteSet.config.margin)|| 0}}px" />
+        
+    </div>
+</div>

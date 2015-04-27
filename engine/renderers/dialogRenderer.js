@@ -69,7 +69,7 @@ var renderer = function(properties) {
     }
     var section = null;
     canvas.fillStyle = 'rgba(0,0,0,0.2)';
-    canvas.fillRect(0, 0, 800, 600);
+    canvas.fillRect(0, 0, 640, 480);
     Object.keys(dialog.sections).forEach(function(sectionId) {
         section = dialog.sections[sectionId];
         canvas.fillStyle = 'rgba(0,0,0,0.6)';

@@ -10,3 +10,17 @@ editorDirectives.directive('gameImage', [function () {
             }
         }
     }]);
+
+editorDirectives.directive('spriteFrame', [function () {
+        
+        return {
+            templateUrl: 'editor/directives/sprite/frame.html',
+            replace: true,
+            restrict: 'E',
+            scope: {
+                frame: '=',
+                spriteSet: '='
+            },
+
+        }
+    }]);

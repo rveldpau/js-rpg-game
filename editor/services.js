@@ -20,3 +20,16 @@ editorServices.factory('SpriteSet', ['$resource',
         });
     }
 ]);
+
+
+editorServices.factory('WorldMap', ['$resource',
+    function ($resource) {
+        return $resource('backend/world/map.php', {}, {
+            query: {method: 'GET', isArray: true},
+            get: {method: 'GET', params: {id: 'id'}, isArray: false},
+            save: {
+                method: 'POST',
+                isArray: false}
+        });
+    }
+]);

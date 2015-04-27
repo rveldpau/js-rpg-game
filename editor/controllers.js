@@ -31,10 +31,10 @@
             };
             if ($routeParams.spritesetId) {
                 var loadedSpriteset = SpriteSet.get({'id': $routeParams.spritesetId});
-                loadedSpriteset.$promise.then(function(){
+                loadedSpriteset.$promise.then(function () {
                     $scope.spriteSet = loadedSpriteset;
                     $scope.onSpriteSetImageSelection();
-                    
+
                 })
             }
 
@@ -145,7 +145,7 @@
                 $("#image-container").width($("#body").innerWidth() - $("#properties").outerWidth(true));
                 $("#image-container").height($(window).height() - $("#header").outerHeight() - 40);
             }
-            
+
             resize();
             window.onresize = resize();
 
@@ -223,5 +223,113 @@
 
         }]);
 
+    editorControllers.controller('spritesEditController', ['$scope', '$routeParams', 'SpriteSet', function ($scope, $routeParams, SpriteSet) {
+            if ($routeParams.spritesetId) {
+                var loadedSpriteset = SpriteSet.get({'id': $routeParams.spritesetId});
+                loadedSpriteset.$promise.then(function () {
+                    $scope.spriteSet = loadedSpriteset;
+                })
+            }
+
+            var generateDefaultSprite = function () {
+                $scope.currentSprite = {
+                    offsetX: 0,
+                    offsetY: 0,
+                    frameDisplayTime: 500
+                };
+                $scope.currentIsInArray = false;
+                $scope.currentFrames = [];
+            }
+            
+
+            generateDefaultSprite();
+
+            $scope.addSelectedFrameToSprite = function (frameId) {
+                window.clearTimeout(frameDisplayTimeout);
+                if (!$scope.currentSprite.frames) {
+                    $scope.currentSprite.frames = [];
+                }
+                $scope.currentFrames.push(getFrameFromSpriteset(frameId));
+                $scope.currentSprite.frames.push(frameId);
+                updateFrameDisplay();
+            }
+
+            $scope.selectSprite = function (id) {
+                window.clearTimeout(frameDisplayTimeout);
+                for (var i = 0; i < $scope.spriteSet.sprites.length; i++) {
+                    if ($scope.spriteSet.sprites[i].id === id) {
+                        $scope.currentSprite = $scope.spriteSet.sprites[i];
+                        $scope.currentFrames = [];
+                        for (var frameId = 0; frameId < $scope.currentSprite.frames.length; frameId++) {
+                            $scope.currentFrames.push(getFrameFromSpriteset($scope.currentSprite.frames[frameId]));
+                        }
+                        $scope.currentIsInArray = true;
+                        return $scope.currentSprite;
+                    }
+                    updateFrameDisplay();
+                }
+                return null;
+            }
+
+            $scope.addCurrentSprite = function () {
+                window.clearTimeout(frameDisplayTimeout);
+                if (!$scope.spriteSet.sprites) {
+                    $scope.spriteSet.sprites = [];
+                }
+                $scope.spriteSet.sprites.push($scope.currentSprite);
+
+                generateDefaultSprite();
+            }
+
+            $scope.newSprite = function () {
+                generateDefaultSprite();
+            }
+
+            $scope.updateCurrentSprite = function () {
+                generateDefaultSprite();
+            }
+
+            $scope.save = function () {
+                var result = SpriteSet.save($scope.spriteSet);
+                if (result.success) {
+                    alert("Saved!")
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            var getFrameFromSpriteset = function (frameId) {
+                console.log("Finding " + frameId);
+                console.log($scope.spriteSet);
+                var frames = $scope.spriteSet.frames;
+                return frames[frameId];
+            }
+            
+            var currentDisplayFrame = 1;
+            var frameDisplayTimeout = null;
+            
+            var updateFrameDisplay = function(){
+                currentDisplayFrame++;
+                if(currentDisplayFrame>$scope.currentFrames.length){
+                    currentDisplayFrame = 1;
+                }
+                $("#sprite-preview > div").hide();
+                $("#sprite-preview > div:nth-child(" + currentDisplayFrame + ")").show();
+                frameDisplayTimeout = window.setTimeout(updateFrameDisplay,$scope.currentSprite.frameDisplayTime);
+            }
+            $scope.updateFrameDisplay = updateFrameDisplay();
+            
+            
+
+
+        }]);
+    
+    editorControllers.controller('mapsEditController', ['$scope', '$routeParams', 'WorldMap', function ($scope, $routeParams, WorldMap) {
+            $scope.maps = WorldMap.query();
+
+
+        }]);
+
 })();
+
 
